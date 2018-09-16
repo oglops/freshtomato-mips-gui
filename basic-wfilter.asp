@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -110,7 +110,7 @@ function save()
 
 	if (smg.isEditing()) return;
 
-	fom = E('t_fom');
+	fom = E('_fom');
 
 	macs = [];
 	names = [];
@@ -129,7 +129,7 @@ function save()
 
 	for (i = 0; i < wl_ifaces.length; ++i) {
 		u = wl_fface(i);
-		E('t_wl'+u+'_maclist').value = fom.wl_maclist.value;
+		E('_wl'+u+'_maclist').value = fom.wl_maclist.value;
 	}
 
 	form.submit(fom, 1);
@@ -151,7 +151,7 @@ function init()
 </script>
 </head>
 <body onload='init()'>
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -173,14 +173,14 @@ function init()
 <script type='text/javascript'>
 for (var uidx = 0; uidx < wl_ifaces.length; ++uidx) {
 	var u = wl_fface(uidx);
-	W('<input type=\'hidden\' id=\'t_wl'+u+'_maclist\' name=\'wl'+u+'_maclist\'>');
+	W('<input type=\'hidden\' id=\'_wl'+u+'_maclist\' name=\'wl'+u+'_maclist\'>');
 }
 </script>
 
 <div class='section-title'>Wireless Client Filter</div>
 <div class='section'>
-	<br />
-	<div id="sm-grid" class="tomato-grid"></div>
+	<br>
+	<table id='sm-grid' class='tomato-grid'></table>
 </div>
 
 

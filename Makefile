@@ -64,6 +64,14 @@ else
 	done
 endif
 
+ifeq ($(TCONFIG_MIPSR2),y)
+	sed -i $(INSTALLDIR)/www/tomato.js -e "/MIPSR1-BEGIN/,/MIPSR1-END/d"
+	rm -f $(INSTALLDIR)/www/advanced-vlan-r1.asp
+else
+	sed -i $(INSTALLDIR)/www/tomato.js -e "/MIPSR2-BEGIN/,/MIPSR2-END/d"
+	rm -f $(INSTALLDIR)/www/advanced-vlan.asp
+endif
+
 # Only include the CIFS pages if CIFS is configured in.
 ifneq ($(TCONFIG_CIFS),y)
 	rm -f $(INSTALLDIR)/www/admin-cifs.asp
@@ -91,28 +99,10 @@ ifneq ($(TCONFIG_EMF),y)
 	sed -i $(INSTALLDIR)/www/advanced-routing.asp -e "/EMF-BEGIN/,/EMF-END/d"
 endif
 
-# Only include sd/mmc card support if MICROSD is configured in.
-ifneq ($(TCONFIG_MICROSD),y)
-	sed -i $(INSTALLDIR)/www/nas-usb.asp -e "/MICROSD-BEGIN/,/MICROSD-END/d"
-endif
-
 # Only include NTFS settings if NTFS support is configured in.
 ifneq ($(TCONFIG_NTFS),y)
 	sed -i $(INSTALLDIR)/www/nas-usb.asp -e "/NTFS-BEGIN/,/NTFS-END/d"
 endif
-
-# Only include Paragon NTFS settings if Paragon is configured in.
-ifneq ($(TCONFIG_UFSDA),y)
-ifneq ($(TCONFIG_UFSDN),y)
-	sed -i $(INSTALLDIR)/www/nas-usb.asp -e "/PARAGON-BEGIN/,/PARAGON-END/d"
-endif
-endif
-
-# Only include Tuxera NTFS settings if Tuxera is configured in.
-ifneq ($(TCONFIG_TUXERA),y)
-	sed -i $(INSTALLDIR)/www/nas-usb.asp -e "/TUXERA-BEGIN/,/TUXERA-END/d"
-endif
-
 # Only include the FTP pages if FTP Server is configured in.
 ifneq ($(TCONFIG_FTP),y)
 	rm -f $(INSTALLDIR)/www/nas-ftp.asp
@@ -205,14 +195,6 @@ ifneq ($(TCONFIG_USB),y)
 	sed -i $(INSTALLDIR)/www/admin-buttons.asp -e "/USB-BEGIN/,/USB-END/d"
 	sed -i $(INSTALLDIR)/www/admin-access.asp -e "/USB-BEGIN/,/USB-END/d"
 	sed -i $(INSTALLDIR)/www/about.asp -e "/USB-BEGIN/,/USB-END/d"
-endif
-
-# Only include the USB and NAS pages if REMOVE_USBAPP is NOT configured in.
-ifeq ($(TCONFIG_REMOVE_USBAPP),y)
-	rm -f $(INSTALLDIR)/www/nas-*.*
-	sed -i $(INSTALLDIR)/www/tomato.js -e "/USB-BEGIN/,/USB-END/d"
-	sed -i $(INSTALLDIR)/www/admin-buttons.asp -e "/USB-BEGIN/,/USB-END/d"
-	sed -i $(INSTALLDIR)/www/admin-access.asp -e "/USB-BEGIN/,/USB-END/d"
 endif
 
 ## Only include CTF option if CTF module exists
@@ -320,9 +302,10 @@ endif
 		[ -f $(INSTALLDIR)/www/$$F ] && sed -i $$F \
 		-e "/LINUX26-BEGIN/d"	-e "/LINUX26-END/d" \
 		-e "/LINUX24-BEGIN/d"	-e "/LINUX24-END/d" \
+		-e "/MIPSR2-BEGIN/d"	-e "/MIPSR2-END/d" \
+		-e "/MIPSR1-BEGIN/d"	-e "/MIPSR1-END/d" \
 		-e "/USB-BEGIN/d"	-e "/USB-END/d" \
 		-e "/UPS-BEGIN/d"	-e "/UPS-END/d" \
-		-e "/EXTRAS-BEGIN/d"	-e "/EXTRAS-END/d" \
 		-e "/NTFS-BEGIN/d"	-e "/NTFS-END/d" \
 		-e "/SAMBA-BEGIN/d"	-e "/SAMBA-END/d" \
 		-e "/FTP-BEGIN/d"	-e "/FTP-END/d" \
@@ -349,9 +332,6 @@ endif
 		-e "/DNSSEC-BEGIN/d"	-e "/DNSSEC-END/d"\
 		-e "/TOR-BEGIN/d"	-e "/TOR-END/d"\
 		-e "/TINC-BEGIN/d"	-e "/TINC-END/d"\
-		-e "/PARAGON-BEGIN/d"	-e "/PARAGON-END/d"\
-		-e "/TUXERA-BEGIN/d"	-e "/TUXERA-END/d"\
-		-e "/MICROSD-BEGIN/d"	-e "/MICROSD-END/d"\
 		-e "/MULTIWAN-BEGIN/d"	-e "/MULTIWAN-END/d"\
 		-e "/DUALWAN-BEGIN/d"	-e "/DUALWAN-END/d"\
 		|| true; \

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -166,7 +166,7 @@ function save()
 {
 	if (ars.isEditing()) return;
 
-	var fom = E('t_fom');
+	var fom = E('_fom');
 	var data = ars.getAllData();
 	var r = [];
 	for (var i = 0; i < data.length; ++i) r.push(data[i].join('<'));
@@ -217,7 +217,7 @@ function init()
 </script>
 </head>
 <body onload='init()'>
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -256,12 +256,12 @@ function init()
 
 <div class='section-title'>Current Routing Table</div>
 <div class='section'>
-	<div class="tomato-grid" id="ara-grid"></div>
+	<table class='tomato-grid' id='ara-grid'></table>
 </div>
 
 <div class='section-title'>Static Routing Table</div>
 <div class='section'>
-	<div class="tomato-grid" id="ars-grid"></div>
+	<table class='tomato-grid' id='ars-grid'></table>
 </div>
 
 <div class='section-title'>Miscellaneous</div>
@@ -284,7 +284,7 @@ createFieldTable('', [
 
 /* ZEBRA-END */
 /* EMF-BEGIN */
-	{ title: 'Efficient Multicast Forwarding', name: 'f_emf', type: 'checkbox', value: nvram.emf_enable != '0' },
+	{ title: 'Efficient Multicast Forwarding (IGMP Snooping)', name: 'f_emf', type: 'checkbox', value: nvram.emf_enable != '0' },
 /* EMF-END */
 	{ title: 'DHCP Routes', name: 'f_dhcp_routes', type: 'checkbox', value: nvram.dhcp_routes != '0' },
 ]);
@@ -305,3 +305,4 @@ createFieldTable('', [
 <script type='text/javascript'>earlyInit(); verifyFields(null, 1);</script>
 </body>
 </html>
+

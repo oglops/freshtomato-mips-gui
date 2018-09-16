@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -15,7 +15,6 @@
 <link rel='stylesheet' type='text/css' href='tomato.css'>
 <% css(); %>
 <script type='text/javascript' src='tomato.js'></script>
-<script type='text/javascript' src='bwm-hist.js'></script>
 
 <!-- / / / -->
 <script type='text/javascript' src='debug.js'></script>
@@ -47,7 +46,7 @@
 <script type='text/javascript'>
 //	<% nvram('cstats_enable,lan_ipaddr,lan1_ipaddr,lan2_ipaddr,lan3_ipaddr,lan_netmask,lan1_netmask,lan2_netmask,lan3_netmask,dhcpd_static,web_svg'); %>
 
-//	<% iptraffic(); %>
+// <% iptraffic(); %>
 
 /* REMOVE-BEGIN */
 //	<% devlist(); %>
@@ -84,7 +83,6 @@ var thistimestamp;
 var difftimestamp;
 var avgiptraffic = [];
 var lastiptraffic = iptraffic;
-var cstats_busy = 0;
 
 /* REMOVE-BEGIN */
 //hostnamecache = [];
@@ -106,7 +104,7 @@ updateLabels();
 //	while (i < nfmarks.length){
 /* REMOVE-END */
 	i = 0;
-	while (i < 11) {
+	while (i < 11){
 		if (iptraffic[i] != null) {
 			nfmarks[i] = iptraffic[i][9] + iptraffic[i][10]; // TCP + UDP connections
 		} else {
@@ -140,7 +138,7 @@ function showData() {
 		n = nfmarks[i];
 		E('ccnt' + i).innerHTML = (abc[i] != '') ? n : '';
 		if (ct > 0) p = (n / ct) * 100;
-		else p = 0;
+			else p = 0;
 		E('cpct' + i).innerHTML = (abc[i] != '') ? p.toFixed(2) + '%' : '';
 	}
 	E('ccnt-total').innerHTML = ct;
@@ -150,7 +148,7 @@ function showData() {
 		E('bcnt' + i).innerHTML = (abc[i] != '') ? (n / 125).toFixed(2) : '';
 		E('bcntx' + i).innerHTML = (abc[i] != '') ? (n / 1024).toFixed(2) : '';
 		if (rt > 0) p = (n / rt) * 100;
-		else p = 0;
+			else p = 0;
 		E('bpct' + i).innerHTML = (abc[i] != '') ? p.toFixed(2) + '%' : '';
 	}
 	E('bcnt-total').innerHTML = (rt / 125).toFixed(2);
@@ -161,7 +159,7 @@ function showData() {
 		E('obcnt' + i).innerHTML = (abc[i] != '') ? (n / 125).toFixed(2) : '';
 		E('obcntx' + i).innerHTML = (abc[i] != '') ? (n / 1024).toFixed(2) : '';
 		if (ort > 0) p = (n / ort) * 100;
-		else p = 0;
+			else p = 0;
 		E('obpct' + i).innerHTML = (abc[i] != '') ? p.toFixed(2) + '%' : '';
 	}
 	E('obcnt-total').innerHTML = (ort / 125).toFixed(2);
@@ -213,7 +211,6 @@ ref.refresh = function(text) {
 		}
 
 		k = getArrayPosByElement(lastiptraffic, b[0], 0);
-
 		if (k == -1) {
 			k = lastiptraffic.length;
 			lastiptraffic[k] = b;
@@ -228,15 +225,15 @@ ref.refresh = function(text) {
 		avgiptraffic[j][10] = b[10];
 		lastiptraffic[k][9] = b[9];
 		lastiptraffic[k][10] = b[10];
+
 	}
 	-- lock;
 
 /* REMOVE-BEGIN */
 //updateLabels();
 /* REMOVE-END */
-
 	i = 0;
-	while (i < 11) {
+	while (i < 11){
 		if (iptraffic[i] != null) {
 			nfmarks[i] = avgiptraffic[i][9] + avgiptraffic[i][10]; // TCP + UDP connections
 			irates[i] = avgiptraffic[i][1]; // RX bytes
@@ -265,7 +262,7 @@ function checkSVG() {
 			e = E('svg' + i);
 			d = e.getSVGDocument();
 			if (d.defaultView) w = d.defaultView;
-			else w = e.getWindow();
+				else w = e.getWindow();
 			if (!w.ready) break;
 			if (i == 0) updateCD = w.updateSVG;
 			if (i == 1)	updateBD = w.updateSVG;
@@ -287,11 +284,6 @@ function checkSVG() {
 }
 
 function init() {
-	if (nvram.cstats_enable != '1') {
-		E('refresh-time').setAttribute("disabled", "disabled");
-		E('refresh-button').setAttribute("disabled", "disabled");
-		return;
-	}
 	showData();
 	checkSVG();
 	ref.initPage(2000, 3);
@@ -301,7 +293,7 @@ function init() {
 </script>
 </head>
 <body onload='init()'>
-<form id='t_fom' action='javascript:{}'>
+<form id='_fom' action='javascript:{}'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -314,102 +306,95 @@ function init() {
 <!-- / / / -->
 
 <div class="section-title">Connections Distribution (TCP/UDP)</div>
-<div id="cstats">
-
-	<div class="section">
-		<table border=0 width="100%">
-			<tr><td>
-				<script type='text/javascript'>
-				W('<table style="width:250px">\n');
-				for (i = 0; i < 11; ++i) {
-					W('<tr style="cursor:pointer" onclick="mClick(' + i + ')">' +
-					  '<td class="color" style="background:#' + colors[i] + '" onclick="mClick(' + i + ')">&nbsp;<\/td>' +
-					  '<td class="title" style="width:45px"><a href="ipt-details.asp?ipt_filterip=' + abc[i] + '">' + abc[i] + '<\/a><\/td>' +
-					  '<td id="ccnt' + i + '" class="count" style="width:90px"><\/td>' +
-					  '<td id="cpct' + i + '" class="pct"><\/td><\/tr>\n');
-				}
-				W('<tr><td>&nbsp;<\/td><td class="total">Total<\/td><td id="ccnt-total" class="total count"><\/td><td class="total pct">100%<\/td><\/tr>\n');
-				W('<\/table>\n');
-				</script>
-			</td><td style="margin-right:150px">
-			<script type='text/javascript'>
-			if (nvram.web_svg != '0') {
-				W('<embed src="ipt-graph.svg?n=0&v=<% version(); %>" style="width:310px;height:310px;margin:0;padding:0" id="svg0" type="image/svg+xml" pluginspage="http://www.adobe.com/svg/viewer/install/"><\/embed>\n');
-			}
-			</script>
-			</td></tr>
-		</table>
-	</div>
-
-<!-- / / / -->
-
-	<div class="section-title">Bandwidth Distribution (Inbound)</div>
-	<div class="section">
-		<table border=0 width="100%">
-			<tr><td>
-				<script type='text/javascript'>
-					W('<table style="width:250px">\n');
-					W('<tr><td class="color" style="height:1em"><\/td><td class="title" style="width:45px">&nbsp;<\/td><td class="thead count">kbit/s<\/td><td class="thead count">KB/s<\/td><td class="pct">&nbsp;\n');
-					W('<\/td><\/tr>\n');
-					for (i = 0; i < 11; ++i) {
-						W('<tr style="cursor:pointer" onclick="mClick(' + i + ')">' +
-						'<td class="color" style="background:#' + colors[i] + '" onclick="mClick(' + i + ')">&nbsp;<\/td>' +
-						'<td class="title" style="width:45px"><a href="ipt-details.asp?ipt_filterip=' + abc[i] + '">' + abc[i] + '<\/a><\/td>' +
-						'<td id="bcnt' + i + '" class="count" style="width:60px"><\/td>' +
-						'<td id="bcntx' + i + '" class="count" style="width:50px"><\/td>' +
-						'<td id="bpct' + i + '" class="pct"><\/td><\/tr>\n');
-					}
-					W('<tr><td>\n');
-					W('&nbsp;<\/td><td class="total">Total<\/td><td id="bcnt-total" class="total count"><\/td><td id="bcntx-total" class="total count"><\/td><td class="total pct">100%<\/td><\/tr>\n');
-					W('<\/table>\n');
-				</script>
-			</td><td style="margin-right:150px">
-			<script type='text/javascript'>
-			if (nvram.web_svg != '0') {
-				W('<embed src="ipt-graph.svg?n=1&v=<% version(); %>" style="width:310px;height:310px;margin:0;padding:0" id="svg1" type="image/svg+xml" pluginspage="http://www.adobe.com/svg/viewer/install/"><\/embed>\n');
-			}
-			</script>
-			</td></tr>
-		</table>
-	</div>
-
-<!-- / / / -->
-
-	<div class="section-title">Bandwidth Distribution (Outbound)</div>
-	<div class="section">
-		<table border=0 width="100%">
-			<tr><td>
-				<script type='text/javascript'>
-					W('<table style="width:250px">\n');
-					W('<tr><td class="color" style="height:1em"><\/td><td class="title" style="width:45px">&nbsp;<\/td><td class="thead count">kbit/s<\/td><td class="thead count">KB/s<\/td><td class="pct">&nbsp;\n');
-					W('<\/td><\/tr>\n');
-					for (i = 0; i < 11; ++i) {
-						W('<tr style="cursor:pointer" onclick="mClick(' + i + ')">' +
-						'<td class="color" style="background:#' + colors[i] + '" onclick="mClick(' + i + ')">&nbsp;<\/td>' +
-						'<td class="title" style="width:45px"><a href="ipt-details.asp?ipt_filterip=' + abc[i] + '">' + abc[i] + '<\/a><\/td>' +
-						'<td id="obcnt' + i + '" class="count" style="width:60px"><\/td>' +
-						'<td id="obcntx' + i + '" class="count" style="width:50px"><\/td>' +
-						'<td id="obpct' + i + '" class="pct"><\/td><\/tr>\n');
-					}
-					W('<tr><td>\n');
-					W('&nbsp;<\/td><td class="total">Total<\/td><td id="obcnt-total" class="total count"><\/td><td id="obcntx-total" class="total count"><\/td><td class="total pct">100%<\/td><\/tr>\n');
-					W('<\/table>\n');
-				</script>
-			</td><td style="margin-right:150px">
-			<script type='text/javascript'>
-			if (nvram.web_svg != '0') {
-				W('<embed src="ipt-graph.svg?n=2&v=<% version(); %>" style="width:310px;height:310px;margin:0;padding:0" id="svg2" type="image/svg+xml" pluginspage="http://www.adobe.com/svg/viewer/install/"><\/embed>\n');
-			}
-			</script>
-			</td></tr>
-		</table>
-	</div>
-
+<div class="section">
+<table border=0 width="100%"><tr><td>
+	<table style="width:250px">
+<script type='text/javascript'>
+for (i = 0; i < 11; ++i) {
+	W('<tr style="cursor:pointer" onclick="mClick(' + i + ')">' +
+		'<td class="color" style="background:#' + colors[i] + '" onclick="mClick(' + i + ')">&nbsp;</td>' +
+		'<td class="title" style="width:45px"><a href="ipt-details.asp?ipt_filterip=' + abc[i] + '">' + abc[i] + '</a></td>' +
+		'<td id="ccnt' + i + '" class="count" style="width:90px"></td>' +
+		'<td id="cpct' + i + '" class="pct"></td></tr>');
+}
+</script>
+	<tr><td>&nbsp;</td><td class="total">Total</a></td><td id="ccnt-total" class="total count"></td><td class="total pct">100%</td></tr>
+	</table>
+</td><td style="margin-right:150px">
+<script type='text/javascript'>
+if (nvram.web_svg != '0') {
+	W('<embed src="ipt-graph.svg?n=0&v=<% version(); %>" style="width:310px;height:310px;margin:0;padding:0" id="svg0" type="image/svg+xml" pluginspage="http://www.adobe.com/svg/viewer/install/"></embed>');
+}
+</script>
+</td></tr>
+</table>
 </div>
 
 <!-- / / / -->
 
-<script type='text/javascript'>checkCstats();</script>
+<div class="section-title">Bandwidth Distribution (Inbound)</div>
+<div class="section">
+<table border=0 width="100%"><tr><td>
+	<table style="width:250px">
+	<tr><td class='color' style="height:1em"></td><td class='title' style="width:45px">&nbsp;</td><td class='thead count'>kbit/s</td><td class='thead count'>KB/s</td><td class='pct'>&nbsp;</td></tr>
+<script type='text/javascript'>
+for (i = 0; i < 11; ++i) {
+	W('<tr style="cursor:pointer" onclick="mClick(' + i + ')">' +
+		'<td class="color" style="background:#' + colors[i] + '" onclick="mClick(' + i + ')">&nbsp;</td>' +
+		'<td class="title" style="width:45px"><a href="ipt-details.asp?ipt_filterip=' + abc[i] + '">' + abc[i] + '</a></td>' +
+		'<td id="bcnt' + i + '" class="count" style="width:60px"></td>' +
+		'<td id="bcntx' + i + '" class="count" style="width:50px"></td>' +
+		'<td id="bpct' + i + '" class="pct"></td></tr>');
+}
+</script>
+	<tr><td>&nbsp;</td><td class="total">Total</a></td><td id="bcnt-total" class="total count"></td><td id="bcntx-total" class="total count"></td><td class="total pct">100%</td></tr>
+	</table>
+</td><td style="margin-right:150px">
+<script type='text/javascript'>
+if (nvram.web_svg != '0') {
+	W('<embed src="ipt-graph.svg?n=1&v=<% version(); %>" style="width:310px;height:310px;margin:0;padding:0" id="svg1" type="image/svg+xml" pluginspage="http://www.adobe.com/svg/viewer/install/"></embed>');
+}
+</script>
+</td></tr>
+</table>
+</div>
+
+<!-- / / / -->
+
+<div class="section-title">Bandwidth Distribution (Outbound)</div>
+<div class="section">
+<table border=0 width="100%"><tr><td>
+	<table style="width:250px">
+	<tr><td class='color' style="height:1em"></td><td class='title' style="width:45px">&nbsp;</td><td class='thead count'>kbit/s</td><td class='thead count'>KB/s</td><td class='pct'>&nbsp;</td></tr>
+<script type='text/javascript'>
+for (i = 0; i < 11; ++i) {
+	W('<tr style="cursor:pointer" onclick="mClick(' + i + ')">' +
+		'<td class="color" style="background:#' + colors[i] + '" onclick="mClick(' + i + ')">&nbsp;</td>' +
+		'<td class="title" style="width:45px"><a href="ipt-details.asp?ipt_filterip=' + abc[i] + '">' + abc[i] + '</a></td>' +
+		'<td id="obcnt' + i + '" class="count" style="width:60px"></td>' +
+		'<td id="obcntx' + i + '" class="count" style="width:50px"></td>' +
+		'<td id="obpct' + i + '" class="pct"></td></tr>');
+}
+</script>
+	<tr><td>&nbsp;</td><td class="total">Total</a></td><td id="obcnt-total" class="total count"></td><td id="obcntx-total" class="total count"></td><td class="total pct">100%</td></tr>
+	</table>
+</td><td style="margin-right:150px">
+<script type='text/javascript'>
+if (nvram.web_svg != '0') {
+	W('<embed src="ipt-graph.svg?n=2&v=<% version(); %>" style="width:310px;height:310px;margin:0;padding:0" id="svg2" type="image/svg+xml" pluginspage="http://www.adobe.com/svg/viewer/install/"></embed>');
+}
+</script>
+</td></tr>
+</table>
+</div>
+
+<!-- / / / -->
+
+<script type='text/javascript'>
+if (nvram.cstats_enable != '1') {
+	W('<div class="note-disabled"><b>IP Traffic monitoring disabled.</b> &nbsp; <a href="admin-iptraffic.asp">Enable&nbsp;&raquo;</a></div>');
+}
+</script>
 
 <!-- / / / -->
 

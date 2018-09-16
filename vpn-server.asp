@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2008 Jonathan Zarate
@@ -59,7 +59,7 @@ function updateStatus(num)
 	}
 	xob.onError = function(ex)
 	{
-		statusUpdaters[num].errors.innerHTML += 'ERROR! '+ex+'<br />';
+		statusUpdaters[num].errors.innerHTML += 'ERROR! '+ex+'<br>';
 		xob = null;
 	}
 
@@ -125,7 +125,7 @@ function verifyFields(focused, quiet)
 	{
 		changed = 1;
 
-		var fom = E('t_fom');
+		var fom = E('_fom');
 		var serverindex = focused.name.indexOf("server");
 		if (serverindex >= 0)
 		{
@@ -239,7 +239,7 @@ CCDGrid.prototype.verifyFields = function(row, quiet)
 	var ret = 1;
 
 	// When settings change, make sure we restart the right server
-	var fom = E('t_fom');
+	var fom = E('_fom');
 	var servernum = 1;
 	for (i = 0; i < tabs.length; ++i)
 	{
@@ -317,7 +317,7 @@ CCDGrid.prototype.reDraw = function()
 UsersGrid.prototype.verifyFields = function(row, quiet)
 {
 	var ret = 1;
-	var fom = E('t_fom');
+	var fom = E('_fom');
 	var servernum = 1;
 	for (i = 0; i < tabs.length; ++i)
 	{
@@ -366,7 +366,7 @@ function save()
 {
 	if (!verifyFields(null, false)) return;
 
-	var fom = E('t_fom');
+	var fom = E('_fom');
 
 	E('vpn_server_eas').value = '';
 	E('vpn_server_dns').value = '';
@@ -490,7 +490,7 @@ table.status-table
 
 </head>
 <body>
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -530,9 +530,9 @@ for (i = 0; i < tabs.length; ++i)
 	W('<ul class="tabs">');
 	for (j = 0; j < sections.length; j++)
 	{
-		W('<li><a href="javascript:sectSelect('+i+', \''+sections[j][0]+'\')" id="'+t+'-'+sections[j][0]+'-tab">'+sections[j][1]+'<\/a><\/li>');
+		W('<li><a href="javascript:sectSelect('+i+', \''+sections[j][0]+'\')" id="'+t+'-'+sections[j][0]+'-tab">'+sections[j][1]+'</a></li>');
 	}
-	W('<\/ul><div class=\'tabs-bottom\'><\/div>');
+	W('</ul><div class=\'tabs-bottom\'></div>');
 
 	W('<div id=\''+t+'-basic\'>');
 	createFieldTable('', [
@@ -565,9 +565,9 @@ for (i = 0; i < tabs.length; ++i)
 	W('<\/div>');
 	W('<div id=\''+t+'-advanced\'>');
 	createFieldTable('', [
-		{ title: 'Poll Interval', name: 'vpn_'+t+'_poll', type: 'text', maxlen: 4, size: 5, value: eval( 'nvram.vpn_'+t+'_poll' ), suffix: '&nbsp;<small>(in minutes, 0 to disable)<\/small>' }, 
+		{ title: 'Poll Interval', name: 'vpn_'+t+'_poll', type: 'text', maxlen: 4, size: 5, value: eval( 'nvram.vpn_'+t+'_poll' ), suffix: '&nbsp;<small>(in minutes, 0 to disable)</small>' }, 
 		{ title: 'Push LAN to clients', name: 'f_vpn_'+t+'_plan', type: 'checkbox', value: eval( 'nvram.vpn_'+t+'_plan' ) != 0 },
-		{ title: 'Direct clients to<br />redirect Internet traffic', name: 'f_vpn_'+t+'_rgw', type: 'checkbox', value: eval( 'nvram.vpn_'+t+'_rgw' ) != 0 },
+		{ title: 'Direct clients to<br>redirect Internet traffic', name: 'f_vpn_'+t+'_rgw', type: 'checkbox', value: eval( 'nvram.vpn_'+t+'_rgw' ) != 0 },
 		{ title: 'Respond to DNS', name: 'f_vpn_'+t+'_dns', type: 'checkbox', value: nvram.vpn_server_dns.indexOf(''+(i+1)) >= 0 },
 		{ title: 'Advertise DNS to clients', name: 'f_vpn_'+t+'_pdns', type: 'checkbox', value: eval( 'nvram.vpn_'+t+'_pdns' ) != 0 },
 		{ title: 'Cipher Negotiation', name: 'vpn_'+t+'_ncp_enable', type: 'select', options: [[0, 'Disabled'],[1, 'Enabled (with fallback)'],[2, 'Enabled']], value: eval( 'nvram.vpn_'+t+'_ncp_enable' ) },
@@ -575,19 +575,19 @@ for (i = 0; i < tabs.length; ++i)
 		{ title: 'Legacy/fallback cipher', name: 'vpn_'+t+'_cipher', type: 'select', options: ciphers, value: eval( 'nvram.vpn_'+t+'_cipher' ) },
 		{ title: 'Compression', name: 'vpn_'+t+'_comp', type: 'select', options: [ ['-1', 'Disabled'], ['no', 'None'], ['yes', 'LZO'], ['adaptive', 'LZO Adaptive'], ['lz4', 'LZ4']], value: eval( 'nvram.vpn_'+t+'_comp' ) },
 		{ title: 'TLS Renegotiation Time', name: 'vpn_'+t+'_reneg', type: 'text', maxlen: 10, size: 7, value: eval( 'nvram.vpn_'+t+'_reneg' ),
-			suffix: '&nbsp;<small>(in seconds, -1 for default)<\/small>' },
+			suffix: '&nbsp;<small>(in seconds, -1 for default)</small>' },
 		{ title: 'Manage Client-Specific Options', name: 'f_vpn_'+t+'_ccd', type: 'checkbox', value: eval( 'nvram.vpn_'+t+'_ccd' ) != 0 },
 		{ title: 'Allow Client<->Client', name: 'f_vpn_'+t+'_c2c', type: 'checkbox', value: eval( 'nvram.vpn_'+t+'_c2c' ) != 0 },
 		{ title: 'Allow Only These Clients', name: 'f_vpn_'+t+'_ccd_excl', type: 'checkbox', value: eval( 'nvram.vpn_'+t+'_ccd_excl' ) != 0 },
-		{ title: '', suffix: '<div class="tomato-grid" id="table_'+t+'_ccd"><\/div>' },
+		{ title: '', suffix: '<table class=\'tomato-grid\' id=\'table_'+t+'_ccd\'></table>' },
 		{ title: 'Allow User/Pass Auth', name: 'f_vpn_'+t+'_userpass', type: 'checkbox', value: eval( 'nvram.vpn_'+t+'_userpass' ) != 0 },
 		{ title: 'Allow Only User/Pass(Without cert) Auth', name: 'f_vpn_'+t+'_nocert', type: 'checkbox', value: eval( 'nvram.vpn_'+t+'_nocert' ) != 0 },
-		{ title: '', suffix: '<div class="tomato-grid" id="table_'+t+'_users"><\/div>' },
+		{ title: '', suffix: '<table class=\'tomato-grid\' id=\'table_'+t+'_users\'></table>' },
 		{ title: 'Custom Configuration', name: 'vpn_'+t+'_custom', type: 'textarea', value: eval( 'nvram.vpn_'+t+'_custom' ) }
 	]);
-	W('<\/div>');
+	W('</div>');
 	W('<div id=\''+t+'-keys\'>');
-	W('<p class=\'keyhelp\'>For help generating keys, refer to the OpenVPN <a id=\''+t+'-keyhelp\'>HOWTO<\/a>.<\/p>');
+	W('<p class=\'keyhelp\'>For help generating keys, refer to the OpenVPN <a id=\''+t+'-keyhelp\'>HOWTO</a>.</p>');
 	createFieldTable('', [
 		{ title: 'Static Key', name: 'vpn_'+t+'_static', type: 'textarea', value: eval( 'nvram.vpn_'+t+'_static' ) },
 		{ title: 'Certificate Authority', name: 'vpn_'+t+'_ca', type: 'textarea', value: eval( 'nvram.vpn_'+t+'_ca' ) },
@@ -595,20 +595,20 @@ for (i = 0; i < tabs.length; ++i)
 		{ title: 'Server Key', name: 'vpn_'+t+'_key', type: 'textarea', value: eval( 'nvram.vpn_'+t+'_key' ) },
 		{ title: 'Diffie Hellman parameters', name: 'vpn_'+t+'_dh', type: 'textarea', value: eval( 'nvram.vpn_'+t+'_dh' ) }
 	]);
-	W('<\/div>');
+	W('</div>');
 	W('<div id=\''+t+'-status\'>');
-		W('<div id=\''+t+'-no-status\'><p>Server is not running or status could not be read.<\/p><\/div>');
+		W('<div id=\''+t+'-no-status\'><p>Server is not running or status could not be read.</p></div>');
 		W('<div id=\''+t+'-status-content\' style=\'display:none\' class=\'status-content\'>');
-			W('<div id=\''+t+'-status-header\' class=\'status-header\'><p>Data current as of <span id=\''+t+'-status-time\'><\/span>.<\/p><\/div>');
-			W('<div id=\''+t+'-status-clients\'><div class=\'section-title\'>Client List<\/div><div class="tomato-grid status-table" id="'+t+'-status-clients-table"><\/div><br /><\/div>');
-			W('<div id=\''+t+'-status-routing\'><div class=\'section-title\'>Routing Table<\/div><div class="tomato-grid status-table" id="'+t+'-status-routing-table"><\/div><br /><\/div>');
-			W('<div id=\''+t+'-status-stats\'><div class=\'section-title\'>General Statistics<\/div><div class="tomato-grid status-table" id="'+t+'-status-stats-table"><\/div><br /><\/div>');
-			W('<div id=\''+t+'-status-errors\' class=\'error\'><\/div>');
-		W('<\/div>');
-		W('<div style=\'text-align:right\'><a href=\'javascript:updateStatus('+i+')\'>Refresh Status<\/a><\/div>');
-	W('<\/div>');
+			W('<div id=\''+t+'-status-header\' class=\'status-header\'><p>Data current as of <span id=\''+t+'-status-time\'></span>.</p></div>');
+			W('<div id=\''+t+'-status-clients\'><div class=\'section-title\'>Client List</div><table class=\'tomato-grid status-table\' id=\''+t+'-status-clients-table\'></table><br></div>');
+			W('<div id=\''+t+'-status-routing\'><div class=\'section-title\'>Routing Table</div><table class=\'tomato-grid status-table\' id=\''+t+'-status-routing-table\'></table><br></div>');
+			W('<div id=\''+t+'-status-stats\'><div class=\'section-title\'>General Statistics</div><table class=\'tomato-grid status-table\' id=\''+t+'-status-stats-table\'></table><br></div>');
+			W('<div id=\''+t+'-status-errors\' class=\'error\'></div>');
+		W('</div>');
+		W('<div style=\'text-align:right\'><a href=\'javascript:updateStatus('+i+')\'>Refresh Status</a></div>');
+	W('</div>');
 	W('<input type="button" value="' + (eval('vpn'+(i+1)+'up') ? 'Stop' : 'Start') + ' Now" onclick="toggle(\'vpn'+t+'\', vpn'+(i+1)+'up)" id="_vpn'+t+'_button">');
-	W('<\/div>');
+	W('</div>');
 }
 
 </script>
@@ -625,3 +625,4 @@ for (i = 0; i < tabs.length; ++i)
 <script type='text/javascript'>init();</script>
 </body>
 </html>
+

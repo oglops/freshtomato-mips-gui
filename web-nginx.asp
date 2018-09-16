@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2008 Jonathan Zarate
@@ -18,7 +18,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] Web Server Menu</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -79,7 +79,7 @@ function verifyFields(focused, quiet)
 function save()
 {
 	if (verifyFields(null, 0)==0) return;
-	var fom = E('t_fom');
+	var fom = E('_fom');
 
 	fom.nginx_enable.value = E('_f_nginx_enable').checked ? 1 : 0;
 	if (fom.nginx_enable.value) {
@@ -97,9 +97,6 @@ function save()
 function init()
 {
 	verifyFields(null, 1);
-    var elements = document.getElementsByClassName("new_window");
-    for (var i = 0; i < elements.length; i++) if (elements[i].nodeName.toLowerCase()==="a")
-        addEvent(elements[i], "click", function(e) { cancelDefaultAction(e); window.open(this,"_blank"); } );
 }
 </script>
 </head>
@@ -120,13 +117,12 @@ function init()
 	W('NGINX is currently '+(!nginxup ? 'stopped' : 'running')+' ');
 	W('<input type="button" value="' + (nginxup ? 'Stop' : 'Start') + ' Now" onclick="toggle(\'nginxfp\', nginxup)" id="_nginxfp_button">');
 </script>
-<br />
+<br>
 </div>
 
 <div class='section-title'>Basic Settings</div>
 <div class='section' id='config-section'>
-<form id='t_fom' method='post' action='tomato.cgi'>
-<div>
+<form id='_fom' method='post' action='tomato.cgi'>
 <input type='hidden' name='_nextpage' value='web-nginx.asp'>
 <input type='hidden' name='_service' value='enginex-restart'>
 <input type='hidden' name='_nextwait' value='10'>
@@ -145,12 +141,12 @@ createFieldTable('', [
 	{ title: 'Run As', name: 'nginx_user', type: 'select',
 		options: [['root','Root'],['nobody','Nobody']], value: nvram.nginx_user },
 	{ title: 'Keep Config Files', name: 'f_nginx_keepconf', type: 'checkbox', value: nvram.nginx_keepconf == '1' },
-	{ title: 'Web Server Port', name: 'nginx_port', type: 'text', maxlen: 5, size: 7, value: fixPort(nvram.nginx_port, 85), suffix: '<small> default: 85<\/small>' },
-	{ title: 'Upload file size limit', name: 'nginx_upload', type: 'text', maxlen: 5, size: 7, value: nvram.nginx_upload, suffix: '<small> MB<\/small>'},
+	{ title: 'Web Server Port', name: 'nginx_port', type: 'text', maxlen: 5, size: 7, value: fixPort(nvram.nginx_port, 85), suffix: '<small> default: 85</small>' },
+	{ title: 'Upload file size limit', name: 'nginx_upload', type: 'text', maxlen: 5, size: 7, value: nvram.nginx_upload, suffix: '<small> MB</small>'},
 	{ title: 'Allow Remote Access', name: 'f_nginx_remote', type: 'checkbox', value: nvram.nginx_remote == '1' },
 	{ title: 'Web Server Name', name: 'nginx_fqdn', type: 'text', maxlen: 255, size: 20, value: nvram.nginx_fqdn },
-	{ title: 'Server Root Path', name: 'nginx_docroot', type: 'text', maxlen: 255, size: 40, value: nvram.nginx_docroot, suffix: '<small>&nbsp;/index.html / index.htm / index.php<\/small>' },
-	{ title: 'Server Priority', name: 'nginx_priority', type: 'text', maxlen: 8, size:3, value: nvram.nginx_priority, suffix:'<small> Max. Perfor: -20, Min.Perfor: 19, default: 10<\/small>' }
+	{ title: 'Server Root Path', name: 'nginx_docroot', type: 'text', maxlen: 255, size: 40, value: nvram.nginx_docroot, suffix: '<small>&nbsp;/index.html / index.htm / index.php</small>' },
+	{ title: 'Server Priority', name: 'nginx_priority', type: 'text', maxlen: 8, size:3, value: nvram.nginx_priority, suffix:'<small> Max. Perfor: -20, Min.Perfor: 19, default: 10</small>' }
 ]);
 </script>
 </div>
@@ -158,40 +154,40 @@ createFieldTable('', [
 <div class='section'>
 <script type='text/javascript'>
 createFieldTable('', [
-	{ title: '<a href="http://wiki.nginx.org/Configuration" class="new_window">NGINX<\/a><br />HTTP Section<br />Custom configuration', name: 'nginx_httpcustom', type: 'textarea', value: nvram.nginx_httpcustom },
-	{ title: '<a href="http://wiki.nginx.org/Configuration" class="new_window">NGINX<\/a><br />SERVER Section<br />Custom configuration', name: 'nginx_servercustom', type: 'textarea', value: nvram.nginx_servercustom },
-	{ title: '<a href="http://wiki.nginx.org/Configuration" class="new_window">NGINX<\/a><br />Custom configuration', name: 'nginx_custom', type: 'textarea', value: nvram.nginx_custom },
-	{ title: '<a href="http://php.net/manual/en/ini.php" class="new_window">PHP<\/a><br />Custom configuration', name: 'nginx_phpconf', type: 'textarea', value: nvram.nginx_phpconf },
+	{ title: '<a href="http://wiki.nginx.org/Configuration" target="_new">NGINX</a><br>HTTP Section<br>Custom configuration', name: 'nginx_httpcustom', type: 'textarea', value: nvram.nginx_httpcustom },
+	{ title: '<a href="http://wiki.nginx.org/Configuration" target="_new">NGINX</a><br>SERVER Section<br>Custom configuration', name: 'nginx_servercustom', type: 'textarea', value: nvram.nginx_servercustom },
+	{ title: '<a href="http://wiki.nginx.org/Configuration" target="_new">NGINX</a><br>Custom configuration', name: 'nginx_custom', type: 'textarea', value: nvram.nginx_custom },
+	{ title: '<a href="http://php.net/manual/en/ini.php" target="_new">PHP</a><br>Custom configuration', name: 'nginx_phpconf', type: 'textarea', value: nvram.nginx_phpconf },
 	null,
-	{ title: 'Use user config file', name: 'f_nginx_override', type: 'checkbox', value: nvram.nginx_override == '1', suffix: '<small> User config file will be used, some of GUI settings will be ignored<\/small>' },
+	{ title: 'Use user config file', name: 'f_nginx_override', type: 'checkbox', value: nvram.nginx_override == '1', suffix: '<small> User config file will be used, some of GUI settings will be ignored</small>' },
 	{ title: 'User config file path', name: 'nginx_overridefile', type: 'text', maxlen: 255, size: 40, value: nvram.nginx_overridefile }
 ]);
 </script>
 </div>
 <div class='section-title'>Notes</div>
 <div class='section'>
-	<ul>
-		<li><b> Status Button:</b> Quick Start-Stop Service. Enable Web Server must be checked to modify settings.</li>
-		<li><b> Enable Server on Start:</b> To activate the Web Server tick and save this screen.</li>
-		<li><b> Enable PHP support:</b> To activate the PHP support (php-cgi) tick and save this screen.</li>
-		<li><b> Run As:</b> Select user used to start nginx and php-cgi daemon.</li>
-		<li><b> Keep Config Files:</b> Have you modified the configuration file manually? Tick this box and changes will be maintained.</li> 
-		<li><b> Web Server Port:</b> The Port used by the Web Server to be accessed. Check conflict when the port is used by other services.</li>
-		<li><b> Allow remote access:</b> This option will open the Web Server GUI port from the WAN side. Service will be accessed from the internet.</li>
-		<li><b> Web Server Name:</b> Name that will appear on top of your Internet Browser.</li>
-		<li><b> Document Root Path:</b> The path in your router where documents are stored.</li>
-		<li><b> Examples:</b><br />
-			/tmp/mnt/HDD/www as you can find in USB mount path.</li>
-		<li><b> NGINX Custom Configuration:</b> You can add other values to nginx.conf to suit your needs.</li>
-		<li><b> NGINX HTTP Section Custom Configuration:</b> You can add other values to nginx.conf in declaration of http {} to suit your needs.</li>
-		<li><b> NGINX SERVER Section Custom Configuration:</b> You can add other values to nginx.conf in declaration of server {} to suit your needs.</li>
-		<li><b> PHP Custom Configuration:</b> You can add other values to php.ini to suit your needs.</li>
-		<li><b> Server Priority:</b> Sets the service priority over other processes running on the router.<br /><br />
-			The operating system kernel has priority -5.<br />
-			Never select a lower value than the kernel uses. Do not use the service test page to adjust the<br />
-			server performance, it's performance is lower than the definitive media where files will be <br />
-			located, i.e; USB Stick, Hard Drive or SSD.</li>
-	</ul>
+<ul>
+<li><b> Status Button:</b> Quick Start-Stop Service. Enable Web Server must be checked to modify settings.<br>
+<li><b> Enable Server on Start:</b> To activate the Web Server tick and save this screen.<br>
+<li><b> Enable PHP support:</b> To activate the PHP support (php-cgi) tick and save this screen.<br>
+<li><b> Run As:</b> Select user used to start nginx and php-cgi daemon.<br>
+<li><b> Keep Config Files:</b> Have you modified the configuration file manually? Tick this box and changes will be maintained.<br> 
+<li><b> Web Server Port:</b> The Port used by the Web Server to be accessed. Check conflict when the port is used by other services.<br>
+<li><b> Allow remote access:</b> This option will open the Web Server GUI port from the WAN side. Service will be accessed from the internet. <br>
+<li><b> Web Server Name:</b> Name that will appear on top of your Internet Browser.<br>0
+<li><b> Document Root Path:</b> The path in your router where documents are stored.<br>
+<li><b> Examples:<br></b>
+/tmp/mnt/HDD/www as you can find in USB mount path.<br>
+<li><b> NGINX Custom Configuration:</b> You can add other values to nginx.conf to suit your needs.<br>
+<li><b> NGINX HTTP Section Custom Configuration:</b> You can add other values to nginx.conf in declaration of http {} to suit your needs.<br>
+<li><b> NGINX SERVER Section Custom Configuration:</b> You can add other values to nginx.conf in declaration of server {} to suit your needs.<br>
+<li><b> PHP Custom Configuration:</b> You can add other values to php.ini to suit your needs.<br>
+<li><b> Server Priority:</b> Sets the service priority over other processes running on the router.<br><br>
+The operating system kernel has priority -5.<br>
+Never select a lower value than the kernel uses. Do not use the service test page to adjust the<br>
+server performance, it's performance is lower than the definitive media where files will be <br>
+located, i.e; USB Stick, Hard Drive or SSD.<br>
+</ul>
 </div>
 </form>
 </div>
@@ -200,13 +196,11 @@ createFieldTable('', [
 
 </td></tr>
 <tr><td id='footer' colspan=2>
-	<form action=''>
-		<div>
-			<span id='footer-msg'></span>
-			<input type='button' value='Save' id='save-button' onclick='save()'>
-			<input type='button' value='Cancel' id='cancel-button' onclick='javascript:reloadPage();'>
-		</div>
-	</form>
+<form>
+	<span id='footer-msg'></span>
+	<input type='button' value='Save' id='save-button' onclick='save()'>
+	<input type='button' value='Cancel' id='cancel-button' onclick='javascript:reloadPage();'>
+</form>
 </td></tr>
 </table>
 <script type='text/javascript'>verifyFields(null, 1);</script>

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2009 Jonathan Zarate
@@ -15,7 +15,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] PPTP: Client</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='/tomato.js'></script>
 
 <!-- / / / -->
@@ -74,7 +74,7 @@ function save()
 {
 	if (!verifyFields(null, false)) return;
 
-	var fom = E('t_fom');
+	var fom = E('_fom');
 
     E('pptp_client_enable').value = E('_f_pptp_client_enable').checked ? 1 : 0;
     E('pptp_client_nat').value = E('_f_pptp_client_nat').checked ? 1 : 0;
@@ -96,7 +96,7 @@ textarea {
 
 </head>
 <body>
-<form id='t_fom' method='post' action='/tomato.cgi'>
+<form id='_fom' method='post' action='/tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>

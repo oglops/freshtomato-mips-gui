@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -1364,7 +1364,7 @@ function save()
 
 	if (!verifyFields(null, false)) return;
 
-	var fom = E('t_fom');
+	var fom = E('_fom');
 
 	for (uidx = 0; uidx < wl_ifaces.length; ++uidx) {
 //		if(wl_ifaces[uidx][0].indexOf('.') < 0) {
@@ -1631,16 +1631,12 @@ function init()
 		}
 	}
 	refreshWanSection();
-
-	var elements = document.getElementsByClassName("new_window");
-	for (var i = 0; i < elements.length; i++) if (elements[i].nodeName.toLowerCase()==="a")
-		addEvent(elements[i], "click", function(e) { cancelDefaultAction(e); window.open(this,"_blank"); } );
 }
 </script>
 
 </head>
 <body onload='init()'>
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -1796,7 +1792,7 @@ for(var uidx = 1; uidx <= maxwan_num; ++uidx) {
 
 <div class='section-title'>LAN</div>
 <div class='section'>
-	<div class="tomato-grid" id="lan-grid"></div>
+	<table class='tomato-grid' cellspacing=1 id='lan-grid'></table>
 
 	<script type='text/javascript'>lg.setup();</script>
 
@@ -1816,7 +1812,7 @@ createFieldTable('', [
 	{ title: 'Use dnscrypt-proxy', name: 'f_dnscrypt_proxy', type: 'checkbox', value: (nvram.dnscrypt_proxy == 1) },
 	{ title: 'Ephemeral Keys', indent: 2, name: 'f_dnscrypt_ephemeral_keys', type: 'checkbox', suffix: '&nbsp; <small>warning: this option requires extra CPU cycles!<\/small>', value: (nvram.dnscrypt_ephemeral_keys == 1) },
 	{ title: 'Manual Entry', indent: 2, name: 'f_dnscrypt_manual', type: 'checkbox', value: (nvram.dnscrypt_manual == 1) },
-	{ title: '<a href=\'https://dnscrypt.info/public-servers\' title=\'Resolver details\' class=\'new_window\'>Resolver<\/a>', indent: 2, name: 'dnscrypt_resolver', type: 'select', options: _dnscrypt_resolvers_, value: nvram.dnscrypt_resolver },
+	{ title: 'Resolver', indent: 2, name: 'dnscrypt_resolver', type: 'select', options: _dnscrypt_resolvers_, value: nvram.dnscrypt_resolver, suffix: ' <a href=\'https://dnscrypt.info/public-servers\' target=\'_new\'>Resolver Details</a>' },
 	{ title: 'Resolver Address', indent: 2, name: 'dnscrypt_resolver_address', type: 'text', maxlen: 50, size: 25, value: nvram.dnscrypt_resolver_address },
 	{ title: 'Provider Name', indent: 2, name: 'dnscrypt_provider_name', type: 'text', maxlen: 60, size: 25, value: nvram.dnscrypt_provider_name },
 	{ title: 'Provider Public Key', indent: 2, name: 'dnscrypt_provider_key', type: 'text', maxlen: 80, size: 25, value: nvram.dnscrypt_provider_key },

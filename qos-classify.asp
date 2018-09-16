@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -24,6 +24,7 @@
 	padding: 0 0 1px 0;
 	margin: 0;
 }
+
 #qg .co1 {
 	width: 370px;
 }
@@ -44,6 +45,7 @@
 	width: 66%;
 	float: left;
 }
+
 #qg .x2a {
 	width: 35%;
 	float: left;
@@ -57,6 +59,7 @@
 	width: 41%;
 	float: left;
 }
+
 #qg .x3a {
 	width: 40%;
 	float: left;
@@ -66,6 +69,7 @@
 	width: 60%;
 	float: left;
 }
+
 #qg .x4a {
 	width: 58%;
 	float: left;
@@ -80,6 +84,7 @@
 	clear: left;
 	width: 70px;
 }
+
 #qg .x5b {
 	float: left;
 	padding: 2px 8px 0 8px;
@@ -185,10 +190,10 @@ qosg.dataToView = function(data) {
 	}
 
 	if (data[7] != '') {
-		b.push('Transferred: ' + data[7] + ((data[8] == '') ? '<small>KB+<\/small>' : (' - ' + data[8] + '<small>KB<\/small>')));
+		b.push('Transferred: ' + data[7] + ((data[8] == '') ? '<small>KB+</small>' : (' - ' + data[8] + '<small>KB</small>')));
 	}
 
-	return [b.join('<br />'), class1[(data[10] * 1) + 1][1], escapeHTML(data[11]), (ruleCounter >= 0) ? ''+ ++ruleCounter : ''];
+	return [b.join('<br>'), class1[(data[10] * 1) + 1][1], escapeHTML(data[11]), (ruleCounter >= 0) ? ''+ ++ruleCounter : ''];
 }
 
 qosg.fieldValuesToData = function(row) {
@@ -334,22 +339,22 @@ qosg.setup = function() {
 	this.init('qg', 'move', 80, [
 		{ multi: [
 			{ type: 'select', options: [[0,'Any Address'],[1,'Dst IP'],[2,'Src IP'],[3,'Src MAC']],
-				prefix: '<div class="x1a">', suffix: '<\/div>' },
-			{ type: 'text', prefix: '<div class="x1b">', suffix: '<\/div>' },
+				prefix: '<div class="x1a">', suffix: '</div>' },
+			{ type: 'text', prefix: '<div class="x1b">', suffix: '</div>' },
 
-			{ type: 'select', prefix: '<div class="x2a">', suffix: '<\/div>', options: a },
-			{ type: 'select', prefix: '<div class="x2b">', suffix: '<\/div>',
+			{ type: 'select', prefix: '<div class="x2a">', suffix: '</div>', options: a },
+			{ type: 'select', prefix: '<div class="x2b">', suffix: '</div>',
 				options: [['a','Any Port'],['d','Dst Port'],['s','Src Port'],['x','Src or Dst']] },
-			{ type: 'text', prefix: '<div class="x2c">', suffix: '<\/div>' },
+			{ type: 'text', prefix: '<div class="x2c">', suffix: '</div>' },
 
-			{ type: 'select', prefix: '<div class="x3a">', suffix: '<\/div>', options: ipp2p },
-			{ type: 'select', prefix: '<div class="x3b">', suffix: '<\/div>', options: layer7 },
+			{ type: 'select', prefix: '<div class="x3a">', suffix: '</div>', options: ipp2p },
+			{ type: 'select', prefix: '<div class="x3b">', suffix: '</div>', options: layer7 },
 
-			{ type: 'select', prefix: '<div class="x4a">', suffix: '<\/div>', options: dscp },
-			{ type: 'text', prefix: '<div class="x4b">', suffix: '<\/div>' },
+			{ type: 'select', prefix: '<div class="x4a">', suffix: '</div>', options: dscp },
+			{ type: 'text', prefix: '<div class="x4b">', suffix: '</div>' },
 
-			{ type: 'text', prefix: '<div class="x5a">', suffix: '<\/div>' },
-			{ type: 'text', prefix: '<div class="x5b"> - <\/div><div class="x5c">', suffix: '<\/div><div class="x5d">KB Transferred<\/div>' }
+			{ type: 'text', prefix: '<div class="x5a">', suffix: '</div>' },
+			{ type: 'text', prefix: '<div class="x5b"> - </div><div class="x5c">', suffix: '</div><div class="x5d">KB Transferred</div>' }
 		] },
 		{ type: 'select', options: class1, vtop: 1 },
 		{ type: 'text', maxlen: 32, vtop: 1 },
@@ -397,7 +402,7 @@ function save()
 {
 	if (qosg.isEditing()) return;
 
-	var fom = E('t_fom');
+	var fom = E('_fom');
 	var i, a, b, c;
 
 	c = qosg.getAllData();
@@ -422,7 +427,7 @@ function init()
 
 </head>
 <body onload='init()'>
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -439,18 +444,19 @@ function init()
 <input type='hidden' name='qos_orules'>
 
 <div class='section-title'>Outbound Direction</div>
+<div class='section'>
+	<table class='tomato-grid' cellspacing=1 id='qg'></table>
+</div>
 
+<br>
 <script type='text/javascript'>
 if (nvram.qos_enable != '1') {
-	W('<div class="note-disabled"><b>QoS disabled.<\/b><br /><br /><a href="qos-settings.asp">Enable &raquo;<\/a><\/div>');
-} else {
+	W('<div class="note-disabled"><b>QoS disabled.</b> &nbsp; <a href="qos-settings.asp">Enable &raquo;</a></div>');
+}
+else {
 	show_notice1('<% notice("iptables"); %>');
 }
 </script>
-
-<div class='section'>
-	<div class="tomato-grid" id="qg"></div>
-</div>
 
 <!-- / / / -->
 

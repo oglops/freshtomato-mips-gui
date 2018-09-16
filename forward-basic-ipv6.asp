@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -13,7 +13,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] Forwarding: Basic IPv6</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -69,7 +69,7 @@ fog.sortCompare = function(a, b) {
 }
 
 fog.dataToView = function(data) {
-	return [(data[0] != '0') ? 'On' : '', ['TCP', 'UDP', 'Both'][data[1] - 1], (data[2].match(/(.+)-(.+)/)) ? (RegExp.$1 + ' -<br />' + RegExp.$2) : data[2], data[3], data[4], data[5]];
+	return [(data[0] != '0') ? 'On' : '', ['TCP', 'UDP', 'Both'][data[1] - 1], (data[2].match(/(.+)-(.+)/)) ? (RegExp.$1 + ' -<br>' + RegExp.$2) : data[2], data[3], data[4], data[5]];
 }
 
 fog.fieldValuesToData = function(row) {
@@ -147,7 +147,7 @@ function save()
 		data[i][4] = data[i][4].replace(/-/g, ':');
 		s += data[i].join('<') + '>';
 	}
-	var fom = E('t_fom');
+	var fom = E('_fom');
 	fom.ipv6_portforward.value = s;
 	form.submit(fom, 0, 'tomato.cgi');
 }
@@ -160,7 +160,7 @@ function init()
 </script>
 </head>
 <body onload='init()'>
-<form id='t_fom' method='post' action='javascript:{}'>
+<form id='_fom' method='post' action='javascript:{}'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -179,21 +179,20 @@ function init()
 
 <div class='section-title'>IPv6 Port Forwarding</div>
 <div class='section'>
-	<div class="tomato-grid" id="fo-grid6"></div>
+	<table class='tomato-grid' cellspacing=1 id='fo-grid6'></table>
 	<script type='text/javascript'>fog.setup();</script>
 </div>
 
-<div class='section-title'>Notes</div>
-<i>Opens access to ports on machines inside the LAN, but does <b>not</b> re-map ports:</i><br />
-<div class='section'>
-	<ul>
-		<li><b>Src Address</b> <i>(optional)</i> - Forward only if from this address. Ex: "2001:4860:800b::/48", "me.example.com".</li>
-		<li><b>Dest Address</b> <i>(optional)</i> - The destination address inside the LAN.</li>
-		<li><b>Dest Ports</b> - The ports to be opened for forwarding. Ex: "2345", "200,300", "200-300,400".</li>
-	</ul>
+<div>
+Opens access to ports on machines inside the LAN, but does <b>not</b> re-map ports.
+<ul>
+<li><b>Src Address</b> <i>(optional)</i> - Forward only if from this address. Ex: "2001:4860:800b::/48", "me.example.com".
+<li><b>Dest Address</b> <i>(optional)</i> - The destination address inside the LAN.
+<li><b>Dest Ports</b> - The ports to be opened for forwarding. Ex: "2345", "200,300", "200-300,400".
+</ul>
 </div>
 
-<br />
+<br>
 <script type='text/javascript'>show_notice1('<% notice("ip6tables"); %>');</script>
 
 <!-- / / / -->

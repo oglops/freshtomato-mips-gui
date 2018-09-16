@@ -1271,15 +1271,6 @@ TomatoGrid.prototype = {
 		if (tb) {
 			this.tb = E(tb);
 			this.tb.gridObj = this;
-
-			var att_c = this.tb.getAttribute("class");
-			var att_s = this.tb.getAttribute("style");
-			var table = document.createElement("table");
-			if (att_c) table.setAttribute("class", att_c);
-			if (att_s) table.setAttribute("style", att_s);
-			this.tb.appendChild(table);
-			this.tb = E(table);
-			this.tb.gridObj = this;
 		}
 		else {
 			this.tb = null;
@@ -2142,17 +2133,17 @@ TomatoRefresh.prototype = {
 
 	updateUI: function(mode) {
 		var e, b;
+
 		if (typeof(E) == 'undefined') return;	// for a bizzare bug...
 
 		b = (mode != 'stop') && (this.refreshTime > 0);
-
 		if ((e = E('refresh-button')) != null) {
 			e.value = b ? 'Stop' : 'Refresh';
 			((mode == 'start') && (!b) ? e.setAttribute("disabled", "disabled") : e.removeAttribute("disabled"));
 		}
 
 		if ((e = E('refresh-time')) != null)
-			(b == 0 ? e.removeAttribute("disabled") : e.setAttribute("disabled", "disabled"))
+			(b == 0 ? e.removeAttribute("disabled") : e.setAttribute("disabled", "disabled"));
 		if ((e = E('refresh-spinner')) != null) e.style.visibility = b ? 'visible' : 'hidden';
 	},
 
@@ -2472,7 +2463,12 @@ function navi()
 /* TOR-BEGIN */
 			['TOR Project',			'tor.asp'],
 /* TOR-END */
+/* MIPSR2-BEGIN */
 			['VLAN',			'vlan.asp'],
+/* MIPSR2-END */
+/* MIPSR1-BEGIN */
+			['VLAN',			'vlan-r1.asp'],
+/* MIPSR1-END */
 			['LAN Access',			'access.asp'],
 			['Virtual Wireless',		'wlanvifs.asp'],
 			['Wireless',			'wireless.asp'] ] ],
@@ -2838,68 +2834,5 @@ function console(s)
 }
 
 
-// -----------------------------------------------------------------------------
 
-/* REMOVE-BEGIN
-//  events handler
-REMOVE-END */
 
-if (typeof document.getElementsByClassName!="function"){  // IE
-	document.getElementsByClassName = function(cl) {
-		var retnode = new Array(), patt = new RegExp("(^|\\\\s)"+cl+"(\\\\s|$)"), els = this.getElementsByTagName("*");
-		for (i = 0, j = 0; i < els.length; i++) {
-			if (patt.test(els[i].className)) {
-				retnode[j] = els[i];
-				j++;
-			}
-		}
-		return retnode;
-	};
-}
-function addEvent(obj, type, fn) {
-	if (obj.addEventListener) {
-		obj.addEventListener(type, fn, false);
-		EventCache.add(obj, type, fn);
-	}
-	else if (obj.attachEvent) {
-		obj["e"+type+fn] = fn;
-		obj[type+fn] = function() { obj["e"+type+fn]( window.event ); }
-		obj.attachEvent("on"+type, obj[type+fn]);
-		EventCache.add(obj, type, fn);
-	}
-	else {
-		obj["on"+type] = obj["e"+type+fn];
-	}
-}
-var EventCache = function() {
-	var listEvents = [];
-	return {
-		listEvents : listEvents,
-		add : function(node, sEventName, fHandler) {
-			listEvents.push(arguments);
-		},
-		flush : function(){
-			var i, item;
-			for(i = listEvents.length - 1; i >= 0; i = i - 1) {
-				item = listEvents[i];
-				if(item[0].removeEventListener){
-					item[0].removeEventListener(item[1], item[2], false);
-				};
-				if(item[1].substring(0, 2) != "on") {
-					item[1] = "on" + item[1];
-				};
-				if(item[0].detachEvent) {
-					item[0].detachEvent(item[1], item[2]);
-				};
-				item[0][item[1]] = null;
-			};
-		}
-	};
-}();
-addEvent(window, "unload", EventCache.flush);
-function cancelDefaultAction(e) {
-	var evt = e ? e : window.event;
-	if (evt.preventDefault) evt.preventDefault();
-	evt.returnValue = false;
-	return false;
-}

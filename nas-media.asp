@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Media Server Settings - !!TB
@@ -12,7 +12,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] NAS: Media Server</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -183,7 +183,7 @@ function save()
 	if (msg.isEditing()) return;
 	if (!verifyFields(null, 0)) return;
 
-	var fom = E('t_fom');
+	var fom = E('_fom');
 
 	fom.ms_enable.value = E('_f_ms_enable').checked ? 1 : 0;
 	fom.ms_tivo.value = E('_f_ms_tivo').checked ? 1 : 0;
@@ -226,7 +226,7 @@ var xob = null;
 function setNoticeText(s)
 {
 	if (s.length)
-		s = '<div id="notice1">' + s.replace(/\n/g, '<br />') + '<\/div><br style="clear:both">';
+		s = '<div id="notice1">' + s.replace(/\n/g, '<br>') + '</div><br style="clear:both">';
 	elem.setInnerHTML('notice-msg', s);
 }
 
@@ -253,7 +253,7 @@ function init()
 
 </head>
 <body onload="init()">
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -299,8 +299,8 @@ createFieldTable('', [
 			['br1','LAN1 (br1)'],
 			['br2','LAN2 (br2)'],
 			['br3','LAN3 (br3)']
-			], value: eval ( 'nvram.ms_ifname' ), suffix: ' <small>* default<\/small> ' },
-	{ title: 'Port', indent: 2, name: 'ms_port', type: 'text', maxlen: 5, size: 6, value: nvram.ms_port, suffix: '<small>(range: 0 - 65535; default (random) set 0)<\/small>' },
+			], value: eval ( 'nvram.ms_ifname' ), suffix: ' <small>* default</small> ' },
+	{ title: 'Port', indent: 2, name: 'ms_port', type: 'text', maxlen: 5, size: 6, value: nvram.ms_port, suffix: '<small>(range: 0 - 65535; default (random) set 0)</small>' },
 	{ title: 'Database Location', multi: [
 		{ name: 'f_loc', type: 'select', options: [['','RAM (Temporary)'],
 
@@ -317,22 +317,22 @@ createFieldTable('', [
 	] },
 	{ title: 'Scan Media at Startup*', indent: 2, name: 'f_ms_sas', type: 'checkbox', value: nvram.ms_sas == '1', hidden: 1 },
 	{ title: 'Rescan on the next run*', indent: 2, name: 'f_ms_rescan', type: 'checkbox', value: 0,
-		suffix: '<br /><small>* Media scan may take considerable time to complete.<\/small>' },
+		suffix: '<br><small>* Media scan may take considerable time to complete.</small>' },
 	null,
 	{ title: 'TiVo Support', name: 'f_ms_tivo', type: 'checkbox', value: nvram.ms_tivo == '1' },
 	{ title: 'Strictly adhere to DLNA standards', name: 'f_ms_stdlna', type: 'checkbox', value: nvram.ms_stdlna == '1' }
 ]);
-W('<br /><input type="button" value="' + (mdup ? 'Res' : 'S') + 'tart Now" onclick="restart(mdup)" id="_restart_button">');
+W('<br><input type="button" value="' + (mdup ? 'Res' : 'S') + 'tart Now" onclick="restart(mdup)" id="_restart_button">');
 </script>
 </div>
 <span id="notice-msg"></span>
-<br />
+<br>
 
 <div class='section-title'>Media Directories</div>
 <div class='section'>
-	<div class="tomato-grid" id="ms-grid"></div>
+	<table class='tomato-grid' cellspacing=1 id='ms-grid'></table>
 	<script type='text/javascript'>msg.setup();</script>
-<br />
+<br>
 </div>
 
 <!-- / / / -->

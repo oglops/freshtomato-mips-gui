@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 
@@ -11,7 +11,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] Status: Web Usage</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -58,7 +58,7 @@ function clearLog(clear)
 	xob = new XmlHttp();
 	xob.onCompleted = function(text, xml) {
 		xob = null;
-		E('clear' + clear).innerHTML = '&raquo; <a href="javascript:clearLog(' + clear + ')">Clear<\/a>';
+		E('clear' + clear).innerHTML = '&raquo; <a href="javascript:clearLog(' + clear + ')">Clear</a>';
 		if (!ref.running) ref.once = 1;
 		ref.start();
 	}
@@ -198,7 +198,7 @@ WMGrid.prototype.setName = function(ip, name)
 		row = this.tb.rows[i];
 		data = row.getRowData();
 		if (data.ip == ip) {
-			data[1] = name + ((ip.indexOf(':') != -1) ? '<br />' : ' ') + '<small>(' + ip + ')<\/small>';
+			data[1] = name + ((ip.indexOf(':') != -1) ? '<br>' : ' ') + '<small>(' + ip + ')</small>';
 			row.setRowData(data);
 			row.cells[1].innerHTML = data[1];
 			row.style.cursor = 'default';
@@ -240,13 +240,13 @@ WMGrid.prototype.populateData = function(data, url)
 /* IPV6-END */
 		if (cache[e.ip] != null) {
 			new_cache[e.ip] = cache[e.ip];
-			e.ip = cache[e.ip] + ((e.ip.indexOf(':') != -1) ? '<br />' : ' ') + '<small>(' + e.ip + ')<\/small>';
+			e.ip = cache[e.ip] + ((e.ip.indexOf(':') != -1) ? '<br>' : ' ') + '<small>(' + e.ip + ')</small>';
 			cursor = 'default';
 		}
 		else cursor = null;
 		if (url != 0) {
-			e.value = '<a href="http://' + e.value + '" class="new_window">' +
-				(e.value.length > maxl + 3 ? e.value.substr(0, maxl) + '...' : e.value) + '<\/a>';
+			e.value = '<a href="http://' + e.value + '" target="_new">' +
+				(e.value.length > maxl + 3 ? e.value.substr(0, maxl) + '...' : e.value) + '</a>';
 		}
 		else {
 			e.value = e.value.replace(/\+/g, ' ');
@@ -315,28 +315,17 @@ sg.populate = function() {
 
 function init()
 {
-	new observer(InNewWindow).observe(E("dom-grid"), { childList: true, subtree: true });
-
 	ref.initPage();
 
 	if (!ref.running) ref.once = 1;
 	ref.start();
 }
 
-var observer = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
-
-function InNewWindow () {
-	var elements = document.getElementsByClassName("new_window");
-	for (var i = 0; i < elements.length; i++) if (elements[i].nodeName.toLowerCase()==="a")
-		addEvent(elements[i], "click", function(e) { cancelDefaultAction(e); window.open(this,"_blank"); } );
-}
-
 function earlyInit()
 {
 	if (nvram.log_wm == '1' && (nvram.log_wmdmax != '0' || nvram.log_wmsmax != '0')) {
 		E('webmon').style.display = '';
-		E('webmon2').style.display = '';
-		E('webmonoff').style.display = 'none';
+		E('wm-disabled').style.display = 'none';
 
 		maxLimit = nvram.log_wmdmax * 1;
 		if (nvram.log_wmsmax * 1 > maxLimit) maxLimit = nvram.log_wmsmax * 1;
@@ -365,7 +354,7 @@ function earlyInit()
 
 </head>
 <body onload='init()'>
-<form id='t_fom' action='javascript:{}'>
+<form id='_fom' action='javascript:{}'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -377,12 +366,11 @@ function earlyInit()
 
 <!-- / / / -->
 
-<div id="webmonoff" class="section-title">Web Usage</div>
 <div id='webmon' style='display:none'>
 	<div id='webmon-domains'>
 		<div class='section-title'>Recently Visited Web Sites</div>
 		<div class='section'>
-			<div id="dom-grid" class="tomato-grid" style="float:left"></div>
+			<table id='dom-grid' class='tomato-grid' style="float:left" cellspacing=1></table>
 			&raquo; <a href="webmon_recent_domains?_http_id=<% nv(http_id) %>">Download</a>
 			<div style="float:right;text-align:right;margin-right:5px" id="clear1">
 				&raquo; <a href="javascript:clearLog(1)">Clear</a>
@@ -393,7 +381,7 @@ function earlyInit()
 	<div id='webmon-searches'>
 		<div class='section-title'>Recent Web Searches</div>
 		<div class='section'>
-			<div id="srh-grid" class="tomato-grid" style="float:left"></div>
+			<table id='srh-grid' class='tomato-grid' style="float:left" cellspacing=1></table>
 			&raquo; <a href="webmon_recent_searches?_http_id=<% nv(http_id) %>">Download</a>
 			<div style="float:right;text-align:right;margin-right:5px" id="clear2">
 				&raquo; <a href="javascript:clearLog(2)">Clear</a>
@@ -416,26 +404,25 @@ function earlyInit()
 			<small>available entries</small>
 		</div>
 		&raquo; <a href="admin-log.asp">Web Monitor Configuration</a>
-		<br /><br />
+		<br><br>
+		<script type='text/javascript'>genStdRefresh(1,3,'ref.toggle()');</script>
 	</div>
 </div>
 
-<!-- / / / -->
+<div id='wm-disabled'>
+	<b>Web Monitoring disabled.</b>
+	<br><br>
+	<a href="admin-log.asp">Enable &raquo;</a>
+	<br><br>
+</div>
 
-<script type='text/javascript'>
-if (!(nvram.log_wm == '1' && (nvram.log_wmdmax != '0' || nvram.log_wmsmax != '0'))) {
-	W('<div class="note-disabled"><b>Web Monitoring disabled.<\/b><br /><br /><a href="admin-log.asp">Enable &raquo;<\/a><\/div>\n');
-}
-</script>
+<script type='text/javascript'>earlyInit();</script>
 
 <!-- / / / -->
 
 </td></tr>
-<tr><td id='footer' colspan='2'>
-	<div id='webmon2' style='display:none'><script type='text/javascript'>genStdRefresh(1,3,'ref.toggle()');</script></div>
-</td></tr>
+<tr><td id='footer' colspan=2>&nbsp;</td></tr>
 </table>
 </form>
-<script type='text/javascript'>earlyInit()</script>
 </body>
 </html>

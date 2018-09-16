@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -13,7 +13,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] Basic: Identification</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -28,18 +28,19 @@
 function verifyFields(focused, quiet)
 {
 	if (!v_hostname('_wan_hostname', quiet)) return 0;
+	if (!v_domain('_wan_domain', quiet)) return 0;
 	return v_length('_router_name', quiet, 1) && v_length('_wan_hostname', quiet, 0) && v_length('_wan_domain', quiet, 0);
 }
 
 function save()
 {
 	if (!verifyFields(null, false)) return;
-	form.submit('t_fom', 1);
+	form.submit('_fom', 1);
 }
 </script>
 </head>
 <body>
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>

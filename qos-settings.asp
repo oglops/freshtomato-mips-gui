@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -41,7 +41,7 @@ function scale(bandwidth, rate, ceil)
 
 	var s = comma(MAX(Math.floor((bandwidth * rate) / 100), 1));
 	if (ceil > 0) s += ' - ' + MAX(Math.round((bandwidth * ceil) / 100), 1);
-	return s + ' <small>kbit/s<\/small>';
+	return s + ' <small>kbit/s</small>';
 }
 
 function toggleFiltersVisibility(){
@@ -92,7 +92,7 @@ function verifyFields(focused, quiet)
 		}
 	}
 
-	f = E('t_fom').elements;
+	f = E('_fom').elements;
 	b = !E('_f_qos_enable').checked;
 	for (i = 0; i < f.length; ++i) {
 		if ((f[i].name.substr(0, 1) != '_') && (f[i].type != 'button') && (f[i].name.indexOf('enable') == -1) &&
@@ -114,7 +114,7 @@ function verifyFields(focused, quiet)
 
 function save()
 {
-	var fom = E('t_fom');
+	var fom = E('_fom');
 	var i, a, qos, c;
 
 
@@ -132,7 +132,7 @@ function save()
 		qos.push(E('_f_qos_' + (i - 1)).value);
 	}
 
-	fom = E('t_fom');
+	fom = E('_fom');
 	fom.qos_classnames.value = qos.join(' ');
 
 	a = [];
@@ -167,7 +167,7 @@ function save()
 
 </head>
 <body>
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -221,7 +221,7 @@ createFieldTable('', [
 /* REMOVE-BEGIN
 	!!TB - added qos_pfifo
 REMOVE-END */
-	{ title: 'Qdisc Scheduler', name: 'qos_pfifo', type: 'select', options: [['0','sfq'],['1','pfifo'],['2','codel'],['3','fq_codel']], value: nvram.qos_pfifo }
+	{ title: 'Qdisc Scheduler', name: 'qos_pfifo', type: 'select', options: [['0','sfq'],['1','pfifo']], value: nvram.qos_pfifo }
 ]);
 </script>
 </div>
@@ -249,7 +249,7 @@ cc = nvram.qos_orates.split(/[,-]/);
 f = [];
 for (var uidx = 1; uidx <= nvram.mwan_num; ++uidx){
 	var u = (uidx >1) ? uidx : '';
-	f.push({ title: 'WAN '+uidx+'<br />Max Bandwidth Limit', name: 'wan'+u+'_qos_obw', type: 'text', maxlen: 8, size: 8, suffix: ' <small>kbit/s <\/small>', value: nvram['wan'+u+'_qos_obw'] });
+	f.push({ title: 'WAN '+uidx+'<br>Max Bandwidth Limit', name: 'wan'+u+'_qos_obw', type: 'text', maxlen: 8, size: 8, suffix: ' <small>kbit/s </small>', value: nvram['wan'+u+'_qos_obw'] });
 }
 f.push(null);
 j = 0;
@@ -297,6 +297,7 @@ for (var uidx = 1; uidx <= nvram.mwan_num; ++uidx) {
 	splitRate = allRates[i].split('-');
 	incoming_rate = splitRate[0] || 1;
 	incoming_ceil = splitRate[1] || 100;
+
 	f.push(
 	    { title: classNames[i], multi: [
 	    { name: 'wan' + u + '_f_irate_' + i, type: 'select', options: pctListin, value: incoming_rate, suffix: ' ' },
@@ -319,11 +320,11 @@ if ((v = nvram.qos_classnames.match(/^(.+)\s+(.+)\s+(.+)\s+(.+)\s+(.+)\s+(.+)\s+
 	v = ["-","Highest","High","Medium","Low","Lowest","A","B","C","D","E"];
 }
 titles = ['-','Priority Class 1', 'Priority Class 2', 'Priority Class 3', 'Priority Class 4', 'Priority Class 5', 'Priority Class 6', 'Priority Class 7', 'Priority Class 8', 'Priority Class 9', 'Priority Class 10'];
-f = [{ title: ' ', text: '<small>(Maximum 12 characters, no spaces)<\/small>' }];
+f = [{ title: ' ', text: '<small>(Maximum 12 characters, no spaces)</small>' }];
 for (i = 1; i < 11; ++i) {
 	f.push({ title: titles[i], name: ('f_qos_' + (i - 1)),
 		type: 'text', maxlen: 12, size: 15, value: v[i],
-		suffix: '<span id="count' + i + '"><\/span>' });
+		suffix: '<span id="count' + i + '"></span>' });
 }
 createFieldTable('', f);
 </script>
@@ -346,7 +347,7 @@ createFieldTable('', [
 <!-- / / / -->
 
 </td></tr>
-<tr><td id='footer' colspan='2'>
+<tr><td id='footer' colspan=2>
 	<span id='footer-msg'></span>
 	<input type='button' value='Save' id='save-button' onclick='save()'>
 	<input type='button' value='Cancel' id='cancel-button' onclick='reloadPage();'>
