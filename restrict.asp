@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -13,7 +13,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] 访问限制: 策略列表</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -75,10 +75,10 @@ og.populate = function() {
 		}
 
 		if ((v[1] >= 0) && (v[2] >= 0)) {
-			s += '<br />' + timeString(v[1]) + ' 至 ' + timeString(v[2]);
-			if (v[2] <= v[1]) s += ' <small>(以下日期)<\/small>';
+			s += '<br>' + timeString(v[1]) + ' 至 ' + timeString(v[2]);
+			if (v[2] <= v[1]) s += ' <small>(以下日期)</small>';
 		}
-		if (v[0] != '1') s += '<br /><i><b>禁用<\/b><\/i>';
+		if (v[0] != '1') s += '<br><i><b>禁用</b></i>';
 		this.insertData(-1, [i, v[8], s]);
 	}
 	og.sort(0);
@@ -87,14 +87,14 @@ og.dataToView = function(data) {
 	return [escapeHTML(data[1]), data[2]];
 }
 og.onClick = function(cell) {
-	E('t_rruleN').value = PR(cell).getRowData()[0];
-	form.submit('t_fom');
+	E('_rruleN').value = PR(cell).getRowData()[0];
+	form.submit('_fom');
 }
 og.addEntry = function() {
 	for (var i = 0; i < 140; ++i) {
 		if ((rrules[i] == null) || (rrules[i] == '')) {
-			E('t_rruleN').value = i;
-			form.submit('t_fom');
+			E('_rruleN').value = i;
+			form.submit('_fom');
 			return;
 		}
 	}
@@ -107,7 +107,7 @@ function init()
 </script>
 </head>
 <body onload='init()'>
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form name='_fom' id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -121,24 +121,25 @@ function init()
 
 <input type='hidden' name='_redirect' value='restrict-edit.asp'>
 <input type='hidden' name='_commit' value='0'>
-<input type='hidden' name='rruleN' id='t_rruleN' value=''>
+<input type='hidden' name='rruleN' id='_rruleN' value=''>
 
 <div class='section-title'>访问限制列表</div>
 <div class='section'>
-	<div class="tomato-grid" id="res-over-grid"></div>
+	<table class='tomato-grid' cellspacing=1 id='res-over-grid'></table>
 </div>
 
-<br />
+<br>
 <script type='text/javascript'>show_notice1('<% notice("iptables"); %>');</script>
-<br />
+<br>
 <script type='text/javascript'>show_notice1('<% notice("ip6tables"); %>');</script>
 
 <!-- / / / -->
 
 </td></tr>
-<tr><td id='footer' colspan='2'>&nbsp;</td></tr>
+<tr><td id='footer' colspan=2>&nbsp;</td></tr>
 </table>
 </form>
-<script type='text/javascript'>og.setup();</script>
+<script text='text/javascript'>og.setup();</script>
 </body>
 </html>
+

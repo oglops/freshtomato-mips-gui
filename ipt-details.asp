@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -157,7 +157,7 @@ grid.populate = function() {
 
 		if(E('_f_onlyactive').checked) {
 			if ((b[2] < 10) && (b[3] < 10))
-			continue;
+				continue;
 		}
 
 		if (filteripe.length>0) {
@@ -197,17 +197,17 @@ grid.populate = function() {
 		var h = b[0];
 		if (E('_f_hostnames').checked) {
 			if(hostnamecache[b[0]] != null) {
-				h = hostnamecache[b[0]] + ((b[0].indexOf(':') != -1) ? '<br />' : ' ') + '<small>(' + b[0] + ')<\/small>';
+				h = hostnamecache[b[0]] + ((b[0].indexOf(':') != -1) ? '<br>' : ' ') + '<small>(' + b[0] + ')</small>';
 			}
 		}
 
 		if (E('_f_shortcuts').checked) {
-			h = h + '<br /><small>';
-			h = h + '<a href="javascript:viewQosDetail(' + i + ')" title="查看 QoS 细节">[qosdetails]<\/a>';
-			h = h + '<a href="javascript:viewQosCTrates(' + i + ')" title="查看每个连接的传输率">[qosrates]<\/a>';
-			h = h + '<a href="javascript:viewIptHistory(' + i + ')" title="查看 IP 流量历史">[history]<\/a>';
-			h = h + '<a href="javascript:addExcludeList(' + i + ')" title="过滤此 IP 地址">[hide]<\/a>';
-			h = h + '<\/small>';
+			h = h + '<br><small>';
+			h = h + '<a href="javascript:viewQosDetail(' + i + ')" title="查看 QoS 细节">[qosdetails]</a>';
+			h = h + '<a href="javascript:viewQosCTrates(' + i + ')" title="查看每个连接的传输率">[qosrates]</a>';
+			h = h + '<a href="javascript:viewIptHistory(' + i + ')" title="查看 IP 流量历史">[history]</a>';
+			h = h + '<a href="javascript:addExcludeList(' + i + ')" title="过滤此 IP 地址">[hide]</a>';
+			h = h + '</small>';
 		}
 
 		d = [h,
@@ -227,13 +227,13 @@ grid.populate = function() {
 
 	grid.resort();
 	grid.recolor();
-	grid.footerSet([ '所有 ' + ('<small><i>(' + ((hostslisted.length > 0) ? (hostslisted.length + ' 主机') : '无数据') + ')<\/i><\/small>'),
-	rescale((rx/1024).toFixed(2)).toString(),
-	rescale((tx/1024).toFixed(2)).toString(),
-	tcpi.toFixed(0).toString() + '/' + tcpo.toFixed(0).toString(),
-	udpi.toFixed(0).toString() + '/' + udpo.toFixed(0).toString(),
-	icmpi.toFixed(0).toString() + '/' + icmpo.toFixed(0).toString(),
-	tcpconn.toString(), udpconn.toString() ]);
+	grid.footerSet([ '所有 ' + ('<small><i>(' + ((hostslisted.length > 0) ? (hostslisted.length + ' 主机') : '无数据') + ')</i></small>'),
+		rescale((rx/1024).toFixed(2)).toString(),
+		rescale((tx/1024).toFixed(2)).toString(),
+		tcpi.toFixed(0).toString() + '/' + tcpo.toFixed(0).toString(),
+		udpi.toFixed(0).toString() + '/' + udpo.toFixed(0).toString(),
+		icmpi.toFixed(0).toString() + '/' + icmpo.toFixed(0).toString(),
+		tcpconn.toString(), udpconn.toString() ]);
 }
 
 grid.sortCompare = function(a, b) {
@@ -243,67 +243,71 @@ grid.sortCompare = function(a, b) {
 	var r = 0;
 
 	switch (col) {
-		case 0:	// host
-			r = cmpText(da[col], db[col]);
+	case 0:	// host
+		r = cmpText(da[col], db[col]);
 		break;
-		case 1:	// Download
-		case 2:	// Upload
-			r = cmpFloat(da[col], db[col]);
+	case 1:	// Download
+	case 2:	// Upload
+		r = cmpFloat(da[col], db[col]);
 		break;
-		case 3:	// TCP pkts
-			r = cmpInt(da[3]+da[4], db[3]+db[4]);
+	case 3:	// TCP pkts
+		r = cmpInt(da[3]+da[4], db[3]+db[4]);
 		break;
-		case 4:	// UDP pkts
-			r = cmpInt(da[5]+da[6], db[5]+db[6]);
+	case 4:	// UDP pkts
+		r = cmpInt(da[5]+da[6], db[5]+db[6]);
 		break;
-		case 5:	// ICMP pkts
-			r = cmpInt(da[7]+da[8], db[7]+db[8]);
+	case 5:	// ICMP pkts
+		r = cmpInt(da[7]+da[8], db[7]+db[8]);
 		break;
-		case 6:	// TCP connections
-			r = cmpInt(da[9], db[9]);
+	case 6:	// TCP connections
+		r = cmpInt(da[9], db[9]);
 		break;
-		case 7:	// UDP connections
-			r = cmpInt(da[10], db[10]);
+	case 7:	// UDP connections
+		r = cmpInt(da[10], db[10]);
 		break;
 	}
 	return this.sortAscending ? r : -r;
 }
 
+function popupWindow(v) {
+	window.open(v, '', 'width=1000,height=600,toolbar=no,menubar=no,scrollbars=yes,resizable=yes');
+}
+
 function viewQosDetail(n) {
 	cookie.set('qos_filterip', [avgiptraffic[n][0]], 1);
-	window.open("qos-detailed.asp","_blank");
+	popupWindow('qos-detailed.asp');
 }
 
 function viewQosCTrates(n) {
 	cookie.set('qos_filterip', [avgiptraffic[n][0]], 1);
-	window.open("qos-ctrate.asp","_blank");
+	popupWindow('qos-ctrate.asp');
 }
 
 function viewIptHistory(n) {
 	cookie.set('ipt_filterip', [avgiptraffic[n][0]], 1);
-	window.open("ipt-daily.asp","_blank");
+	popupWindow('ipt-daily.asp');
 }
 
 function addExcludeList(n) {
 	if (E('_f_filter_ipe').value.length<6) {
 		E('_f_filter_ipe').value = avgiptraffic[n][0];
 	} else {
-	if (E('_f_filter_ipe').value.indexOf(avgiptraffic[n][0]) < 0) {
-		E('_f_filter_ipe').value = E('_f_filter_ipe').value + ',' + avgiptraffic[n][0];
-	}
+		if (E('_f_filter_ipe').value.indexOf(avgiptraffic[n][0]) < 0) {
+			E('_f_filter_ipe').value = E('_f_filter_ipe').value + ',' + avgiptraffic[n][0];
+		}
 	}
 	dofilter();
 }
 
 grid.dataToView = function(data) {
 	return [data[0].toString(),
-	data[1].toString(),
-	data[2].toString(),
-	data[3] + '/' + data[4],
-	data[5] + '/' + data[6],
-	data[7] + '/' + data[8],
-	data[9].toString(),
-	data[10].toString() ];
+			data[1].toString(),
+			data[2].toString(),
+			data[3] + '/' + data[4],
+			data[5] + '/' + data[6],
+			data[7] + '/' + data[8],
+			data[9].toString(),
+			data[10].toString() ];
 }
 
 grid.setup = function() {
@@ -313,8 +317,8 @@ grid.setup = function() {
 
 function init() {
 	if (nvram.cstats_enable != '1') {
-		E('refresh-time').setAttribute("disabled", "disabled");
-		E('refresh-button').setAttribute("disabled", "disabled");
+		E('refresh-time').disabled = 1;
+		E('refresh-button').disabled = 1;
 		return;
 	}
 
@@ -438,7 +442,7 @@ function toggleVisibility(whichone) {
 
 </head>
 <body onload='init()'>
-<form id='t_fom' action='javascript:{}'>
+<form id='_fom' action='javascript:{}'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -448,45 +452,43 @@ function toggleVisibility(whichone) {
 <td id='content'>
 <div id='ident'><% ident(); %></div>
 
+<div id='cstats'>
 <!-- / / / -->
 
 <div class='section-title'>IP 流量监控 - 传输速率</div>
-<div id='cstats'>
-	<div class='section'>
-		<div id="grid" class="tomato-grid" style="float:left"></div>
+<div class='section'>
+<table id='grid' class='tomato-grid' style="float:left" cellspacing=1></table>
 
-		<div id='loading'><br /><b>载入中...</b></div>
-	</div>
-
-<!-- / / / -->
-
-	<div class='section-title'>可选项 <small><i><a href='javascript:toggleVisibility("options");'><span id='sesdivoptionsshowhide'>(点击此处显示)</span></a></i></small></div>
-	<div class='section' id='sesdivoptions' style='display:none'>
-		<script type='text/javascript'>
-		var c;
-		c = [];
-		c.push({ title: '仅包含这些 IP', name: 'f_filter_ip', size: 50, maxlen: 255, type: 'text', suffix: ' <small>(用逗号分隔列表)<\/small>' });
-		c.push({ title: '不包含这些 IP', name: 'f_filter_ipe', size: 50, maxlen: 255, type: 'text', suffix: ' <small>(用逗号分隔列表)<\/small>' });
-		c.push({ title: '单位', name: 'f_scale', type: 'select', options: [['0', 'KB'], ['1', 'MB'], ['2', 'GB']] });
-		c.push({ title: '忽略不活动的地址', name: 'f_onlyactive', type: 'checkbox' });
-		c.push({ title: '显示主机名', name: 'f_hostnames', type: 'checkbox' });
-		c.push({ title: '显示快捷键', name: 'f_shortcuts', type: 'checkbox' });
-		createFieldTable('',c);
-		</script>
-		<div style="float:right;text-align:right">
-			&raquo; <a href="admin-iptraffic.asp">设置</a>
-		</div>
-	</div>
-
-	<br />
-
+<div id='loading'><br><b>载入中...</b></div>
 </div>
 
 <!-- / / / -->
 
-<script type='text/javascript'>checkCstats();</script>
+<div class='section-title'>可选项 <small><i><a href='javascript:toggleVisibility("options");'><span id='sesdivoptionsshowhide'>(点击此处显示)</span></a></i></small></div>
+<div class='section' id='sesdivoptions' style='display:none'>
+<script type='text/javascript'>
+var c;
+c = [];
+c.push({ title: '仅包含这些 IP', name: 'f_filter_ip', size: 50, maxlen: 255, type: 'text', suffix: ' <small>(用逗号分隔列表)</small>' });
+c.push({ title: '不包含这些 IP', name: 'f_filter_ipe', size: 50, maxlen: 255, type: 'text', suffix: ' <small>(用逗号分隔列表)</small>' });
+c.push({ title: '单位', name: 'f_scale', type: 'select', options: [['0', 'KB'], ['1', 'MB'], ['2', 'GB']] });
+c.push({ title: '忽略不活动的地址', name: 'f_onlyactive', type: 'checkbox' });
+c.push({ title: '显示主机名', name: 'f_hostnames', type: 'checkbox' });
+c.push({ title: '显示快捷键', name: 'f_shortcuts', type: 'checkbox' });
+createFieldTable('',c);
+</script>
+<div style="float:right;text-align:right">
+&raquo; <a href="admin-iptraffic.asp">设置</a>
+</div>
+</div>
 
 <!-- / / / -->
+
+</div>
+<br>
+
+<script type='text/javascript'>checkCstats();</script>
+
 
 </td></tr>
 <tr><td id='footer' colspan=2>

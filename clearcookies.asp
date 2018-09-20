@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -9,49 +9,45 @@
 -->
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8">
-<meta name="robots" content="noindex,nofollow">
+<meta http-equiv='content-type' content='text/html;charset=utf-8'>
+<meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] 清除 Cookies</title>
-<link rel="stylesheet" type="text/css" href="tomato.css">
-<% css(); %>
-<script type="text/javascript" src="tomato.js"></script>
+<link rel='stylesheet' type='text/css' href='tomato.css'>
+<link rel='stylesheet' type='text/css' href='color.css'>
+<script type='text/javascript' src='tomato.js'></script>
 </head>
 <body>
-<table id="container" cellspacing="0">
-	<tr><td colspan="2" id="header">
-		<div class="title">Tomato</div>
-		<div class="version">Version <% version(); %></div>
-	</td></tr>
-	<tr id="body">
-		<td id="navi">
-			<script type="text/javascript">navi()</script>
-		</td>
-		<td id="content">
-			<div id="ident"><% ident(); %></div>
+<table id='container' cellspacing=0>
+<tr><td colspan=2 id='header'>
+	<div class='title'>Tomato</div>
+	<div class='version'>Version <% version(); %></div>
+</td></tr>
+<tr id='body'><td id='navi'><script type='text/javascript'>navi()</script></td>
+<td id='content'>
+<div id='ident'><% ident(); %></div>
 
 <!-- / / / -->
 
-			<b>Cookies 已清除</b>
+<b>Cookies 已清除</b>
 
-			<script type="text/javascript">
-				b = [];
-				c = document.cookie.split(';');
-				for (i = 0; i < c.length; ++i) {
-					if (c[i].match(/^\s*tomato_(.+?)=/)) {
-						b.push('<li>' + c[i]);
-						cookie.unset(RegExp.$1);
-					}
-				}
-				if (b.length == 0) b.push('<li>未找到 Cookie<\/li>');
-					W('<ul>' + b.join('') + '<\/ul>');
-			</script>
+<script type='text/javascript'>
+b = [];
+c = document.cookie.split(';');
+for (i = 0; i < c.length; ++i) {
+	if (c[i].match(/^\s*tomato_(.+?)=/)) {
+		b.push('<li>' + c[i]);
+		cookie.unset(RegExp.$1);
+	}
+}
+if (b.length == 0) b.push('<li>未找到 cookie');
+W('<ul>' + b.join('') + '</ul>');
+</script>
 
 
 <!-- / / / -->
 
-		</td>
-	</tr>
-<tr><td id="footer" colspan="2">&nbsp;</td></tr>
+</td></tr>
+<tr><td id='footer' colspan=2>&nbsp;</td></tr>
 </table>
 </body>
 </html>

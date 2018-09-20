@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -13,7 +13,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] 基本设置：时间设置</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -108,7 +108,7 @@ function save(clearKiss)
 
 	var fom, a, i;
 
-	fom = E('t_fom');
+	fom = E('_fom');
 	fom.tm_dst.value = fom.f_tm_dst.checked ? 1 : 0;
 	fom.tm_tz.value = fom.f_tm_tz.value;
 
@@ -140,7 +140,7 @@ function earlyInit()
 </script>
 </head>
 <body>
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -202,7 +202,7 @@ http://www.timeanddate.com/library/abbreviations/timezones/au/
 REMOVE-END */
 
 createFieldTable('', [
-	{ title: '路由器时间', text: '<span id="clock"><% time(); %><\/span>' },
+	{ title: '路由器时间', text: '<span id="clock"><% time(); %></span>' },
 	null,
 	{ title: '时区', name: 'tm_sel', type: 'select', options: [
 		['custom','自定义时区...'],
@@ -267,14 +267,14 @@ createFieldTable('', [
 		value: nvram.ntp_updates },
 	{ title: '需要时同步', indent: 2, name: 'f_ntp_tdod', type: 'checkbox', value: nvram.ntp_tdod != '0' },
 	{ title: 'NTP 时间服务器', name: 'f_ntp_server', type: 'select', options: ntpList, value: ntpSel },
-	{ title: '&nbsp;', text: '<small><span id="ntp-preset">xx<\/span><\/small>', hidden: 1 },
+	{ title: '&nbsp;', text: '<small><span id="ntp-preset">xx</span></small>', hidden: 1 },
 	{ title: '', name: 'f_ntp_1', type: 'text', maxlen: 48, size: 50, value: ntp[0] || 'pool.ntp.org', hidden: 1 },
 	{ title: '', name: 'f_ntp_2', type: 'text', maxlen: 48, size: 50, value: ntp[1] || '', hidden: 1 },
 	{ title: '', name: 'f_ntp_3', type: 'text', maxlen: 48, size: 50, value: ntp[2] || '', hidden: 1 }
 ]);
 </script>
 </div>
-<br /><br />
+<br><br>
 
 <div id='ntpkiss' style='display:none'>
 下列的 NTP 服务器已被服务器自动封锁:

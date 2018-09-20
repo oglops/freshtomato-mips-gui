@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Media Server Settings - !!TB
@@ -12,7 +12,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] NAS: 媒体服务器</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -183,7 +183,7 @@ function save()
 	if (msg.isEditing()) return;
 	if (!verifyFields(null, 0)) return;
 
-	var fom = E('t_fom');
+	var fom = E('_fom');
 
 	fom.ms_enable.value = E('_f_ms_enable').checked ? 1 : 0;
 	fom.ms_tivo.value = E('_f_ms_tivo').checked ? 1 : 0;
@@ -226,7 +226,7 @@ var xob = null;
 function setNoticeText(s)
 {
 	if (s.length)
-		s = '<div id="notice1">' + s.replace(/\n/g, '<br />') + '<\/div><br style="clear:both">';
+		s = '<div id="notice1">' + s.replace(/\n/g, '<br>') + '</div><br style="clear:both">';
 	elem.setInnerHTML('notice-msg', s);
 }
 
@@ -253,7 +253,7 @@ function init()
 
 </head>
 <body onload="init()">
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -299,8 +299,8 @@ createFieldTable('', [
 			['br1','LAN1 (br1)'],
 			['br2','LAN2 (br2)'],
 			['br3','LAN3 (br3)']
-			], value: eval ( 'nvram.ms_ifname' ), suffix: ' <small>* 默认<\/small> ' },
-	{ title: '端口', indent: 2, name: 'ms_port', type: 'text', maxlen: 5, size: 6, value: nvram.ms_port, suffix: '<small>(范围: 0 - 65535; 默认(随机地)设置为 0)<\/small>' },
+			], value: eval ( 'nvram.ms_ifname' ), suffix: ' <small>* 默认</small> ' },
+	{ title: '端口', indent: 2, name: 'ms_port', type: 'text', maxlen: 5, size: 6, value: nvram.ms_port, suffix: '<small>(范围: 0 - 65535; 默认(随机地)设置为 0)</small>' },
 	{ title: '数据库位置', multi: [
 		{ name: 'f_loc', type: 'select', options: [['','RAM (临时)'],
 
@@ -317,22 +317,22 @@ createFieldTable('', [
 	] },
 	{ title: '启动时扫描媒体*', indent: 2, name: 'f_ms_sas', type: 'checkbox', value: nvram.ms_sas == '1', hidden: 1 },
 	{ title: '下次运行时重新扫描*', indent: 2, name: 'f_ms_rescan', type: 'checkbox', value: 0,
-		suffix: '<br /><small>* 扫描媒体可能需要大量的时间.<\/small>' },
+		suffix: '<br><small>* 扫描媒体可能需要大量的时间.</small>' },
 	null,
 	{ title: 'TiVo 支持', name: 'f_ms_tivo', type: 'checkbox', value: nvram.ms_tivo == '1' },
 	{ title: '严格遵循 DLNA 标准', name: 'f_ms_stdlna', type: 'checkbox', value: nvram.ms_stdlna == '1' }
 ]);
-W('<br /><input type="button" value="' + (mdup ? '重新启动' : '启动') + '" onclick="restart(mdup)" id="_restart_button">');
+W('<br><input type="button" value="' + (mdup ? '重新启动' : 'S') + '启动" onclick="restart(mdup)" id="_restart_button">');
 </script>
 </div>
 <span id="notice-msg"></span>
-<br />
+<br>
 
 <div class='section-title'>媒体目录</div>
 <div class='section'>
-	<div class="tomato-grid" id="ms-grid"></div>
+	<table class='tomato-grid' cellspacing=1 id='ms-grid'></table>
 	<script type='text/javascript'>msg.setup();</script>
-<br />
+<br>
 </div>
 
 <!-- / / / -->

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -171,7 +171,7 @@ function save()
 
 	aj = 1;
 	en = E('_f_cstats_enable').checked;
-	fom = E('t_fom');
+	fom = E('_fom');
 	fom._service.value = 'cstats-restart';
 	if (en) {
 		path = getPath();
@@ -233,8 +233,7 @@ function init()
 
 <div class='section-title'>IP 流量监控设置</div>
 <div class='section' id='config-section'>
-<form id='t_fom' method='post' action='tomato.cgi'>
-<div>
+<form id='_fom' method='post' action='tomato.cgi'>
 <input type='hidden' name='_nextpage' value='admin-iptraffic.asp'>
 <input type='hidden' name='_service' value='cstats-restart'>
 <input type='hidden' name='cstats_enable'>
@@ -270,44 +269,40 @@ REMOVE-END */
 		[9,'每9小时'],[12,'每12小时'],[24,'每天'],[48,'每两天'],[72,'每三天'],[96,'每四天'],
 		[120,'每五天'],[144,'每六天'],[168,'每周']] },
 	{ title: '关机时保存', indent: 2, name: 'f_sshut', type: 'checkbox', value: nvram.cstats_sshut == '1' },
-	{ title: '创建新文件<br /><small>(清除数据)<\/small>', indent: 2, name: 'f_new', type: 'checkbox', value: 0,
-		suffix: ' &nbsp; <b id="newmsg" style="visibility:hidden"><small>(注意：如果这是一个新文件，则启用)<\/small><\/b>' },
+	{ title: '创建新文件<br><small>(清除数据)</small>', indent: 2, name: 'f_new', type: 'checkbox', value: 0,
+		suffix: ' &nbsp; <b id="newmsg" style="visibility:hidden"><small>(注意：如果这是一个新文件，则启用)</small></b>' },
 	{ title: '创建备份', indent: 2, name: 'f_bak', type: 'checkbox', value: nvram.cstats_bak == '1' },
 	{ title: '每月第一天为', name: 'cstats_offset', type: 'text', value: nvram.cstats_offset, maxlen: 2, size: 4 },
-	{ title: '排除的 IP', name: 'cstats_exclude', type: 'text', value: nvram.cstats_exclude, maxlen: 512, size: 50, suffix: '&nbsp;<small>(多个用逗号分隔)<\/small>' },
-	{ title: '包含的 IP', name: 'cstats_include', type: 'text', value: nvram.cstats_include, maxlen: 2048, size: 50, suffix: '&nbsp;<small>(多个用逗号分隔)<\/small>' },
-	{ title: '启用自动发现', name: 'f_all', type: 'checkbox', value: nvram.cstats_all == '1', suffix: '&nbsp;<small>(自动发现新加入的 IP 如果有流量立即开始监控)<\/small>' },
+	{ title: '排除的 IP', name: 'cstats_exclude', type: 'text', value: nvram.cstats_exclude, maxlen: 512, size: 50, suffix: '&nbsp;<small>(多个用逗号分隔)</small>' },
+	{ title: '包含的 IP', name: 'cstats_include', type: 'text', value: nvram.cstats_include, maxlen: 2048, size: 50, suffix: '&nbsp;<small>(多个用逗号分隔)</small>' },
+	{ title: '启用自动发现', name: 'f_all', type: 'checkbox', value: nvram.cstats_all == '1', suffix: '&nbsp;<small>(自动发现新加入的 IP 如果有流量立即开始监控)</small>' },
 	{ title: '图形标签', name: 'cstats_labels', type: 'select', value: nvram.cstats_stime, options: [[0,'显示主机名和IP'],[1,'优先显示主机, 否则显示IP'],[2,'仅显示IP']], value: nvram.cstats_labels }
 ]);
 </script>
-</div>
 </form>
 </div>
 
-<br />
+<br>
 
 <div class='section-title'>备份</div>
 <div class='section' id='backup-section'>
-	<form action=''>
+	<form>
 	<script type='text/javascript'>
 	W("<input type='text' size='40' maxlength='64' id='backup-name' name='backup_name' onchange='backupNameChanged()' value='tomato_cstats_" + nvram.et0macaddr.replace(/:/g, '').toLowerCase() + "'>");
 	</script>
-
-	<div style='display:inline'>.gz &nbsp;
-		<input type='button' name='f_backup_button' id='backup-button' onclick='backupButton()' value='备份'>
-	</div>
+	.gz &nbsp;
+	<input type='button' name='f_backup_button' id='backup-button' onclick='backupButton()' value='备份'>
 	</form>
-	<a href='#' id='backup-link'>Link</a>
+	<a href='' id='backup-link'>Link</a>
 </div>
+<br>
 
 <div class='section-title'>恢复</div>
 <div class='section' id='restore-section'>
 	<form id='restore-form' method='post' action='ipt/restore.cgi?_http_id=<% nv(http_id); %>' encType='multipart/form-data'>
-		<div>
-			<input type='file' size='40' id='restore-name' name='restore_name'>
-			<input type='button' name='f_restore_button' id='restore-button' value='恢复' onclick='restoreButton()'>
-			<br />
-		</div>
+		<input type='file' size='40' id='restore-name' name='restore_name'>
+		<input type='button' name='f_restore_button' id='restore-button' value='恢复' onclick='restoreButton()'>
+		<br>
 	</form>
 </div>
 
@@ -315,13 +310,12 @@ REMOVE-END */
 
 </td></tr>
 <tr><td id='footer' colspan=2>
-	<form action=''>
-		<div>
-			<span id='footer-msg'></span>
-			<input type='button' value='保存设置' id='save-button' onclick='save()'>
-			<input type='button' value='取消设置' id='cancel-button' onclick='javascript:reloadPage();'>
-		</div>
+	<form>
+	<span id='footer-msg'></span>
+	<input type='button' value='保存设置' id='save-button' onclick='save()'>
+	<input type='button' value='取消设置' id='cancel-button' onclick='javascript:reloadPage();'>
 	</form>
+<div></div>
 </td></tr>
 </table>
 <script type='text/javascript'>verifyFields(null, 1);</script>

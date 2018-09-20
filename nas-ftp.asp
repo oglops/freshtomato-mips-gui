@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	FTP Server - !!TB
@@ -12,7 +12,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] NAS: FTP 服务器</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -32,6 +32,9 @@
 #aft-grid .co4 {
 	width: 45%;
 }
+</style>
+
+<style type='text/css'>
 textarea {
 	width: 98%;
 	height: 5em;
@@ -208,7 +211,7 @@ function save()
 	if (aftg.isEditing()) return;
 	if (!verifyFields(null, 0)) return;
 
-	var fom = E('t_fom');
+	var fom = E('_fom');
 
 	var data = aftg.getAllData();
 	var r = [];
@@ -224,19 +227,11 @@ function save()
 
 	form.submit(fom, 1);
 }
-
-function init()
-{
-    var elements = document.getElementsByClassName("new_window");
-    for (var i = 0; i < elements.length; i++) if (elements[i].nodeName.toLowerCase()==="a")
-        addEvent(elements[i], "click", function(e) { cancelDefaultAction(e); window.open(this,"_blank"); } );
-}
 </script>
 
 </head>
-
-<body onLoad="init()">
-<form id='t_fom' method='post' action='tomato.cgi'>
+<body>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -266,18 +261,18 @@ createFieldTable('', [
 		value: nvram.ftp_enable },
 	{ title: 'FTP 端口', indent: 2, name: 'ftp_port', type: 'text', maxlen: 5, size: 7, value: fixPort(nvram.ftp_port, 21) },
 	{ title: '允许访问的远程地址', indent: 2, name: 'f_ftp_sip', type: 'text', maxlen: 512, size: 64, value: nvram.ftp_sip,
-		suffix: '<br /><small>("空白" 不限制,可单一IP或范围;例: "1.1.1.1", "1.1.1.0/24", "1.1.1.1 - 2.2.2.2" or "me.example.com")<\/small>' },
+		suffix: '<br><small>("空白" 不限制,可单一IP或范围;例: "1.1.1.1", "1.1.1.0/24", "1.1.1.1 - 2.2.2.2" or "me.example.com")</small>' },
 	{ title: '匿名用户访问', name: 'ftp_anonymous', type: 'select',
 		options: [['0', '关闭'],['1', '读 / 写'],['2', '只读'],['3', '只写']],
 		value: nvram.ftp_anonymous },
 	{ title: '允许管理员访问*', name: 'f_ftp_super', type: 'checkbox',
-		suffix: ' <small>允许用户使用 admin 账户连接.<\/small>',
+		suffix: ' <small>允许用户使用 admin 账户连接.</small>',
 		value: nvram.ftp_super == 1 },
 	{ title: '记录 FTP 请求和响应日志', name: 'f_log_ftp', type: 'checkbox',
 		value: nvram.log_ftp == 1 }
 ]);
 </script>
-<small><br />*&nbsp;当 FTP 服务器可以从 WAN 访问时尽量不要选择此选项，因为该选项将允许从 WAN 访问路由器文件系统！</small>
+<small><br>*&nbsp;当 FTP 服务器可以从 WAN 访问时尽量不要选择此选项，因为该选项将允许从 WAN 访问路由器文件系统!</small>
 </div>
 
 <div class='section-title'>目录</div>
@@ -285,23 +280,23 @@ createFieldTable('', [
 <script type='text/javascript'>
 createFieldTable('', [
 	{ title: '匿名用户根目录*', name: 'ftp_anonroot', type: 'text', maxlen: 256, size: 32, 
-		suffix: ' <small>(所有用户都能访问)<\/small>',
+		suffix: ' <small>(所有用户都能访问)</small>',
 		value: nvram.ftp_anonroot },
 	{ title: '公共根目录*', name: 'ftp_pubroot', type: 'text', maxlen: 256, size: 32,
-		suffix: ' <small>(如果不是特殊用户，已验证身份的用户都可以访问)<\/small>',
+		suffix: ' <small>(如果不是特殊用户，已验证身份的用户都可以访问)</small>',
 		value: nvram.ftp_pubroot },
 	{ title: '私有根目录*', name: 'ftp_pvtroot', type: 'text', maxlen: 256, size: 32,
-		suffix: ' <small>(只允许所属用户访问)<\/small>',
+		suffix: ' <small>(只允许所属用户访问)</small>',
 		value: nvram.ftp_pvtroot },
 	{ title: '列出目录列表', name: 'ftp_dirlist', type: 'select',
 		options: [['0', '启用'],['1', '关闭'],['2', '对匿名用户关闭']],
-		suffix: ' <small>(总是对 Admin 启用)<\/small>',
+		suffix: ' <small>(总是对 Admin 启用)</small>',
 		value: nvram.ftp_dirlist }
 ]);
 </script>
 <small>
-<br />*&nbsp;&nbsp;如果没有指定用户目录，/mnt将会被作为根目录.
-<br />**&nbsp;如用户的访问权限为私有目录模式，该用户的私有目录为"私有根目录"下跟用户名同名的目录.
+<br>*&nbsp;&nbsp;如果没有指定用户目录，/mnt将会被作为根目录.
+<br>**&nbsp;如用户的访问权限为私有目录模式，该用户的私有目录为"私有根目录"下跟用户名同名的目录.
 </small>
 </div>
 
@@ -310,25 +305,25 @@ createFieldTable('', [
 <script type='text/javascript'>
 createFieldTable('', [
 	{ title: '最大登录用户数', name: 'ftp_max', type: 'text', maxlen: 5, size: 7,
-		suffix: ' <small>(0 - 无限制)<\/small>',
+		suffix: ' <small>(0 - 无限制)</small>',
 		value: nvram.ftp_max },
 	{ title: '来自同一 IP 的最大连接数', name: 'ftp_ipmax', type: 'text', maxlen: 5, size: 7,
-		suffix: ' <small>(0 - 无限制)<\/small>',
+		suffix: ' <small>(0 - 无限制)</small>',
 		value: nvram.ftp_ipmax },
 	{ title: '匿名用户带宽限制', name: 'ftp_anonrate', type: 'text', maxlen: 5, size: 7,
-		suffix: ' <small>KBytes/sec (0 - 无限制)<\/small>',
+		suffix: ' <small>KBytes/sec (0 - 无限制)</small>',
 		value: nvram.ftp_anonrate },
 	{ title: '认证用户带宽限制', name: 'ftp_rate', type: 'text', maxlen: 5, size: 7,
-		suffix: ' <small>KBytes/sec (0 - 无限制)<\/small>',
+		suffix: ' <small>KBytes/sec (0 - 无限制)</small>',
 		value: nvram.ftp_rate },
 	{ title: '连接空闲超时设置', name: 'ftp_staytimeout', type: 'text', maxlen: 5, size: 7,
-		suffix: ' <small>seconds (0 - 永不超时)<\/small>',
+		suffix: ' <small>seconds (0 - 永不超时)</small>',
 		value: nvram.ftp_staytimeout },
 	{ title: '最大尝试连接次数', name: 'f_limit', type: 'checkbox',
 		value: ftplimit[0] != 0 },
 	{ title: '', indent: 2, multi: [
-		{ name: 'f_limit_hit', type: 'text', maxlen: 4, size: 6, suffix: '&nbsp; <small>次<\/small> &nbsp;', value: ftplimit[1] },
-		{ name: 'f_limit_sec', type: 'text', maxlen: 4, size: 6, suffix: '&nbsp; <small>秒<\/small>', value: ftplimit[2] }
+		{ name: 'f_limit_hit', type: 'text', maxlen: 4, size: 6, suffix: '&nbsp; <small>次</small> &nbsp;', value: ftplimit[1] },
+		{ name: 'f_limit_sec', type: 'text', maxlen: 4, size: 6, suffix: '&nbsp; <small>秒</small>', value: ftplimit[2] }
 	] }
 ]);
 </script>
@@ -338,14 +333,14 @@ createFieldTable('', [
 <div class='section'>
 <script type='text/javascript'>
 createFieldTable('', [
-	{ title: '<a href="http://vsftpd.beasts.org/vsftpd_conf.html" class="new_window">Vsftpd<\/a><br />自定义配置', name: 'ftp_custom', type: 'textarea', value: nvram.ftp_custom }
+	{ title: '<a href="http://vsftpd.beasts.org/vsftpd_conf.html" target="_new">Vsftpd</a><br>自定义配置', name: 'ftp_custom', type: 'textarea', value: nvram.ftp_custom }
 ]);
 </script>
 </div>
 
 <div class='section-title'>用户帐户</div>
 <div class='section'>
-	<div class="tomato-grid" id="aft-grid"></div>
+	<table class='tomato-grid' cellspacing=1 id='aft-grid'></table>
 	<script type='text/javascript'>aftg.setup();</script>
 <small>
 *&nbsp;&nbsp;如果没有为用户设置根目录, 则使用公共根目录.

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2008 Jonathan Zarate
@@ -59,7 +59,7 @@ function updateStatus(num)
 	}
 	xob.onError = function(ex)
 	{
-		statusUpdaters[num].errors.innerHTML += '错误! '+ex+'<br />';
+		statusUpdaters[num].errors.innerHTML += '错误! '+ex+'<br>';
 		xob = null;
 	}
 
@@ -125,7 +125,7 @@ function verifyFields(focused, quiet)
 	{
 		changed = 1;
 
-		var fom = E('t_fom');
+		var fom = E('_fom');
 		var serverindex = focused.name.indexOf("server");
 		if (serverindex >= 0)
 		{
@@ -239,7 +239,7 @@ CCDGrid.prototype.verifyFields = function(row, quiet)
 	var ret = 1;
 
 	// When settings change, make sure we restart the right server
-	var fom = E('t_fom');
+	var fom = E('_fom');
 	var servernum = 1;
 	for (i = 0; i < tabs.length; ++i)
 	{
@@ -317,7 +317,7 @@ CCDGrid.prototype.reDraw = function()
 UsersGrid.prototype.verifyFields = function(row, quiet)
 {
 	var ret = 1;
-	var fom = E('t_fom');
+	var fom = E('_fom');
 	var servernum = 1;
 	for (i = 0; i < tabs.length; ++i)
 	{
@@ -366,7 +366,7 @@ function save()
 {
 	if (!verifyFields(null, false)) return;
 
-	var fom = E('t_fom');
+	var fom = E('_fom');
 
 	E('vpn_server_eas').value = '';
 	E('vpn_server_dns').value = '';
@@ -490,7 +490,7 @@ table.status-table
 
 </head>
 <body>
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -530,9 +530,9 @@ for (i = 0; i < tabs.length; ++i)
 	W('<ul class="tabs">');
 	for (j = 0; j < sections.length; j++)
 	{
-		W('<li><a href="javascript:sectSelect('+i+', \''+sections[j][0]+'\')" id="'+t+'-'+sections[j][0]+'-tab">'+sections[j][1]+'<\/a><\/li>');
+		W('<li><a href="javascript:sectSelect('+i+', \''+sections[j][0]+'\')" id="'+t+'-'+sections[j][0]+'-tab">'+sections[j][1]+'</a></li>');
 	}
-	W('<\/ul><div class=\'tabs-bottom\'><\/div>');
+	W('</ul><div class=\'tabs-bottom\'></div>');
 
 	W('<div id=\''+t+'-basic\'>');
 	createFieldTable('', [
@@ -565,7 +565,7 @@ for (i = 0; i < tabs.length; ++i)
 	W('<\/div>');
 	W('<div id=\''+t+'-advanced\'>');
 	createFieldTable('', [
-		{ title: '轮询间隔', name: 'vpn_'+t+'_poll', type: 'text', maxlen: 4, size: 5, value: eval( 'nvram.vpn_'+t+'_poll' ), suffix: '&nbsp;<small>(in minutes, 0 to disable)<\/small>' }, 
+		{ title: '轮询间隔', name: 'vpn_'+t+'_poll', type: 'text', maxlen: 4, size: 5, value: eval( 'nvram.vpn_'+t+'_poll' ), suffix: '&nbsp;<small>(in minutes, 0 to disable)</small>' }, 
 		{ title: '推送 LAN 到客户端', name: 'f_vpn_'+t+'_plan', type: 'checkbox', value: eval( 'nvram.vpn_'+t+'_plan' ) != 0 },
 		{ title: '重定向客户端<br>Internet 流量', name: 'f_vpn_'+t+'_rgw', type: 'checkbox', value: eval( 'nvram.vpn_'+t+'_rgw' ) != 0 },
 		{ title: '响应 DNS', name: 'f_vpn_'+t+'_dns', type: 'checkbox', value: nvram.vpn_server_dns.indexOf(''+(i+1)) >= 0 },
@@ -575,19 +575,19 @@ for (i = 0; i < tabs.length; ++i)
 		{ title: 'Legacy/fallback cipher', name: 'vpn_'+t+'_cipher', type: 'select', options: ciphers, value: eval( 'nvram.vpn_'+t+'_cipher' ) },
 		{ title: '压缩', name: 'vpn_'+t+'_comp', type: 'select', options: [ ['-1', '关闭'], ['no', 'None'], ['yes', 'LZO'], ['adaptive', 'LZO Adaptive'], ['lz4', 'LZ4']], value: eval( 'nvram.vpn_'+t+'_comp' ) },
 		{ title: 'TLS 重新协商时间', name: 'vpn_'+t+'_reneg', type: 'text', maxlen: 10, size: 7, value: eval( 'nvram.vpn_'+t+'_reneg' ),
-			suffix: '&nbsp;<small>(in seconds, -1 for default)<\/small>' },
+			suffix: '&nbsp;<small>(in seconds, -1 for default)</small>' },
 		{ title: '管理客户端选项', name: 'f_vpn_'+t+'_ccd', type: 'checkbox', value: eval( 'nvram.vpn_'+t+'_ccd' ) != 0 },
 		{ title: '允许 客户端<->客户端', name: 'f_vpn_'+t+'_c2c', type: 'checkbox', value: eval( 'nvram.vpn_'+t+'_c2c' ) != 0 },
 		{ title: '仅允许这些客户端', name: 'f_vpn_'+t+'_ccd_excl', type: 'checkbox', value: eval( 'nvram.vpn_'+t+'_ccd_excl' ) != 0 },
-		{ title: '', suffix: '<div class="tomato-grid" id="table_'+t+'_ccd"><\/div>' },
+		{ title: '', suffix: '<table class=\'tomato-grid\' id=\'table_'+t+'_ccd\'></table>' },
 		{ title: '允许用户名/密码验证', name: 'f_vpn_'+t+'_userpass', type: 'checkbox', value: eval( 'nvram.vpn_'+t+'_userpass' ) != 0 },
 		{ title: '仅允许下列用户名/密码(无证书)验证', name: 'f_vpn_'+t+'_nocert', type: 'checkbox', value: eval( 'nvram.vpn_'+t+'_nocert' ) != 0 },
-		{ title: '', suffix: '<div class="tomato-grid" id="table_'+t+'_users"><\/div>' },
+		{ title: '', suffix: '<table class=\'tomato-grid\' id=\'table_'+t+'_users\'></table>' },
 		{ title: '自定义配置', name: 'vpn_'+t+'_custom', type: 'textarea', value: eval( 'nvram.vpn_'+t+'_custom' ) }
 	]);
-	W('<\/div>');
+	W('</div>');
 	W('<div id=\''+t+'-keys\'>');
-	W('<p class=\'keyhelp\'>关于生成密钥的帮助,请参考 OpenVPN 的 <a id=\''+t+'-keyhelp\'>教程<\/a>.<\/p>');
+	W('<p class=\'keyhelp\'>关于生成密钥的帮助,请参考 OpenVPN 的 <a id=\''+t+'-keyhelp\'>教程</a>.</p>');
 	createFieldTable('', [
 		{ title: '静态密钥', name: 'vpn_'+t+'_static', type: 'textarea', value: eval( 'nvram.vpn_'+t+'_static' ) },
 		{ title: '证书颁发机构', name: 'vpn_'+t+'_ca', type: 'textarea', value: eval( 'nvram.vpn_'+t+'_ca' ) },
@@ -595,20 +595,20 @@ for (i = 0; i < tabs.length; ++i)
 		{ title: '服务器密钥', name: 'vpn_'+t+'_key', type: 'textarea', value: eval( 'nvram.vpn_'+t+'_key' ) },
 		{ title: '迪菲-赫尔曼参数', name: 'vpn_'+t+'_dh', type: 'textarea', value: eval( 'nvram.vpn_'+t+'_dh' ) }
 	]);
-	W('<\/div>');
+	W('</div>');
 	W('<div id=\''+t+'-status\'>');
-		W('<div id=\''+t+'-no-status\'><p>服务器没有运行或无法获取状态.<\/p><\/div>');
+		W('<div id=\''+t+'-no-status\'><p>服务器没有运行或无法获取状态.</p></div>');
 		W('<div id=\''+t+'-status-content\' style=\'display:none\' class=\'status-content\'>');
-			W('<div id=\''+t+'-status-header\' class=\'status-header\'><p>当前的数据 <span id=\''+t+'-status-time\'><\/span>.<\/p><\/div>');
-			W('<div id=\''+t+'-status-clients\'><div class=\'section-title\'>客户端列表<\/div><div class="tomato-grid status-table" id="'+t+'-status-clients-table"><\/div><br /><\/div>');
-			W('<div id=\''+t+'-status-routing\'><div class=\'section-title\'>当前路由表<\/div><div class="tomato-grid status-table" id="'+t+'-status-routing-table"><\/div><br /><\/div>');
-			W('<div id=\''+t+'-status-stats\'><div class=\'section-title\'>综合统计<\/div><div class="tomato-grid status-table" id="'+t+'-status-stats-table"><\/div><br /><\/div>');
-			W('<div id=\''+t+'-status-errors\' class=\'error\'><\/div>');
-		W('<\/div>');
-		W('<div style=\'text-align:right\'><a href=\'javascript:updateStatus('+i+')\'>刷新状态<\/a><\/div>');
-	W('<\/div>');
+			W('<div id=\''+t+'-status-header\' class=\'status-header\'><p>当前的数据 <span id=\''+t+'-status-time\'></span>.</p></div>');
+			W('<div id=\''+t+'-status-clients\'><div class=\'section-title\'>客户端列表</div><table class=\'tomato-grid status-table\' id=\''+t+'-status-clients-table\'></table><br></div>');
+			W('<div id=\''+t+'-status-routing\'><div class=\'section-title\'>当前路由表</div><table class=\'tomato-grid status-table\' id=\''+t+'-status-routing-table\'></table><br></div>');
+			W('<div id=\''+t+'-status-stats\'><div class=\'section-title\'>综合统计</div><table class=\'tomato-grid status-table\' id=\''+t+'-status-stats-table\'></table><br></div>');
+			W('<div id=\''+t+'-status-errors\' class=\'error\'></div>');
+		W('</div>');
+		W('<div style=\'text-align:right\'><a href=\'javascript:updateStatus('+i+')\'>刷新状态</a></div>');
+	W('</div>');
 	W('<input type="button" value="' + (eval('vpn'+(i+1)+'up') ? '停止' : '启动') + ' " onclick="toggle(\'vpn'+t+'\', vpn'+(i+1)+'up)" id="_vpn'+t+'_button">');
-	W('<\/div>');
+	W('</div>');
 }
 
 </script>
@@ -625,3 +625,4 @@ for (i = 0; i < tabs.length; ++i)
 <script type='text/javascript'>init();</script>
 </body>
 </html>
+

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2008 Jonathan Zarate
@@ -18,7 +18,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] Web 服务器</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -79,7 +79,7 @@ function verifyFields(focused, quiet)
 function save()
 {
 	if (verifyFields(null, 0)==0) return;
-	var fom = E('t_fom');
+	var fom = E('_fom');
 
 	fom.nginx_enable.value = E('_f_nginx_enable').checked ? 1 : 0;
 	if (fom.nginx_enable.value) {
@@ -97,9 +97,6 @@ function save()
 function init()
 {
 	verifyFields(null, 1);
-    var elements = document.getElementsByClassName("new_window");
-    for (var i = 0; i < elements.length; i++) if (elements[i].nodeName.toLowerCase()==="a")
-        addEvent(elements[i], "click", function(e) { cancelDefaultAction(e); window.open(this,"_blank"); } );
 }
 </script>
 </head>
@@ -120,13 +117,12 @@ function init()
 	W('NGINX 服务器现在 '+(!nginxup ? '已停止' : '运行中')+' ');
 	W('<input type="button" value="' + (nginxup ? '停止' : '现在启动') + ' " onclick="toggle(\'nginxfp\', nginxup)" id="_nginxfp_button">');
 </script>
-<br />
+<br>
 </div>
 
 <div class='section-title'>基本设置</div>
 <div class='section' id='config-section'>
-<form id='t_fom' method='post' action='tomato.cgi'>
-<div>
+<form id='_fom' method='post' action='tomato.cgi'>
 <input type='hidden' name='_nextpage' value='web-nginx.asp'>
 <input type='hidden' name='_service' value='enginex-restart'>
 <input type='hidden' name='_nextwait' value='10'>
@@ -145,12 +141,12 @@ createFieldTable('', [
 	{ title: '以用户身份运行', name: 'nginx_user', type: 'select',
 		options: [['root','Root'],['nobody','Nobody']], value: nvram.nginx_user },
 	{ title: '保存配置文件', name: 'f_nginx_keepconf', type: 'checkbox', value: nvram.nginx_keepconf == '1' },
-	{ title: 'Web 服务器端口', name: 'nginx_port', type: 'text', maxlen: 5, size: 7, value: fixPort(nvram.nginx_port, 85), suffix: '<small> 默认: 85<\/small>' },
-	{ title: '上传文件大小限制', name: 'nginx_upload', type: 'text', maxlen: 5, size: 7, value: nvram.nginx_upload, suffix: '<small> MB<\/small>'},
+	{ title: 'Web 服务器端口', name: 'nginx_port', type: 'text', maxlen: 5, size: 7, value: fixPort(nvram.nginx_port, 85), suffix: '<small> 默认: 85</small>' },
+	{ title: '上传文件大小限制', name: 'nginx_upload', type: 'text', maxlen: 5, size: 7, value: nvram.nginx_upload, suffix: '<small> MB</small>'},
 	{ title: '允许远程访问', name: 'f_nginx_remote', type: 'checkbox', value: nvram.nginx_remote == '1' },
 	{ title: 'Web 服务器名', name: 'nginx_fqdn', type: 'text', maxlen: 255, size: 20, value: nvram.nginx_fqdn },
-	{ title: '服务器根目录', name: 'nginx_docroot', type: 'text', maxlen: 255, size: 40, value: nvram.nginx_docroot, suffix: '<small>&nbsp;/index.html / index.htm / index.php<\/small>' },
-	{ title: '服务器优先级', name: 'nginx_priority', type: 'text', maxlen: 8, size:3, value: nvram.nginx_priority, suffix:'<small> 最大优先级: -20, 最小优先级: 19, 默认: 10<\/small>' }
+	{ title: '服务器根目录', name: 'nginx_docroot', type: 'text', maxlen: 255, size: 40, value: nvram.nginx_docroot, suffix: '<small>&nbsp;/index.html / index.htm / index.php</small>' },
+	{ title: '服务器优先级', name: 'nginx_priority', type: 'text', maxlen: 8, size:3, value: nvram.nginx_priority, suffix:'<small> 最大优先级: -20, 最小优先级: 19, 默认: 10</small>' }
 ]);
 </script>
 </div>
@@ -158,40 +154,39 @@ createFieldTable('', [
 <div class='section'>
 <script type='text/javascript'>
 createFieldTable('', [
-	{ title: '<a href="http://wiki.nginx.org/Configuration" class="new_window">NGINX<\/a><br />HTTP Section<br />自定义配置', name: 'nginx_httpcustom', type: 'textarea', value: nvram.nginx_httpcustom },
-	{ title: '<a href="http://wiki.nginx.org/Configuration" class="new_window">NGINX<\/a><br />SERVER Section<br />自定义配置', name: 'nginx_servercustom', type: 'textarea', value: nvram.nginx_servercustom },
-	{ title: '<a href="http://wiki.nginx.org/Configuration" class="new_window">NGINX<\/a><br />自定义配置', name: 'nginx_custom', type: 'textarea', value: nvram.nginx_custom },
-	{ title: '<a href="http://php.net/manual/en/ini.php" class="new_window">PHP<\/a><br />自定义配置', name: 'nginx_phpconf', type: 'textarea', value: nvram.nginx_phpconf },
+	{ title: '<a href="http://wiki.nginx.org/Configuration" target="_new">NGINX</a><br>HTTP Section<br>自定义配置', name: 'nginx_httpcustom', type: 'textarea', value: nvram.nginx_httpcustom },
+	{ title: '<a href="http://wiki.nginx.org/Configuration" target="_new">NGINX</a><br>SERVER Section<br>自定义配置', name: 'nginx_servercustom', type: 'textarea', value: nvram.nginx_servercustom },
+	{ title: '<a href="http://wiki.nginx.org/Configuration" target="_new">NGINX</a><br>自定义配置', name: 'nginx_custom', type: 'textarea', value: nvram.nginx_custom },
+	{ title: '<a href="http://php.net/manual/en/ini.php" target="_new">PHP</a><br>自定义配置', name: 'nginx_phpconf', type: 'textarea', value: nvram.nginx_phpconf },
 	null,
-	{ title: '使用用户配置文件', name: 'f_nginx_override', type: 'checkbox', value: nvram.nginx_override == '1', suffix: '<small> 如果使用户配置文件, 一些本页面上的GUI设置将被忽略<\/small>' },
+	{ title: '使用用户配置文件', name: 'f_nginx_override', type: 'checkbox', value: nvram.nginx_override == '1', suffix: '<small> 如果使用户配置文件, 一些本页面上的GUI设置将被忽略</small>' },
 	{ title: '用户配置文件路径', name: 'nginx_overridefile', type: 'text', maxlen: 255, size: 40, value: nvram.nginx_overridefile }
 ]);
 </script>
 </div>
 <div class='section-title'>说明</div>
 <div class='section'>
-	<ul>
-		<li><b> 状态按钮:</b> 快速启动/停止服务. 勾选"启用 Web 服务器"之后才能更改此设置.</li>
-		<li><b> 开机时启动服务:</b> 勾选后路由器启动时将自动启动 Web 服务器.</li>
-		<li><b> 启用 PHP 支持:</b> 勾选后启用 PHP support (php-cgi) 支持.</li>
-		<li><b> 以用户身份运行:</b> 选择启动 nginx 和 php-cgi 服务的用户.</li>
-		<li><b> 保存配置文件:</b> 如果你手动修改了配置文件? 勾选此选项可以确保配置被保存.</li> 
-		<li><b> Web 服务器端口:</b> 访问Web 服务器的端口. 请确保此端口没有被其他服务占用.</li>
-		<li><b> 允许远程访问:</b> 这个选项将允许从广域网端口访问Web服务器的GUI, 服务将可以从互联网被访问.</li>
-		<li><b> Web 服务器名:</b> 该名字将出现在你的浏览器上.</li>
-		<li><b> 服务器根目录:</b> 在你路由器上文档的存储路径.</li>
-		<li><b> 例如:</b><br />
-			/tmp/mnt/HDD/www 你可以参考 USB 挂载路径.</li>
-		<li><b> NGINX 自定义配置:</b> 你可以在 nginx.conf 里添加其他的设置来满足你的需求.</li>
-		<li><b> NGINX HTTP Section 自定义配置:</b> 你可以在 nginx.conf 里的 http {} 部分添加其他的设置来满足你的需求.</li>
-		<li><b> NGINX SERVER Section 自定义配置:</b> 你可以在 nginx.conf 里的 server {} 部分添加其他的设置来满足你的需求.</li>
-		<li><b> PHP 自定义配置:</b> 你可以在 php.ini 里添加其他的设置来满足你的需求.</li>
-		<li><b> 服务器优先级:</b> 设置服务的优先级，相对于运行在路由器上的其他进程.<br /><br />
-			操作系统内核的优先级是 -5.<br />
-			永远不要选择低于内核使用的值。不要使用服务测试页面来调整服务性能<br />
-			它的性能取决于媒体所处的位置, 如; 优盘, 硬盘 或 SSD <br />
-		</li>
-	</ul>
+<ul>
+<li><b> 状态按钮:</b> 快速启动/停止服务. 勾选"启用 Web 服务器"之后才能更改此设置.<br>
+<li><b> 开机时启动服务:</b> 勾选后路由器启动时将自动启动 Web 服务器.<br>
+<li><b> 启用 PHP 支持:</b> 勾选后启用 PHP support (php-cgi) 支持.<br>
+<li><b> 以用户身份运行:</b> 选择启动 nginx 和 php-cgi 服务的用户.<br>
+<li><b> 保存配置文件:</b> 如果你手动修改了配置文件? 勾选此选项可以确保配置被保存.<br> 
+<li><b> Web 服务器端口:</b> 访问Web 服务器的端口. 请确保此端口没有被其他服务占用.<br>
+<li><b> 允许远程访问:</b> 这个选项将允许从广域网端口访问Web服务器的GUI, 服务将可以从互联网被访问. <br>
+<li><b> Web 服务器名:</b> 该名字将出现在你的浏览器上.<br>0
+<li><b> 服务器根目录:</b> 在你路由器上文档的存储路径.<br>
+<li><b> 例如:<br></b>
+/tmp/mnt/HDD/www 你可以参考 USB 挂载路径.<br>
+<li><b> NGINX 自定义配置:</b> 你可以在 nginx.conf 里添加其他的设置来满足你的需求.<br>
+<li><b> NGINX HTTP Section 自定义配置:</b> 你可以在 nginx.conf 里的 http {} 部分添加其他的设置来满足你的需求.<br>
+<li><b> NGINX SERVER Section 自定义配置:</b> 你可以在 nginx.conf 里的 server {} 部分添加其他的设置来满足你的需求.<br>
+<li><b> PHP 自定义配置:</b> 你可以在 php.ini 里添加其他的设置来满足你的需求.<br>
+<li><b> 服务器优先级:</b> 设置服务的优先级，相对于运行在路由器上的其他进程.<br><br>
+操作系统内核的优先级是 -5.<br>
+永远不要选择低于内核使用的值。不要使用服务测试页面来调整服务性能<br>
+它的性能取决于媒体所处的位置, 如; 优盘, 硬盘 或 SSD <br>
+</ul>
 </div>
 </form>
 </div>
@@ -200,13 +195,11 @@ createFieldTable('', [
 
 </td></tr>
 <tr><td id='footer' colspan=2>
-	<form action=''>
-		<div>
-			<span id='footer-msg'></span>
-			<input type='button' value='保存设置' id='save-button' onclick='save()'>
-			<input type='button' value='取消设置' id='cancel-button' onclick='javascript:reloadPage();'>
-		</div>
-	</form>
+<form>
+	<span id='footer-msg'></span>
+	<input type='button' value='保存设置' id='save-button' onclick='save()'>
+	<input type='button' value='取消设置' id='cancel-button' onclick='javascript:reloadPage();'>
+</form>
 </td></tr>
 </table>
 <script type='text/javascript'>verifyFields(null, 1);</script>

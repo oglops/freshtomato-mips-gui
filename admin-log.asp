@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -13,7 +13,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] 系统管理: 日志管理</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -106,7 +106,7 @@ function save()
 
 	if (!verifyFields(null, false)) return;
 
-	fom = E('t_fom');
+	fom = E('_fom');
 	fom.log_remote.value = E('_f_log_remote').checked ? 1 : 0;
 	fom.log_file.value = E('_f_log_file').checked ? 1 : 0;
 	fom.log_file_custom.value = E('_f_log_file_custom').checked ? 1 : 0;
@@ -130,7 +130,7 @@ function save()
 
 </head>
 <body>
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -173,18 +173,18 @@ REMOVE-END */
 
 createFieldTable('', [
 	{ title: '记录到本地系统', name: 'f_log_file', type: 'checkbox', value: nvram.log_file == 1 },
-	{ title: '日志大小限制', name: 'log_file_size', type: 'text', maxlen: 5, size: 6, value: nvram.log_file_size || 50, suffix: ' <small>KB<\/small>' },
+	{ title: '日志大小限制', name: 'log_file_size', type: 'text', maxlen: 5, size: 6, value: nvram.log_file_size || 50, suffix: ' <small>KB</small>' },
 	{ title: '日志条数限制', name: 'log_file_keep', type: 'text', maxlen: 2, size: 3, value: nvram.log_file_keep || 1 },
 	{ title: '自定义保存路径', multi: [
 		{ name: 'f_log_file_custom', type: 'checkbox', value: nvram.log_file_custom == 1, suffix: '  ' },
-		{ name: 'log_file_path', type: 'text', maxlen: 50, size: 30, value: nvram.log_file_path, suffix: ' <small>(确保该目录存在并可写)<\/small>' }
+		{ name: 'log_file_path', type: 'text', maxlen: 50, size: 30, value: nvram.log_file_path, suffix: ' <small>(确保该目录存在并可写)</small>' }
 		] },
 	{ title: '记录到远端系统', name: 'f_log_remote', type: 'checkbox', value: nvram.log_remote == 1 },
 	{ title: '主机或者 IP地址 / 端口', indent: 2, multi: [
 		{ name: 'log_remoteip', type: 'text', maxlen: 32, size: 35, value: nvram.log_remoteip, suffix: ':' },
 		{ name: 'log_remoteport', type: 'text', maxlen: 5, size: 7, value: nvram.log_remoteport } ]},
 	{ title: '生成间隔', name: 'log_mark', type: 'select', options: [[0,'关闭'],[30,'每隔30分钟'],[60,'每隔1小时'],[120,'每隔2小时'],[360,'每隔6小时'],[720,'每隔12小时'],[1440,'每隔1天'],[10080,'每隔7天']], value: nvram.log_mark },
-	{ title: '事件记录', text: '<small>(某些改动在重启后生效)<\/small>' },
+	{ title: '事件记录', text: '<small>(某些改动在重启后生效)</small>' },
 		{ title: '记录访问限制事件', indent: 2, name: 'f_log_acre', type: 'checkbox', value: (nvram.log_events.indexOf('acre') != -1) },
 		{ title: '记录 Cron 事件', indent: 2, name: 'f_log_crond', type: 'checkbox', value: (nvram.log_events.indexOf('crond') != -1) },
 		{ title: '记录 DHCP 客户端事件', indent: 2, name: 'f_log_dhcpc', type: 'checkbox', value: (nvram.log_events.indexOf('dhcpc') != -1) },
@@ -193,7 +193,7 @@ createFieldTable('', [
 	{ title: '连接日志' },
 		{ title: '记录下行连接', indent: 2, name: 'log_in', type: 'select', options: [[0,'从不记录 (推荐)'],[1,'被防火墙阻止的'],[2,'被防火墙允许的'],[3,'两者都记录']], value: nvram.log_in },
 		{ title: '记录上行连接', indent: 2, name: 'log_out', type: 'select', options: [[0,'从不记录 (推荐)'],[1,'被防火墙阻止的'],[2,'被防火墙允许的'],[3,'两者都记录']], value: nvram.log_out },
-		{ title: '日志记录限制', indent: 2, name: 'log_limit', type: 'text', maxlen: 4, size: 5, value: nvram.log_limit, suffix: ' <small>(每分钟消息数 / 0 表示不限制)<\/small>' }
+		{ title: '日志记录限制', indent: 2, name: 'log_limit', type: 'text', maxlen: 4, size: 5, value: nvram.log_limit, suffix: ' <small>(每分钟消息数 / 0 表示不限制)</small>' }
 ]);
 </script>
 </div>
@@ -205,13 +205,13 @@ createFieldTable('', [
 	{ title: '启用网站访问历史', name: 'f_log_wm', type: 'checkbox', value: nvram.log_wm == 1 },
 	{ title: '监测范围(局域网电脑)', name: 'log_wmtype', type: 'select', options: [[0,'所有计算机 / 设备'],[1,'以下设备...'],[2,'所有设备 但排除...']], value: nvram.log_wmtype },
 		{ title: 'IP 地址(es)', indent: 2,  name: 'f_log_wmip', type: 'text', maxlen: 512, size: 64, value: nvram.log_wmip,
-		  suffix: '<br /><small>(例如: "1.1.1.1", "1.1.1.0/24" 或者 "1.1.1.1 - 2.2.2.2")<\/small>' },
+		  suffix: '<br><small>(例如: "1.1.1.1", "1.1.1.0/24" 或者 "1.1.1.1 - 2.2.2.2")</small>' },
 	{ title: '保留记录数量' },
-		{ title: '域名', indent: 2,  name: 'log_wmdmax', type: 'text', maxlen: 4, size: 6, value: nvram.log_wmdmax, suffix: ' <small>(0 表示禁用)<\/small>' },
-		{ title: '搜索关键字', indent: 2, name: 'log_wmsmax', type: 'text', maxlen: 4, size: 6, value: nvram.log_wmsmax, suffix: ' <small>(0 表示禁用)<\/small>' },
-	{ title: '每日备份', name: 'f_webmon_bkp', type: 'checkbox', value: nvram.webmon_bkp == 1, suffix: ' <small>(每天午夜)<\/small>' },
+		{ title: '域名', indent: 2,  name: 'log_wmdmax', type: 'text', maxlen: 4, size: 6, value: nvram.log_wmdmax, suffix: ' <small>(0 表示禁用)</small>' },
+		{ title: '搜索关键字', indent: 2, name: 'log_wmsmax', type: 'text', maxlen: 4, size: 6, value: nvram.log_wmsmax, suffix: ' <small>(0 表示禁用)</small>' },
+	{ title: '每日备份', name: 'f_webmon_bkp', type: 'checkbox', value: nvram.webmon_bkp == 1, suffix: ' <small>(每天午夜)</small>' },
 		{ title: '备份后清除数据', indent: 2, name: 'f_webmon_shrink', type: 'checkbox', value: nvram.webmon_shrink == 1 },
-		{ title: '备份保存目录', indent: 2,  name: 'webmon_dir', type: 'text', maxlen: 128, size: 30, value: nvram.webmon_dir, suffix: ' <small>(确保该目录存在并可写)<\/small>' }
+		{ title: '备份保存目录', indent: 2,  name: 'webmon_dir', type: 'text', maxlen: 128, size: 30, value: nvram.webmon_dir, suffix: ' <small>(确保该目录存在并可写)</small>' }
 ]);
 </script>
 </div>
@@ -229,3 +229,4 @@ createFieldTable('', [
 <script type='text/javascript'>verifyFields(null, 1);</script>
 </body>
 </html>
+

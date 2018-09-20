@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -13,7 +13,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] 端口转发：端口触发</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -127,7 +127,7 @@ function save()
 		data[i][3] = data[i][3].replace(/-/g, ':');
 		s += data[i].join('<') + '>';
 	}
-	var fom = E('t_fom');
+	var fom = E('_fom');
 	fom.trigforward.value = s;
 	form.submit(fom, 1);
 }
@@ -140,7 +140,7 @@ function init()
 </script>
 </head>
 <body onload='init()'>
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -159,18 +159,17 @@ function init()
 
 <div class='section-title'>触发式端口转发</div>
 <div class='section'>
-	<div class="tomato-grid" id="tg-grid"></div>
+	<table class='tomato-grid' cellspacing=1 id='tg-grid'></table>
 	<script type='text/javascript'>tg.setup();</script>
 </div>
 
-<div class='section-title'>Notes</div>
-<div class='section'>
-    <ul>
-		<li>使用 "-" 指定端口范围 (200-300).</li>
-		<li>触发端口是第一个 LAN 到 WAN 的"触发器".</li>
-		<li>被转发的端口是 WAN 到 LAN 的端口，它们是否开启取决于"触发器"的激活状态.</li>
-		<li>这些端口将会在停止使用的几分钟后自动关闭.</li>
-    </ul>
+<div>
+<ul>
+<li>使用 "-" 指定端口范围 (200-300).
+<li>触发端口是第一个 LAN 到 WAN 的"触发器".
+<li>被转发的端口是 WAN 到 LAN 的端口，它们是否开启取决于"触发器"的激活状态.
+<li>这些端口将会在停止使用的几分钟后自动关闭.
+</ul>
 </div>
 
 <!-- / / / -->

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2007-2011 Shibby
@@ -12,7 +12,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] 系统管理: NFS 服务</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -107,12 +107,6 @@ nfsg.setup = function()
 	this.resetNewEditor();
 }
 
-function verifyFields(focused, quiet)
-{
-	var ok = 1;
-	return ok;
-}
-
 function save()
 {
 	var data = nfsg.getAllData();
@@ -124,7 +118,7 @@ function save()
 		exports += '>' + data[i].join('<');
 	}
 
-	var fom = E('t_fom');
+	var fom = E('_fom');
 	fom.nfs_enable.value = E('_f_nfs_enable').checked ? 1 : 0;
 	fom.nfs_exports.value = exports;
 	form.submit(fom, 1);
@@ -133,14 +127,11 @@ function save()
 function init()
 {
 	nfsg.recolor();
-	var elements = document.getElementsByClassName("new_window");
-	for (var i = 0; i < elements.length; i++) if (elements[i].nodeName.toLowerCase()==="a")
-		addEvent(elements[i], "click", function(e) { cancelDefaultAction(e); window.open(this,"_blank"); } );
 }
 </script>
 </head>
 <body onload='init()'>
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -165,24 +156,24 @@ function init()
 		{ title: '启用 NFS 服务器', name: 'f_nfs_enable', type: 'checkbox', value: nvram.nfs_enable != '0' }
 	]);
 	</script>
-<br />
+<br>
 
 <div class='section-title'>导出目录</div>
 <div class='section'>
-	<div class="tomato-grid" id="nfsg-grid"></div>
+	<table class='tomato-grid' cellspacing=1 id='nfsg-grid'></table>
 	<script type='text/javascript'>nfsg.setup();</script>
-<br />
+<br>
 	<ul>
-	<li>你可以在此网站找到 NFS 配置的更多信息: <a href="http://nfs.sourceforge.net/nfs-howto/" class='new_window'><b>http://nfs.sourceforge.net</b></a>.
+	<li>你可以在此网站找到 NFS 配置的更多信息: <a href="http://nfs.sourceforge.net/nfs-howto/" target="_blanc"><b>http://nfs.sourceforge.net</b></a>.
 	</ul>
-<br />
+<br>
 </div>
 
 </div>
 
 <div class='section-title'>NFS 客户端</div>
 <div class='section'>
-<br />
+<br>
 	<ul>
 	<li>如果你想从其他 NFS 服务器挂载 NFS 共享, 你可以通过 telnet/ssh 使用 mount.nfs 工具.
 	</ul>

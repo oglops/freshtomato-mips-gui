@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2007 Jonathan Zarate
@@ -14,7 +14,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] 系统管理: SDHC/MMC</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -117,7 +117,7 @@ function verifyFields(focused, quiet)
 function save()
 {
 	if (!verifyFields(null, 0)) return;
-	var fom = E('t_fom');
+	var fom = E('_fom');
 	var on = E('_f_mmc_on').checked ? 1 : 0;
 	fom.mmc_on.value = on;
 	fom.mmc_cs.value = fom.f_mmc_cs.value;
@@ -139,7 +139,7 @@ function submit_complete()
 
 </head>
 <body>
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -186,7 +186,7 @@ createFieldTable('', [
 	{ title: '文件系统', indent: 2, name: 'f_mmc_fs_type', type: 'select', options: [['ext2','ext2'],['ext3','ext3'],['vfat','vfat']], value: nvram.mmc_fs_type },
 	{ title: '挂载后执行', indent: 2, name: 'f_mmc_exec_mount', type: 'text', maxlen: 64, size: 34, value: nvram.mmc_exec_mount },
 	{ title: '在卸载之前执行', indent: 2, name: 'f_mmc_exec_umount', type: 'text', maxlen: 64, size: 34, value: nvram.mmc_exec_umount },
-	{ title: '总容量/可用容量', indent: 2, text: (scaleSize(mmc.size) + ' / ' + scaleSize(mmc.free) + ' <small>(' + (mmc.free/mmc.size*100).toFixed(2) + '%)<\/small>'), hidden: !mmc.size },
+	{ title: '总容量/可用容量', indent: 2, text: (scaleSize(mmc.size) + ' / ' + scaleSize(mmc.free) + ' <small>(' + (mmc.free/mmc.size*100).toFixed(2) + '%)</small>'), hidden: !mmc.size },
 	null,
 	{ title: '卡信息', name: 'f_show_info', type: 'checkbox', value: 0, hidden: !mmcid.type },
 	{ title: '卡类型', indent: 2, rid: 'i1', text: mmcid.type },

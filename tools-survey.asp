@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -13,11 +13,10 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] 实用工具: 无线勘测</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
-
 <style type='text/css'>
 #survey-grid .brate {
 	color: blue;
@@ -155,12 +154,12 @@ sg.populate = function()
 		seen = e.lastSeen.toWHMS();
 		if (useAjax()) {
 			m = Math.floor(((new Date()).getTime() - e.firstSeen.getTime()) / 60000);
-			if (m <= 10) seen += '<br /> <b><small>NEW (' + -m + 'm)<\/small><\/b>';
+			if (m <= 10) seen += '<br> <b><small>NEW (' + -m + 'm)</small></b>';
 		}
 
 		mac = e.bssid;
 		if (mac.match(/^(..):(..):(..)/))
-			mac = '<a href="http://api.macvendors.com/' + RegExp.$1 + '-' + RegExp.$2 + '-' + RegExp.$3 + '" class="new_window" title="OUI search">' + mac + '<\/a>';
+			mac = '<a href="http://api.macvendors.com/' + RegExp.$1 + '-' + RegExp.$2 + '-' + RegExp.$3 + '" target="_new" title="OUI search">' + mac + '</a>';
 
 		sg.insert(-1, e, [
 			'<small>' + seen + '<\/small>',
@@ -177,7 +176,7 @@ sg.populate = function()
 	if (useAjax()) s = added + ' 个新增, ' + removed + ' 个移除, ';
 	s += entries.length + ' 个AP可用.';
 
-	s += '<br /><br /><small>更新于: 星期: ' + (new Date()).toWHMS() + '<\/small>';
+	s += '<br><br><small>更新于: 星期: ' + (new Date()).toWHMS() + '</small>';
 	setMsg(s);
 
 	wlscandata = [];
@@ -220,17 +219,8 @@ function earlyInit()
 
 function init()
 {
-	new observer(InNewWindow).observe(E("survey-grid"), { childList: true, subtree: true });
 	sg.recolor();
 	ref.initPage();
-}
-
-var observer = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
-
-function InNewWindow () {
-	var elements = document.getElementsByClassName("new_window");
-	for (var i = 0; i < elements.length; i++) if (elements[i].nodeName.toLowerCase()==="a")
-		addEvent(elements[i], "click", function(e) { cancelDefaultAction(e); window.open(this,"_blank"); } );
 }
 </script>
 </head>
@@ -249,12 +239,21 @@ function InNewWindow () {
 
 <div class='section-title'>无线网络勘测</div>
 <div class='section'>
-	<div id="survey-grid" class="tomato-grid"></div>
+	<table id='survey-grid' class='tomato-grid' cellspacing=0></table>
 	<div id='survey-msg'></div>
-	<br /><br /><br /><br />
+	<div id='survey-controls'>
+		<img src="spin.gif" id="refresh-spinner">
+		<script type='text/javascript'>
+		genStdTimeList('expire-time', 'Auto Expire', 0);
+		genStdTimeList('refresh-time', 'Auto Refresh', 0);
+		</script>
+		<input type="button" value="Refresh" onclick="ref.toggle()" id="refresh-button">
+	</div>
+
+	<br><br><br><br>
 	<script type='text/javascript'>
 	if ('<% wlclient(); %>' == '0') {
-		document.write('<small>注意：使用此工具可能会导致无线客户端和此路由器的连接中断.<\/small>');
+		document.write('<small>注意：使用此工具可能会导致无线客户端和此路由器的连接中断.</small>');
 	}
 	</script>
 </div>
@@ -262,18 +261,10 @@ function InNewWindow () {
 <!-- / / / -->
 
 </td></tr>
-<tr><td id='footer' colspan='2'>
-	<div id='survey-controls'>
-		<img src="spin.gif" alt="" id="refresh-spinner">
-		<script type='text/javascript'>
-		genStdTimeList('expire-time', 'Auto Expire', 0);
-		genStdTimeList('refresh-time', 'Auto Refresh', 0);
-		</script>
-		<input type="button" value="Refresh" onclick="ref.toggle()" id="refresh-button">
-	</div>
-</td></tr>
+<tr><td id='footer' colspan=2>&nbsp;</td></tr>
 </table>
 </form>
 <script type='text/javascript'>earlyInit();</script>
 </body>
 </html>
+

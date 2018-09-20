@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -13,7 +13,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] 实用工具: Ping</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -102,10 +102,10 @@ REMOVE-END */
 			resolv[RegExp.$2] = RegExp.$1;
 		}
 		else if (buf[i].match(/^(\d+) packets.+, (\d+) packets.+, (\d+%)/)) {
-			stats = '   封包丢失率: ' + RegExp.$1 + ' 发送, ' + RegExp.$2 + ' 接收, ' + RegExp.$3 + ' 丢失率<br />';
+			stats = '   封包丢失率: ' + RegExp.$1 + ' 发送, ' + RegExp.$2 + ' 接收, ' + RegExp.$3 + ' 丢失率<br>';
 		}
 		else if (buf[i].match(/^round.+ (\d+\.\d+)\/(\d+\.\d+)\/(\d+\.\d+)/)) {
-			stats = '平均变化量: ' + RegExp.$1 + ' 最小, ' + RegExp.$2 + ' 平均, ' + RegExp.$3 + ' 最大 (ms)<br />' + stats;
+			stats = '平均变化量: ' + RegExp.$1 + ' 最小, ' + RegExp.$2 + ' 平均, ' + RegExp.$3 + ' 最大 (ms)<br>' + stats;
 		}
 	}
 
@@ -206,18 +206,18 @@ createFieldTable('', [
 	{ title: '地址', name: 'f_addr', type: 'text', maxlen: 64, size: 32, value: '',
 		suffix: ' <input type="button" value="Ping" onclick="ping()" id="pingb">' },
 	{ title: 'Ping 次数', name: 'f_count', type: 'text', maxlen: 2, size: 7, value: '5' },
-	{ title: '包大小', name: 'f_size', type: 'text', maxlen: 5, size: 7, value: '56', suffix: ' <small>(字节)<\/small>' }
+	{ title: '包大小', name: 'f_size', type: 'text', maxlen: 5, size: 7, value: '56', suffix: ' <small>(字节)</small>' }
 ]);
 </script>
 </div>
 
-<div style="visibility:hidden;text-align:right" id="wait">请稍候... <img src='spin.gif' alt="" style="vertical-align:top"></div>
+<div style="visibility:hidden;text-align:right" id="wait">请稍候... <img src='spin.gif' style="vertical-align:top"></div>
 
-<div id="tp-grid" class="tomato-grid"></div>
+<table id='tp-grid' class='tomato-grid' cellspacing=1></table>
 <pre id='stats'></pre>
 
 <div style='height:10px;' onclick='javascript:E("debug").style.display=""'></div>
-<textarea id='debug' style='width:99%;height:300px;display:none' cols='50' rows='10'></textarea>
+<textarea id='debug' style='width:99%;height:300px;display:none'></textarea>
 
 <!-- / / / -->
 

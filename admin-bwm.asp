@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -13,7 +13,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] 系统管理: 带宽监控</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -148,7 +148,7 @@ function save()
 
 	aj = 1;
 	en = E('_f_rstats_enable').checked;
-	fom = E('t_fom');
+	fom = E('_fom');
 	fom._service.value = 'rstats-restart';
 	if (en) {
 		path = getPath();
@@ -206,8 +206,7 @@ function init()
 
 <div class='section-title'>带宽监控设置</div>
 <div class='section' id='config-section'>
-<form id='t_fom' method='post' action='tomato.cgi'>
-<div>
+<form id='_fom' method='post' action='tomato.cgi'>
 <input type='hidden' name='_nextpage' value='admin-bwm.asp'>
 <input type='hidden' name='_service' value='rstats-restart'>
 <input type='hidden' name='rstats_enable'>
@@ -246,40 +245,37 @@ createFieldTable('', [
 		[9,'每9小时'],[12,'每12小时'],[24,'每天'],[48,'每两天'],[72,'每三天'],[96,'每四天'],
 		[120,'每五天'],[144,'每六天'],[168,'每周']] },
 	{ title: '关机时保存', indent: 2, name: 'f_sshut', type: 'checkbox', value: nvram.rstats_sshut == '1' },
-	{ title: '创建新文件<br /><small>(清除数据)<\/small>', indent: 2, name: 'f_new', type: 'checkbox', value: 0,
-		suffix: ' &nbsp; <b id="newmsg" style="visibility:hidden"><small>(注意：如果这是一个新文件，则启用之)<\/small><\/b>' },
+	{ title: '创建新文件<br><small>(清除数据)</small>', indent: 2, name: 'f_new', type: 'checkbox', value: 0,
+		suffix: ' &nbsp; <b id="newmsg" style="visibility:hidden"><small>(注意：如果这是一个新文件，则启用之)</small></b>' },
 	{ title: '创建备份', indent: 2, name: 'f_bak', type: 'checkbox', value: nvram.rstats_bak == '1' },
 	{ title: '每月第一天', name: 'rstats_offset', type: 'text', value: nvram.rstats_offset, maxlen: 2, size: 4 },
-	{ title: '排除的接口', name: 'rstats_exclude', type: 'text', value: nvram.rstats_exclude, maxlen: 64, size: 50, suffix: '&nbsp;<small>(多个请用逗号分隔)<\/small>' }
+	{ title: '排除的接口', name: 'rstats_exclude', type: 'text', value: nvram.rstats_exclude, maxlen: 64, size: 50, suffix: '&nbsp;<small>(多个请用逗号分隔)</small>' }
 ]);
 </script>
-</div>
 </form>
 </div>
 
-<br />
+<br>
 
 <div class='section-title'>备份</div>
 <div class='section' id='backup-section'>
-	<form action=''>
+	<form>
 	<script type='text/javascript'>
 	W("<input type='text' size='40' maxlength='64' id='backup-name' name='backup_name' onchange='backupNameChanged()' value='tomato_rstats_" + nvram.et0macaddr.replace(/:/g, '').toLowerCase() + "'>");
 	</script>
-	<div style='display:inline'>.gz &nbsp;
-		<input type='button' name='f_backup_button' id='backup-button' onclick='backupButton()' value='备份'>
-	</div>
+	.gz &nbsp;
+	<input type='button' name='f_backup_button' id='backup-button' onclick='backupButton()' value='备份'>
 	</form>
-	<a href='#' id='backup-link'>点此下载</a>
+	<a href='' id='backup-link'>点此下载</a>
 </div>
-<br />
+<br>
 
 <div class='section-title'>恢复</div>
 <div class='section' id='restore-section'>
 	<form id='restore-form' method='post' action='bwm/restore.cgi?_http_id=<% nv(http_id); %>' encType='multipart/form-data'>
-		<div>
-			<input type='file' size='40' id='restore-name' name='restore_name'>
-			<input type='button' name='f_restore_button' id='restore-button' value='恢复' onclick='restoreButton()'>
-		</div>
+		<input type='file' size='40' id='restore-name' name='restore_name'>
+		<input type='button' name='f_restore_button' id='restore-button' value='恢复' onclick='restoreButton()'>
+		<br>
 	</form>
 </div>
 
@@ -287,13 +283,12 @@ createFieldTable('', [
 
 </td></tr>
 <tr><td id='footer' colspan=2>
-	<form action=''>
-		<div>
-			<span id='footer-msg'></span>
-			<input type='button' value='保存设置' id='save-button' onclick='save()'>
-			<input type='button' value='取消设置' id='cancel-button' onclick='javascript:reloadPage();'>
-		</div>
+	<form>
+	<span id='footer-msg'></span>
+	<input type='button' value='保存设置' id='save-button' onclick='save()'>
+	<input type='button' value='取消设置' id='cancel-button' onclick='javascript:reloadPage();'>
 	</form>
+<div></div>
 </td></tr>
 </table>
 <script type='text/javascript'>verifyFields(null, 1);</script>

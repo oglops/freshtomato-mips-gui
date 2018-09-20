@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -54,7 +54,7 @@ function save()
 	if (!verifyFields(null, false)) return;
 
 	var a;
-	var fom = E('t_fom');
+	var fom = E('_fom');
 
 	fom.dhcpd_dmdns.value = E('_f_dhcpd_dmdns').checked ? 1 : 0;
 	a = E('_f_dhcpd_sltsel').value;
@@ -117,15 +117,12 @@ function init() {
 	if (((c = cookie.get('adv_dhcpdns_notes_vis')) != null) && (c == '1')) {
 		toggleVisibility("notes");
 	}
-	var elements = document.getElementsByClassName("new_window");
-	for (var i = 0; i < elements.length; i++) if (elements[i].nodeName.toLowerCase()==="a")
-		addEvent(elements[i], "click", function(e) { cancelDefaultAction(e); window.open(this,"_blank"); } );
 }
 </script>
 
 </head>
 <body onload='init()'>
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -168,14 +165,14 @@ createFieldTable('', [
 	{ title: '静态租约时间', multi: [
 		{ name: 'f_dhcpd_sltsel', type: 'select', options: [[0,'正常的租约时间'],[-1,'"不限制"'],[1,'自定义']],
 			value: (nvram.dhcpd_slt < 1) ? nvram.dhcpd_slt : 1 },
-		{ name: 'f_dhcpd_slt', type: 'text', maxlen: 5, size: 8, prefix: '<span id="_dhcpd_sltman"> ', suffix: ' <i>(minutes)<\/i><\/span>',
+		{ name: 'f_dhcpd_slt', type: 'text', maxlen: 5, size: 8, prefix: '<span id="_dhcpd_sltman"> ', suffix: ' <i>(minutes)</i></span>',
 			value: (nvram.dhcpd_slt >= 1) ? nvram.dhcpd_slt : 3600 } ] },
 	{ title: '局域网 IPv6 无状态地址<br>自动配置 (SLAAC)', name: 'f_ipv6_radvd', type: 'checkbox', value: nvram.ipv6_radvd == '1' },
 	{ title: '局域网 IPv6 动态主机配置 (DHCP)', name: 'f_ipv6_dhcpd', type: 'checkbox', value: nvram.ipv6_dhcpd == '1' },
 	{ title: '禁止 dhcpv4 日志', name: 'f_dnsmasq_q4', type: 'checkbox', value: (nvram.dnsmasq_q & 1) },
 	{ title: '禁止 dhcpv6 日志', name: 'f_dnsmasq_q6', type: 'checkbox', value: (nvram.dnsmasq_q & 2) },
 	{ title: '禁止 RA 日志', name: 'f_dnsmasq_qr', type: 'checkbox', value: (nvram.dnsmasq_q & 4) },
-	{ title: '<a href="http://www.thekelleys.org.uk/"  class="new_window">Dnsmasq<\/a><br />自定义配置', name: 'dnsmasq_custom', type: 'textarea', value: nvram.dnsmasq_custom }
+	{ title: '<a href="http://www.thekelleys.org.uk/" target="_new">Dnsmasq</a><br>自定义配置', name: 'dnsmasq_custom', type: 'textarea', value: nvram.dnsmasq_custom }
 ]);
 </script>
 
@@ -196,7 +193,7 @@ createFieldTable('', [
 <div class='section-title'>说明 <small><i><a href='javascript:toggleVisibility("notes");'><span id='sesdivnotesshowhide'>(点击此处显示)</span></a></i></small></div>
 <div class='section' id='sesdivnotes' style='display:none'>
 
-<i>DHCP / DNS Server (LAN):</i><br />
+<i>DHCP / DNS Server (LAN):</i><br>
 <ul>
 <li><b>启用内置 DNS 服务器</b> - 允许 Dnsmasq 为你的 LAN 提供 DNS 服务.</li>
 <li><b>使用 WAN 口获取的 DNS</b> - 从 WAN 口获取 DNS 添加到静态 DNS 服务器列表. (详见 <a href='basic-network.asp'>基础网络设置</a> 配置.</li>
@@ -209,18 +206,17 @@ createFieldTable('', [
 <li><b>自定义设置</b> - 添加自定义设置到 Dnsmasq 的配置文件.</li>
 </ul>
 
-<i>DHCP Client (WAN):</i><br />
+<i>DHCP Client (WAN):</i><br>
 <ul>
 <li><b>DHCP 客户端选项</b> - 扩展 DHCP 客户端选项.</li>
 <li><b>压缩数据包</b> - 根据需要设置.</li>
 </ul>
 
-<i>其它说明:</i><br />
+<i>其它说明:</i><br>
 <ul>
 <li>如果存在 /etc/dnsmasq.custom，其中的内容将自动添加到 Dnsmasq 的配置文件末尾.</li>
 </ul>
 
-</div>
 </div>
 
 <!-- / / / -->
@@ -236,3 +232,4 @@ createFieldTable('', [
 <script type='text/javascript'>verifyFields(null, true);</script>
 </body>
 </html>
+

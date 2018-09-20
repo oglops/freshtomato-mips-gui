@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -13,7 +13,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] 系统管理: 访问设置</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<link rel='stylesheet' type='text/css' href='<% nv('web_css'); %>.css' id='guicss'>
+<link rel='stylesheet' type='text/css' href='color.css' id='guicss'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -166,7 +166,7 @@ function save()
 
 	if (!verifyFields(null, false)) return;
 
-	fom = E('t_fom');
+	fom = E('_fom');
 	a = E('_f_http_local').value * 1;
 	if (a == 0) {
 		if (!confirm('警告：Web 管理即将被禁用，如果您决定稍后重新启用 Web Admin，则必须通过 Telnet，SSH 或通过手动执行硬件重置。 您确定要执行此操作?')) return;
@@ -241,14 +241,11 @@ function save()
 function init()
 {
 	changed = 0;
-	var elements = document.getElementsByClassName("new_window");
-	for (var i = 0; i < elements.length; i++) if (elements[i].nodeName.toLowerCase()==="a")
-		addEvent(elements[i], "click", function(e) { cancelDefaultAction(e); window.open(this,"_blank"); } );
 }
 </script>
 </head>
 <body onload="init()">
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -291,8 +288,8 @@ var m = [
 	{ title: 'HTTP 端口', indent: 2, name: 'http_lanport', type: 'text', maxlen: 5, size: 7, value: fixPort(nvram.http_lanport, 80) },
 	{ title: 'HTTPS 端口', indent: 2, name: 'https_lanport', type: 'text', maxlen: 5, size: 7, value: fixPort(nvram.https_lanport, 443) },
 	{ title: 'SSL 证书', rid: 'row_sslcert' },
-	{ title: '证书公共名 (CN)', indent: 2, name: 'https_crt_cn', type: 'text', maxlen: 64, size: 40, value: nvram.https_crt_cn,
-		suffix: '&nbsp;<small>(可选; 多个用空格隔开)<\/small>' },
+	{ title: '证书公共名 (CN)', indent: 2, name: 'https_crt_cn', type: 'text', maxlen: 64, size: 64, value: nvram.https_crt_cn,
+		suffix: '&nbsp;<small>(可选; 多个用空格隔开)</small>' },
 	{ title: '重新生成', indent: 2, name: 'f_https_crt_gen', type: 'checkbox', value: 0 },
 	{ title: '保存至 NVRAM', indent: 2, name: 'f_https_crt_save', type: 'checkbox', value: nvram.https_crt_save == 1 },
 	{ title: '远程访问', name: 'f_http_remote', type: 'select', options: [[0,'禁用'],[1,'HTTP'],[2,'HTTPS']],
@@ -301,11 +298,10 @@ var m = [
 	{ title: '允许无线访问', name: 'f_http_wireless', type: 'checkbox', value:  nvram.web_wl_filter == 0 },
 	null,
 	{ title: '界面文件目录', name: 'web_dir', type: 'select',
-		options: [['default','默认: /www'], ['jffs', '自定义: /jffs/www (仅限有经验者使用!)'], ['opt', '自定义: /opt/www (仅限有经验者使用!)'], ['tmp', '自定义: /tmp/www (仅限有经验者使用!)']], value: nvram.web_dir, suffix: ' <small>更改前请确认要这么做!<\/small>' },
+		options: [['默认','Default: /www'], ['jffs', '自定义: /jffs/www (仅限有经验者使用!)'], ['opt', '自定义: /opt/www (仅限有经验者使用!)'], ['tmp', '自定义: /tmp/www (仅限有经验者使用!)']], value: nvram.web_dir, suffix: ' <small>更改前请确认要这么做!</small>' },
 	{ title: '配色方案', name: 'web_css', type: 'select',
-		options: [['default','默认'],['openlinksys','USB Blue - OpenLinksys'],['usbred','USB Red - OpenLinksys'],['red','Tomato'],['black','Black'],['blue','Blue'],['bluegreen','Blue &amp; Green (Lighter)'],['bluegreen2','Blue &amp; Green (Darker)'],['brown','Brown'],['cyan','Cyan'],['olive','Olive'],['pumpkin','Pumpkin'],
-		['asus','Asus RT-N16'],['rtn66u','Asus RT-N66U'],['asusred','Asus Red'],['linksysred','Linksys Red'],['ext/custom','自定义 (ext/custom.css)'], ['online', 'TTB 在线主题']], value: nvram.web_css },
-	{ title: 'TTB ID#', indent: 2, name: 'ttb_css', type: 'text', maxlen: 25, size: 30, value: nvram.ttb_css, suffix: ' 主题名称来自 <a href="http://www.tomatothemebase.eu"  class="new_window"><u><i>TTB themes gallery<\/i><\/u><\/a>' },
+		options: [['default','默认'],['red','Tomato'],['ext/custom','自定义 (ext/custom.css)'], ['online', 'TTB 在线主题']], value: nvram.web_css },
+	{ title: 'TTB ID#', indent: 2, name: 'ttb_css', type: 'text', maxlen: 25, size: 30, value: nvram.ttb_css, suffix: ' 主题名称来自 <a href="http://www.tomatothemebase.eu" target="_blanc"><u><i>TTB themes gallery</i></u></a>' },
 	null,
 	{ title: '导航栏显示' }
 ];
@@ -352,8 +348,8 @@ W('<input type="button" value="' + (tdup ? '立即停止' : '立即启动') + ' 
 <div class='section'>
 <script type='text/javascript'>
 createFieldTable('', [
-	{ title: '允许远程管理的<br />IP 地址', name: 'f_rmgt_sip', type: 'text', maxlen: 512, size: 64, value: nvram.rmgt_sip,
-		suffix: '<br /><small>("空白" 不限制,可单一IP或范围;例: "1.1.1.1", "1.1.1.0/24", "1.1.1.1 - 2.2.2.2" or "me.example.com")<\/small>' },
+	{ title: '允许远程管理的<br>IP 地址', name: 'f_rmgt_sip', type: 'text', maxlen: 512, size: 64, value: nvram.rmgt_sip,
+		suffix: '<br><small>("空白" 不限制,可单一IP或范围;例: "1.1.1.1", "1.1.1.0/24", "1.1.1.1 - 2.2.2.2" or "me.example.com")</small>' },
 	{ title: '最大尝试连接次数', multi: [
 		{ suffix: '&nbsp; SSH &nbsp; / &nbsp;', name: 'f_limit_ssh', type: 'checkbox', value: (shlimit[0] & 1) != 0 },
 		{ suffix: '&nbsp; Telnet &nbsp;', name: 'f_limit_telnet', type: 'checkbox', value: (shlimit[0] & 2) != 0 }
@@ -370,11 +366,11 @@ createFieldTable('', [
 <div class='section'>
 <script type='text/javascript'>
 createFieldTable('', [
-	{ title: '用户名', name: 'http_username', type: 'text', value: nvram.http_username, suffix: '&nbsp;<small>(空白则用户名为 "admin")<\/small>' },
+	{ title: '用户名ername', name: 'http_username', type: 'text', value: nvram.http_username, suffix: '&nbsp;<small>(空白则用户名为 "admin")</small>' },
 	{ title: '允许网页登陆为"管理员"', name: 'f_http_root', type: 'checkbox', value: nvram.http_root == 1 },
 	null,
 	{ title: '密码', name: 'set_password_1', type: 'password', value: '**********' },
-	{ title: '<i>(再次输入密码)<\/i>', indent: 2, name: 'set_password_2', type: 'password', value: '**********' }
+	{ title: '<i>(再次输入密码)</i>', indent: 2, name: 'set_password_2', type: 'password', value: '**********' }
 ]);
 </script>
 </div>

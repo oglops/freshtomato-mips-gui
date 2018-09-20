@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato RAF Transmission GUI
 	Copyright (C) 2007-2011 Shibby
@@ -12,18 +12,18 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] Nas: BitTorrent 客户端</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 <style type='text/css'>
 textarea {
-	width: 98%;
-	height: 15em;
+ width: 98%;
+ height: 15em;
 }
 </style>
 <script type='text/javascript'>
 //	<% nvram("bt_enable,bt_binary,bt_binary_custom,bt_custom,bt_port,bt_dir,bt_settings,bt_settings_custom,bt_incomplete,bt_autoadd,bt_rpc_enable,bt_rpc_wan,bt_auth,bt_login,bt_password,bt_port_gui,bt_dl_enable,bt_dl,bt_ul_enable,bt_ul,bt_peer_limit_global,bt_peer_limit_per_torrent,bt_ul_slot_per_torrent,bt_ratio_enable,bt_ratio,bt_ratio_idle_enable,bt_ratio_idle,bt_dht,bt_pex,bt_lpd,bt_utp,bt_blocklist,bt_blocklist_url,bt_sleep,bt_check,bt_check_time,bt_dl_queue_enable,bt_dl_queue_size,bt_ul_queue_enable,bt_ul_queue_size,bt_message,bt_log,bt_log_path"); %>
 
-var btgui_link = '&nbsp;&nbsp;<a href="http://' + location.hostname +':<% nv('bt_port_gui'); %>" class="new_window"><i>[点击此处打开 Transmission GUI]<\/i><\/a>';
+var btgui_link = '&nbsp;&nbsp;<a href="http://' + location.hostname +':<% nv('bt_port_gui'); %>" target="_blank"><i>[点击此处打开 Transmission GUI]</i></a>';
 
 function verifyFields(focused, quiet)
 {
@@ -234,7 +234,7 @@ function verifyFields(focused, quiet)
 function save()
 {
   if (verifyFields(null, 0)==0) return;
-  var fom = E('t_fom');
+  var fom = E('_fom');
   fom.bt_enable.value = E('_f_bt_enable').checked ? 1 : 0;
   fom.bt_incomplete.value = E('_f_bt_incomplete').checked ? 1 : 0;
   fom.bt_autoadd.value = E('_f_bt_autoadd').checked ? 1 : 0;
@@ -261,14 +261,11 @@ function save()
   else {
   	fom._service.value = 'bittorrent-restart'; 
   }
-	form.submit('t_fom', 1);
+	form.submit('_fom', 1);
 }
 
 function init()
 {
-    var elements = document.getElementsByClassName("new_window");
-    for (var i = 0; i < elements.length; i++) if (elements[i].nodeName.toLowerCase()==="a")
-        addEvent(elements[i], "click", function(e) { cancelDefaultAction(e); window.open(this,"_blank"); } );
 }
 </script>
 </head>
@@ -284,8 +281,7 @@ function init()
 <div id='ident'><% ident(); %></div>
 <div class='section-title'>基本设置</div>
 <div class='section' id='config-section'>
-<form id='t_fom' method='post' action='tomato.cgi'>
-<div>
+<form id='_fom' method='post' action='tomato.cgi'>
 <input type='hidden' name='_nextpage' value='nas-bittorrent.asp'>
 <input type='hidden' name='_service' value='bittorrent-restart'>
 <input type='hidden' name='bt_enable'>
@@ -310,20 +306,20 @@ function init()
 
 <script type='text/javascript'>
 createFieldTable('', [
-	{ title: '启用 torrent 客户端', name: 'f_bt_enable', type: 'checkbox', value: nvram.bt_enable == '1', suffix: ' <small>*<\/small>' },
+	{ title: '启用 torrent 客户端', name: 'f_bt_enable', type: 'checkbox', value: nvram.bt_enable == '1', suffix: ' <small>*</small>' },
 	{ title: 'Transmission 程序路径', multi: [
 		{ name: 'bt_binary', type: 'select', options: [
 /* BBT-BEGIN */
 			['internal','Internal (/usr/bin)'],
 /* BBT-END */
 			['optware','Optware (/opt/bin)'],
-			['custom','Custom'] ], value: nvram.bt_binary, suffix: ' <small>*<\/small> ' },
+			['custom','Custom'] ], value: nvram.bt_binary, suffix: ' <small>*</small> ' },
 		{ name: 'bt_binary_custom', type: 'text', maxlen: 40, size: 40, value: nvram.bt_binary_custom }
 	] },
-	{ title: '保持活动', name: 'f_bt_check', type: 'checkbox', value: nvram.bt_check == '1', suffix: ' <small>*<\/small>' },
-	{ title: '检查活动状态间隔', indent: 2, name: 'bt_check_time', type: 'text', maxlen: 5, size: 7, value: nvram.bt_check_time, suffix: ' <small>分(范围: 1 - 55; 默认: 15)<\/small>' },
-	{ title: '启动延时', name: 'bt_sleep', type: 'text', maxlen: 5, size: 7, value: nvram.bt_sleep, suffix: ' <small>秒(范围: 1 - 60; 默认: 10)<\/small>' },
-	{ title: '监听端口', name: 'bt_port', type: 'text', maxlen: 5, size: 7, value: nvram.bt_port, suffix: ' <small>*<\/small>' },
+	{ title: '保持活动', name: 'f_bt_check', type: 'checkbox', value: nvram.bt_check == '1', suffix: ' <small>*</small>' },
+	{ title: '检查活动状态间隔', indent: 2, name: 'bt_check_time', type: 'text', maxlen: 5, size: 7, value: nvram.bt_check_time, suffix: ' <small>分(范围: 1 - 55; 默认: 15)</small>' },
+	{ title: '启动延时', name: 'bt_sleep', type: 'text', maxlen: 5, size: 7, value: nvram.bt_sleep, suffix: ' <small>秒(范围: 1 - 60; 默认: 10)</small>' },
+	{ title: '监听端口', name: 'bt_port', type: 'text', maxlen: 5, size: 7, value: nvram.bt_port, suffix: ' <small>*</small>' },
 	{ title: '下载目录', name: 'bt_dir', type: 'text', maxlen: 40, size: 40, value: nvram.bt_dir },
 	{ title: '使用 .incomplete/', indent: 2, name: 'f_bt_incomplete', type: 'checkbox', value: nvram.bt_incomplete == '1' },
 	{ title: '自动添加 .torrents', indent: 2, name: 'f_bt_autoadd', type: 'checkbox', value: nvram.bt_autoadd == '1', suffix: ' <small>(在下载目录中自动搜索 .torrent 文件)<\/small>' }
@@ -337,16 +333,16 @@ createFieldTable('', [
 		<li><b>自动添加 .torrents</b> - 在下载目录中搜索并自动添加.torrent 文件，可以在"自定义配置"中的'watch-dir'选项处添加额外的监控文件夹.
 	</ul>
 </div>
-<div class='section-title'>远程访问<script type='text/javascript'>W(btgui_link);</script></div>
+<div class='section-title'>远程访问<script>W(btgui_link);</script></div>
 <div class='section'>
 <script type='text/javascript'>
 createFieldTable('', [
 	{ title: '启用 GUI 界面', name: 'f_bt_rpc_enable', type: 'checkbox', value: nvram.bt_rpc_enable == '1' },
-	{ title: '监听 GUI 端口', indent: 2, name: 'bt_port_gui', type: 'text', maxlen: 32, size: 5, value: nvram.bt_port_gui, suffix: ' <small>*<\/small>' },
-	{ title: '需要身份验证', name: 'f_bt_auth', type: 'checkbox', value: nvram.bt_auth == '1', suffix: ' <small>*<\/small>' },
+	{ title: '监听 GUI 端口', indent: 2, name: 'bt_port_gui', type: 'text', maxlen: 32, size: 5, value: nvram.bt_port_gui, suffix: ' <small>*</small>' },
+	{ title: '需要身份验证', name: 'f_bt_auth', type: 'checkbox', value: nvram.bt_auth == '1', suffix: ' <small>*</small>' },
 	{ title: '用户名', indent: 2, name: 'bt_login', type: 'text', maxlen: 32, size: 15, value: nvram.bt_login },
 	{ title: '密码', indent: 2, name: 'bt_password', type: 'password', maxlen: 32, size: 15, value: nvram.bt_password },
-	{ title: '允许远程访问', name: 'f_bt_rpc_wan', type: 'checkbox', value: nvram.bt_rpc_wan == '1', suffix: ' <small>*<\/small>' }
+	{ title: '允许远程访问', name: 'f_bt_rpc_wan', type: 'checkbox', value: nvram.bt_rpc_wan == '1', suffix: ' <small>*</small>' }
 ]);
 </script>
 	<ul>
@@ -361,19 +357,19 @@ createFieldTable('', [
 createFieldTable('', [
 	{ title: '下载限速', multi: [
 		{ name: 'f_bt_dl_enable', type: 'checkbox', value: nvram.bt_dl_enable == '1', suffix: '  ' },
-		{ name: 'bt_dl', type: 'text', maxlen: 10, size: 7, value: nvram.bt_dl, suffix: ' <small>kB/s<\/small>' } ] },
+		{ name: 'bt_dl', type: 'text', maxlen: 10, size: 7, value: nvram.bt_dl, suffix: ' <small>kB/s</small>' } ] },
 	{ title: '上传限速', multi: [
 		{ name: 'f_bt_ul_enable', type: 'checkbox', value: nvram.bt_ul_enable == '1', suffix: '  ' },
-		{ name: 'bt_ul', type: 'text', maxlen: 10, size: 7, value: nvram.bt_ul, suffix: ' <small>kB/s<\/small>' } ] },
+		{ name: 'bt_ul', type: 'text', maxlen: 10, size: 7, value: nvram.bt_ul, suffix: ' <small>kB/s</small>' } ] },
 	{ title: '达到上传比例停止上传', multi: [
 		{ name: 'f_bt_ratio_enable', type: 'checkbox', value: nvram.bt_ratio_enable == '1', suffix: '  ' },
 		{ name: 'bt_ratio', type: 'select', options: [['0.0000','0.0'],['0.1000','0.1'],['0.2000','0.2'],['0.5000','0.5'],['1.0000','1.0'],['1.5000','1.5'],['2.0000','2.0'],['2.5000','2.5'],['3.0000','3.0']], value: nvram.bt_ratio } ] },
 	{ title: '超出闲置时间停止上传', multi: [
 		{ name: 'f_bt_ratio_idle_enable', type: 'checkbox', value: nvram.bt_ratio_idle_enable == '1', suffix: '  ' },
-		{ name: 'bt_ratio_idle', type: 'text', maxlen: 10, size: 7, value: nvram.bt_ratio_idle, suffix: ' <small>分(范围: 1 - 55; 默认: 30)<\/small>' } ] },
-	{ title: '全局连接数限制', name: 'bt_peer_limit_global', type: 'text', maxlen: 10, size: 7, value: nvram.bt_peer_limit_global, suffix: ' <small>(范围: 10 - 1000; 默认: 150)<\/small>' },
-	{ title: '每个种子连接数限制', name: 'bt_peer_limit_per_torrent', type: 'text', maxlen: 10, size: 7, value: nvram.bt_peer_limit_per_torrent, suffix: ' <small>(range: 1 - 200; 默认: 30)<\/small>' },
-	{ title: '每个种子上传通道数限制', name: 'bt_ul_slot_per_torrent', type: 'text', maxlen: 10, size: 7, value: nvram.bt_ul_slot_per_torrent, suffix: ' <small>(范围: 1 - 50; 默认: 10)<\/small>' }
+		{ name: 'bt_ratio_idle', type: 'text', maxlen: 10, size: 7, value: nvram.bt_ratio_idle, suffix: ' <small>分(范围: 1 - 55; 默认: 30)</small>' } ] },
+	{ title: '全局连接数限制', name: 'bt_peer_limit_global', type: 'text', maxlen: 10, size: 7, value: nvram.bt_peer_limit_global, suffix: ' <small>(范围: 10 - 1000; 默认: 150)</small>' },
+	{ title: '每个种子连接数限制', name: 'bt_peer_limit_per_torrent', type: 'text', maxlen: 10, size: 7, value: nvram.bt_peer_limit_per_torrent, suffix: ' <small>(范围: 1 - 200; 默认: 30)</small>' },
+	{ title: '每个种子上传通道数限制', name: 'bt_ul_slot_per_torrent', type: 'text', maxlen: 10, size: 7, value: nvram.bt_ul_slot_per_torrent, suffix: ' <small>(范围: 1 - 50; 默认: 10)</small>' }
 ]);
 </script>
 </div>
@@ -383,11 +379,11 @@ createFieldTable('', [
 createFieldTable('', [
 	{ title: '下载队列', multi: [
 		{ name: 'f_bt_dl_queue_enable', type: 'checkbox', value: nvram.bt_dl_queue_enable == '1', suffix: '  ' },
-		{ name: 'bt_dl_queue_size', type: 'text', maxlen: 5, size: 7, value: nvram.bt_dl_queue_size, suffix: ' <small>(范围: 1 - 30; 默认: 5) *<\/small>' }
+		{ name: 'bt_dl_queue_size', type: 'text', maxlen: 5, size: 7, value: nvram.bt_dl_queue_size, suffix: ' <small>(范围: 1 - 30; 范围: 5) *</small>' }
 		] },
 	{ title: '上传队列', multi: [
 		{ name: 'f_bt_ul_queue_enable', type: 'checkbox', value: nvram.bt_ul_queue_enable == '1', suffix: '  ' },
-		{ name: 'bt_ul_queue_size', type: 'text', maxlen: 5, size: 7, value: nvram.bt_ul_queue_size, suffix: ' <small>(范围: 1 - 30; 默认: 5) *<\/small>' }
+		{ name: 'bt_ul_queue_size', type: 'text', maxlen: 5, size: 7, value: nvram.bt_ul_queue_size, suffix: ' <small>(范围: 1 - 30; 默认: 5) *</small>' }
 		] }
 ]);
 </script>
@@ -428,7 +424,7 @@ createFieldTable('', [
 		{ name: 'bt_log_path', type: 'text', maxlen: 80, size: 60, value: nvram.bt_log_path, suffix: ' /transmission.log' }
 		] },
 	null,
-	{ title: '<a href="https://github.com/transmission/transmission/wiki/Editing-Configuration-Files" class="new_window">Transmission<\/a><br />用户设置', name: 'bt_custom', type: 'textarea', value: nvram.bt_custom }
+	{ title: '<a href="https://trac.transmissionbt.com/wiki/EditConfigFiles" target="_new">Transmission</a><br>用户设置', name: 'bt_custom', type: 'textarea', value: nvram.bt_custom }
 ]);
 </script>
 </div>
@@ -436,13 +432,12 @@ createFieldTable('', [
 </div>
 </td></tr>
 <tr><td id='footer' colspan=2>
-	<form action=''>
-		<div>
-			<span id='footer-msg'></span>
-			<input type='button' value='保存设置' id='save-button' onclick='save()'>
-			<input type='button' value='取消设置' id='cancel-button' onclick='javascript:reloadPage();'>
-		</div>
-	</form>
+ <form>
+ <span id='footer-msg'></span>
+ <input type='button' value='保存设置' id='save-button' onclick='save()'>
+ <input type='button' value='取消设置' id='cancel-button' onclick='javascript:reloadPage();'>
+ </form>
+</div>
 </td></tr>
 </table>
 <script type='text/javascript'>verifyFields(null, 1);</script>

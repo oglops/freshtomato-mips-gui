@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -13,7 +13,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] 端口转发: IPv4 转发</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -78,7 +78,7 @@ fog.sortCompare = function(a, b) {
 }
 
 fog.dataToView = function(data) {
-	return [(data[0] != '0') ? 'On' : '', ['TCP', 'UDP', 'Both'][data[1] - 1], (data[2].match(/(.+)-(.+)/)) ? (RegExp.$1 + ' -<br />' + RegExp.$2) : data[2], data[3], data[4], data[5], data[6]];
+	return [(data[0] != '0') ? 'On' : '', ['TCP', 'UDP', 'Both'][data[1] - 1], (data[2].match(/(.+)-(.+)/)) ? (RegExp.$1 + ' -<br>' + RegExp.$2) : data[2], data[3], data[4], data[5], data[6]];
 }
 
 fog.fieldValuesToData = function(row) {
@@ -182,7 +182,7 @@ function save()
 		data[i][3] = data[i][3].replace(/-/g, ':');
 		s += data[i].join('<') + '>';
 	}
-	var fom = E('t_fom');
+	var fom = E('_fom');
 	fom.portforward.value = s;
 	form.submit(fom, 0, 'tomato.cgi');
 }
@@ -195,7 +195,7 @@ function init()
 </script>
 </head>
 <body onload='init()'>
-<form id='t_fom' method='post' action='javascript:{}'>
+<form id='_fom' method='post' action='javascript:{}'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -214,20 +214,20 @@ function init()
 
 <div class='section-title'>IPv4 转发</div>
 <div class='section'>
-	<div class="tomato-grid" id="fo-grid"></div>
+	<table class='tomato-grid' cellspacing=1 id='fo-grid'></table>
 	<script type='text/javascript'>fog.setup();</script>
 </div>
 
-<div class='section-title'>Notes</div>
-<div class='section'>
-	<ul>
-		<li><b>源地址</b> <i>(可选)</i> - 仅转发来自于该地址的连接. 例: "1.2.3.4", "1.2.3.4 - 2.3.4.5", "1.2.3.0/24", "me.example.com".</li>
-		<li><b>外部端口</b> - 被转发的端口 以WAN口的视角. 例: "2345", "200,300", "200-300,400".</li>
-		<li><b>内部端口</b> <i>(可选)</i> - 局域网内部的目的端口，若为空, 则自动对应为<i>外部端口.当转发到不同的内部端口时，每条设置只能添加一个端口.</li>
-		<li><b>内部地址</b> - 局域网络内的IP地址.
-	</ul>
+<div>
+<ul>
+<li><b>源地址</b> <i>(可选)</i> - 仅转发来自于该地址的连接. 例: "1.2.3.4", "1.2.3.4 - 2.3.4.5", "1.2.3.0/24", "me.example.com".
+<li><b>外部端口</b> - 被转发的端口 以WAN口的视角. 例: "2345", "200,300", "200-300,400".
+<li><b>内部端口</b> <i>(可选)</i> - 局域网内部的目的端口，若为空, 则自动对应为
+<i>外部端口</i>. 当转发到不同的内部端口时，每条设置只能添加一个端口.
+<li><b>内部地址</b> - 局域网络内的IP地址.
+</ul>
 </div>
-<br />
+<br>
 <script type='text/javascript'>show_notice1('<% notice("iptables"); %>');</script>
 
 <!-- / / / -->

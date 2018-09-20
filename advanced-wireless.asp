@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -23,23 +23,17 @@
 <script type='text/javascript' src='wireless.jsx?_http_id=<% nv(http_id); %>'></script>
 <script type='text/javascript'>
 
-//	<% nvram("t_model_name,wl_security_mode,wl_afterburner,wl_antdiv,wl_ap_isolate,wl_auth,wl_bcn,wl_dtim,wl_frag,wl_frameburst,wl_gmode_protection,wl_plcphdr,wl_rate,wl_rateset,wl_rts,wl_txant,wl_wme,wl_wme_no_ack,wl_wme_apsd,wl_txpwr,wl_mrate,t_features,wl_distance,wl_maxassoc,wlx_hpamp,wlx_hperx,wl_reg_mode,wl_country_code,wl_country,wl_btc_mode,wl_mimo_preamble,wl_obss_coex,wl_mitigation,wl_wmf_bss_enable,wl_atf"); %>
+//	<% nvram("wl_security_mode,wl_afterburner,wl_antdiv,wl_ap_isolate,wl_auth,wl_bcn,wl_dtim,wl_frag,wl_frameburst,wl_gmode_protection,wl_plcphdr,wl_rate,wl_rateset,wl_rts,wl_txant,wl_wme,wl_wme_no_ack,wl_wme_apsd,wl_txpwr,wl_mrate,t_features,wl_distance,wl_maxassoc,wlx_hpamp,wlx_hperx,wl_reg_mode,wl_country_code,wl_country,wl_btc_mode,wl_mimo_preamble,wl_obss_coex,wl_mitigation,wl_wmf_bss_enable"); %>
 //	<% wlcountries(); %>
 
 hp = features('hpamp');
 nphy = features('11n');
 
-var atf_display = 'none';
-switch(nvram['t_model_name']) {
-	case 'Netgear R7000':
-	case 'Netgear R8000':
-		atf_display = '';
-}
-
 function verifyFields(focused, quiet)
 {
 	for (var uidx = 0; uidx < wl_ifaces.length; ++uidx) {
-		if (wl_sunit(uidx) < 0) {
+//		if(wl_ifaces[uidx][0].indexOf('.') < 0) {
+		if (wl_sunit(uidx)<0) {
 			var u = wl_unit(uidx);
 
 			if (!v_range('_f_wl'+u+'_distance', quiet, 0, 99999)) return 0;
@@ -66,10 +60,10 @@ function save()
 
 	if (!verifyFields(null, false)) return;
 
-	fom = E('t_fom');
+	fom = E('_fom');
 
 	for (var uidx = 0; uidx < wl_ifaces.length; ++uidx) {
-		if (wl_sunit(uidx) < 0) {
+		if (wl_sunit(uidx)<0) {
 			var u = wl_unit(uidx);
 
 			n = E('_f_wl'+u+'_distance').value * 1;
@@ -87,7 +81,8 @@ function save()
 			form.submit(fom, 0);
 			return;
 		}
-	} else {
+	}
+	else {
 		E('_wlx_hpamp').disabled = 1;
 		E('_wlx_hperx').disabled = 1;
 	}
@@ -98,7 +93,7 @@ function save()
 
 </head>
 <body>
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -118,7 +113,7 @@ function save()
 <script type='text/javascript'>
 
 for (var uidx = 0; uidx < wl_ifaces.length; ++uidx) {
-if (wl_sunit(uidx) < 0) {
+if (wl_sunit(uidx)<0) {
 	var u = wl_unit(uidx);
 
 	W('<input type=\'hidden\' id=\'_wl'+u+'_distance\' name=\'wl'+u+'_distance\'>');
@@ -126,8 +121,10 @@ if (wl_sunit(uidx) < 0) {
 	W('<input type=\'hidden\' id=\'_wl'+u+'_nmode_protection\' name=\'wl'+u+'_nmode_protection\'>');
 
 	W('<div class=\'section-title\'>无线网络设置 ');
-	W('(' + wl_display_ifname(uidx) + ') ');
-	W('<\/div><div class=\'section\'>');
+	//if (wl_ifaces.length > 1)
+		W('(' + wl_display_ifname(uidx) + ') ');
+	//W('');
+	W('</div><div class=\'section\'>');
 
 	at = ((nvram['wl'+u+'_security_mode'] != "wep") && (nvram['wl'+u+'_security_mode'] != "radius") && (nvram['wl'+u+'_security_mode'] != "disabled"));
 	createFieldTable('', [
@@ -141,7 +138,7 @@ if (wl_sunit(uidx) < 0) {
 		{ title: '基本速率', name: 'wl'+u+'_rateset', type: 'select', options: [['default','默认 *'],['12','1-2 Mbps'],['all','全部']],
 			value: nvram['wl'+u+'_rateset'] },
 		{ title: '信标间隔', name: 'wl'+u+'_bcn', type: 'text', maxlen: 5, size: 7,
-			suffix: ' <small>(范围: 1 - 65535; 默认: 100)<\/small>', value: nvram['wl'+u+'_bcn'] },
+			suffix: ' <small>(范围: 1 - 65535; 默认: 100)</small>', value: nvram['wl'+u+'_bcn'] },
 		{ title: 'CTS 保护模式', name: 'wl'+u+'_gmode_protection', type: 'select', options: [['off','禁用 *'],['auto','自动']],
 			value: nvram['wl'+u+'_gmode_protection'] },
 		{ title: 'Regulatory 模式', name: 'wl'+u+'_reg_mode', type: 'select',
@@ -153,12 +150,12 @@ if (wl_sunit(uidx) < 0) {
 			options: [['0', '禁用 *'],['1', '启用'],['2', '取代']],
 			value: nvram['wl'+u+'_btc_mode'] },
 		{ title: '距离 / ACK响应调整', name: 'f_wl'+u+'_distance', type: 'text', maxlen: 5, size: 7,
-			suffix: ' <small>米<\/small>&nbsp;&nbsp;<small>(范围: 0 - 99999; 0 = 使用默认值)<\/small>',
+			suffix: ' <small>米</small>&nbsp;&nbsp;<small>(范围: 0 - 99999; 0 = 使用默认值)</small>',
 				value: (nvram['wl'+u+'_distance'] == '') ? '0' : nvram['wl'+u+'_distance'] },
 		{ title: 'DTIM 间隔', name: 'wl'+u+'_dtim', type: 'text', maxlen: 3, size: 5,
-			suffix: ' <small>(范围: 1 - 255; 默认: 1)<\/small>', value: nvram['wl'+u+'_dtim'] },
+			suffix: ' <small>(范围: 1 - 255; 默认: 1)</small>', value: nvram['wl'+u+'_dtim'] },
 		{ title: '分片阈值', name: 'wl'+u+'_frag', type: 'text', maxlen: 4, size: 6,
-			suffix: ' <small>(范围: 256 - 2346; 默认: 2346)<\/small>', value: nvram['wl'+u+'_frag'] },
+			suffix: ' <small>(范围: 256 - 2346; 默认: 2346)</small>', value: nvram['wl'+u+'_frag'] },
 		{ title: '帧突发技术', name: 'wl'+u+'_frameburst', type: 'select', options: [['off','禁用 *'],['on','启用']],
 			value: nvram['wl'+u+'_frameburst'] },
 		{ title: '高功率', hidden: !hp || (uidx > 0) },
@@ -167,7 +164,7 @@ if (wl_sunit(uidx) < 0) {
 			{ title: '增强接收敏感度', indent: 2, name: 'wlx_hperx' + (uidx > 0 ? uidx + '' : ''), type: 'select', options: [['0','禁用 *'],['1','启用']],
 				value: nvram.wlx_hperx != '0', hidden: !hp || (uidx > 0) },
 		{ title: '最大无线客户端数量', name: 'wl'+u+'_maxassoc', type: 'text', maxlen: 3, size: 5,
-			suffix: ' <small>(范围: 1 - 255; 默认: 128)<\/small>', value: nvram['wl'+u+'_maxassoc'] },
+			suffix: ' <small>(范围: 1 - 255; 默认: 128)</small>', value: nvram['wl'+u+'_maxassoc'] },
 		{ title: '组播速率', name: 'wl'+u+'_mrate', type: 'select',
 			options: [['0','自动 *'],['1000000','1 Mbps'],['2000000','2 Mbps'],['5500000','5.5 Mbps'],['6000000','6 Mbps'],['9000000','9 Mbps'],['11000000','11 Mbps'],['12000000','12 Mbps'],['18000000','18 Mbps'],['24000000','24 Mbps'],['36000000','36 Mbps'],['48000000','48 Mbps'],['54000000','54 Mbps']],
 			value: nvram['wl'+u+'_mrate'] },
@@ -178,33 +175,31 @@ if (wl_sunit(uidx) < 0) {
 		{ title: '重叠的 BSS 共存', name: 'wl'+u+'_obss_coex', type: 'select', options: [['0','禁用 *'],['1','启用']],
 			value: nvram['wl'+u+'_obss_coex'], hidden: !nphy },
 		{ title: 'RTS 阈值', name: 'wl'+u+'_rts', type: 'text', maxlen: 4, size: 6,
-			suffix: ' <small>(范围: 0 - 2347; 默认: 2347)<\/small>', value: nvram['wl'+u+'_rts'] },
+			suffix: ' <small>(范围: 0 - 2347; 默认: 2347)</small>', value: nvram['wl'+u+'_rts'] },
 		{ title: '接收天线', name: 'wl'+u+'_antdiv', type: 'select', options: [['3','自动 *'],['1','A'],['0','B']],
 			value: nvram['wl'+u+'_antdiv'] },
 		{ title: '发射天线', name: 'wl'+u+'_txant', type: 'select', options: [['3','自动 *'],['1','A'],['0','B']],
 			value: nvram['wl'+u+'_txant'] },
 		{ title: '发射功率', name: 'wl'+u+'_txpwr', type: 'text', maxlen: 3, size: 5,
 			suffix: hp ?
-				' <small>mW (放大前功率)<\/small>&nbsp;&nbsp;<small>(范围: 1 - 251; 默认: 10)<\/small>' :
-				' <small>mW<\/small>&nbsp;&nbsp;<small>(范围: 0 - 400, 实际最大量取决于所选国家；硬件默认则使用0)<\/small>',
+				' <small>mW (放大前功率)</small>&nbsp;&nbsp;<small>(范围: 1 - 251; 默认: 10)</small>' :
+				' <small>mW</small>&nbsp;&nbsp;<small>(范围: 0 - 400, 实际最大量取决于所选国家；硬件默认则使用0)</small>',
 				value: nvram['wl'+u+'_txpwr'] },
 		{ title: '传输速率', name: 'wl'+u+'_rate', type: 'select',
 			options: [['0','自动 *'],['1000000','1 Mbps'],['2000000','2 Mbps'],['5500000','5.5 Mbps'],['6000000','6 Mbps'],['9000000','9 Mbps'],['11000000','11 Mbps'],['12000000','12 Mbps'],['18000000','18 Mbps'],['24000000','24 Mbps'],['36000000','36 Mbps'],['48000000','48 Mbps'],['54000000','54 Mbps']],
 			value: nvram['wl'+u+'_rate'] },
-		{ title: '干扰消减', name: 'wl'+u+'_mitigation', type: 'select',
-			options: [['0','None *'],['1','Non-WLAN'],['2','WLAN Manual'],['3','WLAN Auto'],['4','WLAN 自动降噪']],
+	{ title: '干扰消减', name: 'wl'+u+'_mitigation', type: 'select',
+			options: [['0','None *'],['1','Non-WLAN'],['2','WLAN Manual'],['3','WLAN 自动降噪']],
 			value: nvram['wl'+u+'_mitigation'] },
 		{ title: '无线多媒体', name: 'wl'+u+'_wme', type: 'select', options: [['auto','自动 *'],['off','禁用'],['on','启用']], value: nvram['wl'+u+'_wme'] },
 		{ title: '无 ACK', name: 'wl'+u+'_wme_no_ack', indent: 2, type: 'select', options: [['off','禁用 *'],['on','启用']],
 			value: nvram['wl'+u+'_wme_no_ack'] },
-		{ title: 'APSD 模式', name: 'wl'+u+'_wme_apsd', indent: 2, type: 'select', options: [['off','禁用'],['on','启用 *']],
-			value: nvram['wl'+u+'_wme_apsd'] },
-		{ title: '无线组播转发', name: 'wl'+u+'_wmf_bss_enable', type: 'select', options: [['0','禁用 *'],['1','启用']],
-			value: nvram['wl'+u+'_wmf_bss_enable'] },
-		{ title: 'Air Time Fairness', name: 'wl'+u+'_atf', type: 'select', options: [['0','Disable'],['1','Enable *']],
-			value: nvram['wl'+u+'_atf'], suffix: ' <small>(applies only to Netgear R7000 and R8000)<\/small>', hidden: atf_display }
+	{ title: 'APSD 模式', name: 'wl'+u+'_wme_apsd', indent: 2, type: 'select', options: [['off','禁用'],['on','启用 *']],
+		value: nvram['wl'+u+'_wme_apsd'] },
+	{ title: '无线组播转发', name: 'wl'+u+'_wmf_bss_enable', type: 'select', options: [['0','禁用 *'],['1','启用']],
+		value: nvram['wl'+u+'_wmf_bss_enable'] }
 	]);
-	W('<\/div>');
+	W('</div>');
 	}
 }
 </script>

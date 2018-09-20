@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Samba Server - !!TB
@@ -12,7 +12,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] NAS: 文件共享</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -29,6 +29,8 @@
 #ss-grid .co5 {
 	width: 9%;
 }
+</style>
+<style type='text/css'>
 textarea {
 	width: 98%;
 	height: 6em;
@@ -180,7 +182,7 @@ function save()
 	if (ssg.isEditing()) return;
 	if (!verifyFields(null, 0)) return;
 
-	var fom = E('t_fom');
+	var fom = E('_fom');
 
 	var data = ssg.getAllData();
 	var r = [];
@@ -201,9 +203,6 @@ function init()
 	if (((c = cookie.get('nas_samba_notes_vis')) != null) && (c == '1')) {
 		toggleVisibility("notes");
 	}
-    var elements = document.getElementsByClassName("new_window");
-    for (var i = 0; i < elements.length; i++) if (elements[i].nodeName.toLowerCase()==="a")
-        addEvent(elements[i], "click", function(e) { cancelDefaultAction(e); window.open(this,"_blank"); } );
 }
 
 function toggleVisibility(whichone) {
@@ -221,7 +220,7 @@ function toggleVisibility(whichone) {
 
 </head>
 <body onload='init()'>
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -260,12 +259,12 @@ createFieldTable('', [
 		,['932', '932 (日语)'],['936', '936 (简体中文)'],['949', '949 (朝鲜语)'],['950', '950 (繁体中文 / Big5)']
 /* LINUX26-END */
 		],
-		suffix: ' <small> (Windows 中运行 cmd,输入 chcp 命令可查看系统代码页)<\/small>',
+		suffix: ' <small> (Windows 中运行 cmd,输入 chcp 命令可查看系统代码页)</small>',
 		value: nvram.smbd_cpage },
 	{ title: '网络接口', name: 'smbd_ifnames', type: 'text', maxlen: 50, size: 32,
-		suffix: ' <small> (以空格分隔)<\/small>',
+		suffix: ' <small> (以空格分隔)</small>',
 		value: nvram.smbd_ifnames },
-	{ title: 'Samba<br />自定义配置', name: 'smbd_custom', type: 'textarea', value: nvram.smbd_custom },
+	{ title: 'Samba<br>自定义配置', name: 'smbd_custom', type: 'textarea', value: nvram.smbd_custom },
 	{ title: '自动共享 USB 设备分区', name: 'smbd_autoshare', type: 'select',
 		options: [['0', '禁用'],['1', '只读'],['2', '读 / 写'],['3', '隐藏式 读 / 写']],
 		value: nvram.smbd_autoshare },
@@ -276,13 +275,13 @@ createFieldTable('', [
 ]);
 </script>
 </div>
-<br />
+<br>
 
 <div class='section-title'>附加的共享列表</div>
 <div class='section'>
-	<div class="tomato-grid" id="ss-grid"></div>
+	<table class='tomato-grid' cellspacing=1 id='ss-grid'></table>
 	<script type='text/javascript'>ssg.setup();</script>
-<br />
+<br>
 <small>如果没有指定共享目录并且自动共享关闭时, <i>/mnt</i>目录将会被以只读模式共享.</small>
 </div>
 
@@ -295,7 +294,7 @@ createFieldTable('', [
 <ul>
 <li>如果为空, 则会使用<i>interfaces = <% nv("lan_ifname"); %></i>.</li>
 <li><i>bind interfaces only = yes</i> 始终设置为有效.</li>
-<li>请查阅 <a href="https://www.samba.org/samba/docs/man/manpages-3/smb.conf.5.html" class="new_window">Samba 文档</a> 获取更多信息.</li>
+<li>请查阅 <a href="https://www.samba.org/samba/docs/man/manpages-3/smb.conf.5.html">Samba 文档</a> 获取更多信息.</li>
 </ul></li>
 </ul>
 </div>

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -13,7 +13,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] 实用工具：路由追踪</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -204,19 +204,19 @@ function init()
 createFieldTable('', [
 	{ title: '地址', name: 'f_addr', type: 'text', maxlen: 64, size: 32, value: '', suffix: ' <input type="button" value="追踪" onclick="trace()" id="traceb">' },
 	{ title: '最大跃点数 Hops', name: 'f_hops', type: 'text', maxlen: 2, size: 4, value: '20' },
-	{ title: '最大等待时间', name: 'f_wait', type: 'text', maxlen: 2, size: 4, value: '3', suffix: ' <small>(每跳秒数)<\/small>' }
+	{ title: '最大等待时间', name: 'f_wait', type: 'text', maxlen: 2, size: 4, value: '3', suffix: ' <small>(每跳秒数)</small>' }
 ]);
 </script>
 </div>
 
 <div style='visibility:hidden' id='trace-error'></div>
 
-<div style='visibility:hidden;text-align:right' id='wait'>请稍候... <img src='spin.gif' alt='' style='vertical-align:top'></div>
+<div style='visibility:hidden;text-align:right' id='wait'>请稍候... <img src='spin.gif' style='vertical-align:top'></div>
 
-<div id="ttr-grid" class="tomato-grid"></div>
+<table id='ttr-grid' class='tomato-grid' cellspacing=1></table>
 
 <div style='height:10px;' onclick='javascript:E("debug").style.display=""'></div>
-<textarea id='debug' style='width:99%;height:300px;display:none' cols='50' rows='10'></textarea>
+<textarea id='debug' style='width:99%;height:300px;display:none'></textarea>
 
 <!-- / / / -->
 

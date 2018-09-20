@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2007-2011 Shibby
@@ -12,7 +12,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] 高级设置: TOR项目</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 <style type='text/css'>
 textarea {
@@ -100,7 +100,7 @@ function verifyFields(focused, quiet)
 function save()
 {
   if (verifyFields(null, 0)==0) return;
-  var fom = E('t_fom');
+  var fom = E('_fom');
   fom.tor_enable.value = E('_f_tor_enable').checked ? 1 : 0;
 
   if (fom.tor_enable.value == 0) {
@@ -109,7 +109,7 @@ function save()
   else {
   	fom._service.value = 'tor-restart,firewall-restart'; 
   }
-  form.submit('t_fom', 1);
+  form.submit('_fom', 1);
 }
 
 function init()
@@ -129,8 +129,7 @@ function init()
 <div id='ident'><% ident(); %></div>
 <div class='section-title'>TOR配置</div>
 <div class='section' id='config-section'>
-<form id='t_fom' method='post' action='tomato.cgi'>
-<div>
+<form id='_fom' method='post' action='tomato.cgi'>
 <input type='hidden' name='_nextpage' value='advanced-tor.asp'>
 <input type='hidden' name='_service' value='tor-restart'>
 <input type='hidden' name='tor_enable'>
@@ -171,20 +170,19 @@ createFieldTable('', [
 	<li><b>启用 TOR</b> - 请耐心等待. 启动 TOR 客户端可能需要数秒至数分钟的时间.
 	<li><b>选择 IP 地址</b> - 例如: 1.2.3.4,1.1.0/24,1.2.3.1-1.2.3.4
 	<li><b>所选端口</b> - 例如：一个端口（80），几个端口（80,443,8888），端口范围（80:88），混合（80,8000：9000,9999）
-	<li><b style='text-decoration:underline'>警告!</b> - 如果你的路由器只有 32MB of RAM, 你必须使用交换分区.
+	<li><b><u>警告!</u></b> - 如果你的路由器只有 32MB of RAM, 你必须使用交换分区.
 </ul>
 </div>
 </form>
 </div>
 </td></tr>
 <tr><td id='footer' colspan=2>
-	<form action=''>
-		<div>
-			<span id='footer-msg'></span>
-			<input type='button' value='保存设置' id='save-button' onclick='save()'>
-			<input type='button' value='取消设置' id='cancel-button' onclick='javascript:reloadPage();'>
-		</div>
-	</form>
+ <form>
+ <span id='footer-msg'></span>
+ <input type='button' value='保存设置' id='save-button' onclick='save()'>
+ <input type='button' value='取消设置' id='cancel-button' onclick='javascript:reloadPage();'>
+ </form>
+</div>
 </td></tr>
 </table>
 <script type='text/javascript'>verifyFields(null, 1);</script>

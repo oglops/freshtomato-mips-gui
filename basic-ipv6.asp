@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -13,7 +13,7 @@
 <meta name='robots' content='noindex,nofollow'>
 <title>[<% ident(); %>] 基本设置: IPv6</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
-<% css(); %>
+<link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
 
 <!-- / / / -->
@@ -112,7 +112,7 @@ function verifyFields(focused, quiet)
 			vis._f_ipv6_pdonly = 0;
                        break;
 		case 'native-pd':
-			t_fom.f_ipv6_accept_ra_wan.checked = true;
+			_fom.f_ipv6_accept_ra_wan.checked = true;
 		case '6rd-pd':
 			vis._f_ipv6_prefix = 0;
 			vis._f_ipv6_rtr_addr_auto = 0;
@@ -288,7 +288,7 @@ function save()
 
 	if (!verifyFields(null, false)) return;
 
-	var fom = E('t_fom');
+	var fom = E('_fom');
 
 	fom.ipv6_dns.value = joinIPv6Addr([fom.f_ipv6_dns_1.value, fom.f_ipv6_dns_2.value, fom.f_ipv6_dns_3.value]);
 	fom.ipv6_pdonly.value = fom.f_ipv6_pdonly.checked ? 1 : 0;
@@ -349,7 +349,7 @@ function save()
 
 </head>
 <body>
-<form id='t_fom' method='post' action='tomato.cgi'>
+<form id='_fom' method='post' action='tomato.cgi'>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
 	<div class='title'>Tomato</div>
@@ -425,14 +425,14 @@ createFieldTable('', [
 </script>
 </div>
 
-<br />
+<br>
 <script type='text/javascript'>show_notice1('<% notice("ip6tables"); %>');</script>
 
 <!-- / / / -->
 
 <div class='section-title'>说明</div>
 <div class='section'>
-<br />
+<br>
 	<ul>
 	<li><b>仅请求前缀委派:</b> 当 ISP 只要求设置前缀委派时勾选(通常线路是 PPPOE(Dsl,光纤?)).</li>
 	</ul>

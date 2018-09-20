@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -73,7 +73,7 @@ function genData() {
 		t = getYMD(h[0]);
 		w.document.writeln([t[0], t[1] + 1, t[2], h[1], h[2], h[3]].join(','));
 	}
-	w.document.writeln('<\/pre>');
+	w.document.writeln('</pre>');
 	w.document.close();
 }
 
@@ -109,7 +109,7 @@ function redraw() {
 
 			if (E('_f_begin_date').value.toString() != '0') {
 				if (b[0] < E('_f_begin_date').value)
-				continue;
+					continue;
 			}
 
 			if (E('_f_end_date').value.toString() != '0') {
@@ -120,7 +120,7 @@ function redraw() {
 			if (filteripe.length>0) {
 				fskip = 0;
 				for (var x = 0; x < filteripe.length; ++x) {
-					if (b[1] == filteripe[x]) {
+					if (b[1] == filteripe[x]){
 						fskip=1;
 						break;
 					}
@@ -131,7 +131,7 @@ function redraw() {
 			if (filterip.length>0) {
 				fskip = 1;
 				for (var x = 0; x < filterip.length; ++x) {
-					if (b[1] == filterip[x]) {
+					if (b[1] == filterip[x]){
 						fskip=0;
 						break;
 					}
@@ -143,11 +143,11 @@ function redraw() {
 				(b[1] == getNetworkAddress(nvram.lan1_ipaddr,nvram.lan1_netmask)) ||
 				(b[1] == getNetworkAddress(nvram.lan2_ipaddr,nvram.lan2_netmask)) ||
 				(b[1] == getNetworkAddress(nvram.lan3_ipaddr,nvram.lan3_netmask))) {
-					if(E('_f_subnet').checked == 0) {
-						continue;
-					} else {
-						subnetslisted.push(b[1]);
-					}
+				if(E('_f_subnet').checked == 0) {
+					continue;
+				} else {
+					subnetslisted.push(b[1]);
+				}
 			} else {
 				hostslisted.push(b[1]);
 				rx += b[2];
@@ -175,32 +175,33 @@ function redraw() {
 			var h = b[1];
 			if (E('_f_hostnames').checked) {
 				if(hostnamecache[b[1]] != null) {
-					h = hostnamecache[b[1]] + ((b[1].indexOf(':') != -1) ? '<br />' : ' ') + '<small>(' + b[1] + ')<\/small>';
+					h = hostnamecache[b[1]] + ((b[1].indexOf(':') != -1) ? '<br>' : ' ') + '<small>(' + b[1] + ')</small>';
 				}
 			}
 			if (E('_f_shortcuts').checked) {
-				h = h + '<br /><small>';
-				h = h + '<a href="javascript:viewQosDetail(' + i + ')" title="查看 QoS 细节">[qosdetails]<\/a>';
-				h = h + '<a href="javascript:viewQosCTrates(' + i + ')" title="查看每个连接的传输率">[qosrates]<\/a>';
-				h = h + '<a href="javascript:viewIptDetail(' + i + ')" title="查看此IP实时流量">[iptraf]<\/a>';
-				h = h + '<a href="javascript:addExcludeList(' + i + ')" title="过滤此IP地址">[hide]<\/a>';
-				h = h + '<\/small>';
+				h = h + '<br><small>';
+				h = h + '<a href="javascript:viewQosDetail(' + i + ')" title="查看 QoS 细节">[qosdetails]</a>';
+				h = h + '<a href="javascript:viewQosCTrates(' + i + ')" title="查看每个连接的传输率">[qosrates]</a>';
+				h = h + '<a href="javascript:viewIptDetail(' + i + ')" title="查看此IP实时流量">[iptraf]</a>';
+				h = h + '<a href="javascript:addExcludeList(' + i + ')" title="过滤此IP地址">[hide]</a>';
+				h = h + '</small>';
 			}
 			var ymd = getYMD(b[0]);
 			d = [ymdText(ymd[0], ymd[1], ymd[2]), h, rescale(b[2]), rescale(b[3]), rescale(b[2]+b[3])];
 			dg.insertData(-1, d);
 		}
+
 		dg.resort();
 		dg.recolor();
 		dg.footerSet([
 			'总计', 
 			('<small><i>(' +
 			(((hostslisted.length > 0) || (subnetslisted.length > 0)) ? 
-			((hostslisted.length > 0) ? (hostslisted.length + ' 主机') : '') +
-			(((hostslisted.length > 0) && (subnetslisted.length > 0)) ? ', ' : '') +
-			((subnetslisted.length > 0) ? (subnetslisted.length + ' 子网') : '')
+				((hostslisted.length > 0) ? (hostslisted.length + ' 主机') : '') +
+				(((hostslisted.length > 0) && (subnetslisted.length > 0)) ? ', ' : '') +
+				((subnetslisted.length > 0) ? (subnetslisted.length + ' 子网') : '')
 			: '无数据') +
-			')<\/i><\/small>'),
+			')</i></small>'),
 			rescale(rx), 
 			rescale(tx), 
 			rescale(rx+tx)]);
@@ -248,15 +249,15 @@ dg.sortCompare = function(a, b) {
 	var r = 0;
 	switch (col) {
 	case 0:	// Date
-	case 1: // Hostname
-		r = cmpIP(da[col], db[col]);
-		if (r == 0)
-			r = cmpText(da[col], db[col]);
-		break;
+        case 1: // Hostname
+                r = cmpIP(da[col], db[col]);
+                if (r == 0)
+                        r = cmpText(da[col], db[col]);
+                break;
 	case 2:	// Download
 	case 3:	// Upload
 	case 4:	// Total
-		r = cmpFloat(da[col].replace(/,/g,""), db[col].replace(/,/g,""));
+                r = cmpFloat(da[col].replace(/,/g,""), db[col].replace(/,/g,""));
 		break;
 	}
 	return this.sortAscending ? r : -r;
@@ -293,13 +294,13 @@ function update_filter_dates(b) {
 			var ymd = getYMD(b.options[i].value);
 			b.options[i].text = ymdText(ymd[0], ymd[1], ymd[2]);
 		}
-		}
+	}
 }
 
 function init() {
 
 	if (nvram.cstats_enable != '1') {
-		E('refresh-button').setAttribute("disabled", "disabled");
+		E('refresh-button').disabled = 1;
 		return;
 	}
 
@@ -437,11 +438,11 @@ function verifyFields(focused, quiet) {
 </script>
 </head>
 <body onload='init()'>
-<form action=''>
+<form>
 <table id='container' cellspacing=0>
 <tr><td colspan=2 id='header'>
-<div class='title'>Tomato</div>
-<div class='version'>Version <% version(); %></div>
+	<div class='title'>Tomato</div>
+	<div class='version'>Version <% version(); %></div>
 </td></tr>
 <tr id='body'><td id='navi'><script type='text/javascript'>navi()</script></td>
 <td id='content'>
@@ -449,40 +450,36 @@ function verifyFields(focused, quiet) {
 
 <!-- / / / -->
 
-<div class='section-title'>IP Traffic - Daily History</div>
 <div id='cstats'>
-	<div class='section'>
-		<div id="daily-grid" class="tomato-grid" style="height:auto"></div>
-	</div>
-
-	<div class='section-title'>可选项 <small><i><a href='javascript:toggleVisibility("options");'><span id='sesdivoptionsshowhide'>(点击此处显示)</span></a></i></small></div>
-	<div class='section' id='sesdivoptions' style='display:none'>
-		<script type='text/javascript'>
-		var c;
-		c = [];
-		c.push({ title: '仅包含这些 IP', name: 'f_filter_ip', size: 50, maxlen: 255, type: 'text', suffix: ' <small>(用逗号分隔列表)<\/small>' });
-		c.push({ title: '不包含这些 IP', name: 'f_filter_ipe', size: 50, maxlen: 255, type: 'text', suffix: ' <small>(用逗号分隔列表)<\/small>' });
-		c.push({ title: '日期范围', multi: [ { name: 'f_begin_date', type: 'select', options: [['0', '所有']], suffix: ' - ' }, { name: 'f_end_date', type: 'select', options: [['0', 'Any']] } ] } );
-		c.push({ title: '日期格式', name: 'f_dafm', type: 'select', options: [['0', '年-月-日'], ['1', '月-日-年'], ['2', '月 日, 年'], ['3', '日.月.年']] });
-		c.push({ title: '单位', name: 'f_scale', type: 'select', options: [['0', 'KB'], ['1', 'MB'], ['2', 'GB']] });
-		c.push({ title: '显示子网统计', name: 'f_subnet', type: 'checkbox', suffix: ' <small>(计算总流量时不考虑最后一行)<\/small>' });
-		c.push({ title: '忽略没有流量的 IP', name: 'f_ignorezeroes', type: 'checkbox' });
-		c.push({ title: '显示已知的主机名', name: 'f_hostnames', type: 'checkbox' });
-		c.push({ title: '显示快捷键', name: 'f_shortcuts', type: 'checkbox' });
-		createFieldTable('',c);
-		</script>
-		<div style="float:right;text-align:right">
-			&raquo; <a href="javascript:genData()">数据</a>
-			<br />
-			&raquo; <a href="admin-iptraffic.asp">设置</a>
-		</div>
-	</div>
-
-	<br />
-
+<div class='section-title'>IP Traffic Daily History</div>
+<div class='section'>
+<table id='daily-grid' class='tomato-grid' cellspacing=0 style='height:auto'></table>
 </div>
 
-<!-- / / / -->
+<div class='section-title'>可选项 <small><i><a href='javascript:toggleVisibility("options");'><span id='sesdivoptionsshowhide'>(点击此处显示)</span></a></i></small></div>
+<div class='section' id='sesdivoptions' style='display:none'>
+<script type='text/javascript'>
+var c;
+c = [];
+c.push({ title: '仅包含这些 IP', name: 'f_filter_ip', size: 50, maxlen: 255, type: 'text', suffix: ' <small>(用逗号分隔列表)</small>' });
+c.push({ title: '不包含这些 IP', name: 'f_filter_ipe', size: 50, maxlen: 255, type: 'text', suffix: ' <small>(用逗号分隔列表)</small>' });
+c.push({ title: '日期范围', multi: [ { name: 'f_begin_date', type: 'select', options: [['0', '所有']], suffix: ' - ' }, { name: 'f_end_date', type: 'select', options: [['0', 'Any']] } ] } );
+c.push({ title: '日期格式', name: 'f_dafm', type: 'select', options: [['0', '年-月-日'], ['1', '月-日-年'], ['2', '月 日, 年'], ['3', '日.月.年']] });
+c.push({ title: '单位', name: 'f_scale', type: 'select', options: [['0', 'KB'], ['1', 'MB'], ['2', 'GB']] });
+c.push({ title: '显示子网统计', name: 'f_subnet', type: 'checkbox', suffix: ' <small>(计算总流量时不考虑最后一行)</small>' });
+c.push({ title: '忽略没有流量的 IP', name: 'f_ignorezeroes', type: 'checkbox' });
+c.push({ title: '显示已知的主机名', name: 'f_hostnames', type: 'checkbox' });
+c.push({ title: '显示快捷键', name: 'f_shortcuts', type: 'checkbox' });
+createFieldTable('',c);
+</script>
+<div style="float:right;text-align:right">
+&raquo; <a href="javascript:genData()">数据</a>
+<br>
+&raquo; <a href="admin-iptraffic.asp">设置</a>
+</div>
+</div>
+</div>
+<br>
 
 <script type='text/javascript'>checkCstats();</script>
 
@@ -490,7 +487,7 @@ function verifyFields(focused, quiet) {
 
 </td></tr>
 <tr><td id='footer' colspan=2>
-	<input type='button' value='刷新' id="refresh-button" onclick='reloadPage()'>
+<input type='button' value='刷新' onclick='reloadPage()'>
 </td></tr>
 </table>
 </form>
