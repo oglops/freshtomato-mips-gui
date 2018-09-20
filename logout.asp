@@ -16,14 +16,14 @@
 <div style='width:300px;padding:50px;background:#eee'>
 <b>Logout</b><br>
 <hr size=1><br>
-To clear the credentials cached by the browser:<br>
+将要清除浏览器缓存的凭证:<br>
 <br>
 <b>Firefox, Internet Explorer, Opera, Safari</b><br>
-- Leave the password field blank.<br>
-- Click OK/Login<br>
+- 将密码输入框清空.<br>
+- 点击确定/登陆<br>
 <br>
 <b>Chrome</b><br>
-- Select Cancel.<br>
+- 选择取消.<br>
 </div>
 
 <form name='go' method='post' action='logout'>

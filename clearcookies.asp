@@ -11,7 +11,7 @@
 <head>
 <meta http-equiv='content-type' content='text/html;charset=utf-8'>
 <meta name='robots' content='noindex,nofollow'>
-<title>[<% ident(); %>] Clear Cookies</title>
+<title>[<% ident(); %>] 清除 Cookies</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
 <link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
@@ -28,7 +28,7 @@
 
 <!-- / / / -->
 
-<b>Cookies Cleared</b>
+<b>Cookies 已清除</b>
 
 <script type='text/javascript'>
 b = [];
@@ -39,7 +39,7 @@ for (i = 0; i < c.length; ++i) {
 		cookie.unset(RegExp.$1);
 	}
 }
-if (b.length == 0) b.push('<li>no cookie found');
+if (b.length == 0) b.push('<li>未找到 cookie');
 W('<ul>' + b.join('') + '</ul>');
 </script>
 

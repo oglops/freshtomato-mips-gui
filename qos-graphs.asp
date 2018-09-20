@@ -11,7 +11,7 @@
 <head>
 <meta http-equiv='content-type' content='text/html;charset=utf-8'>
 <meta name='robots' content='noindex,nofollow'>
-<title>[<% ident(); %>] QoS: View Graphs</title>
+<title>[<% ident(); %>] QoS: 图形分析</title>
 <link rel='stylesheet' type='text/css' href='tomato.css'>
 <link rel='stylesheet' type='text/css' href='color.css'>
 <script type='text/javascript' src='tomato.js'></script>
@@ -63,8 +63,8 @@ for(var i=0; i < 10; i++){
 
 var svgReady = 0;
 
-var Unclassified = ['Unclassified'];
-var Unused = ['Unused'];
+var Unclassified = ['未分类'];
+var Unused = ['未使用'];
 var classNames = nvram.qos_classnames.split(' ');		//Toastman Class Labels
 var abc = Unclassified.concat(classNames,Unused);
 
@@ -301,7 +301,7 @@ function init()
 
 <!-- / / / -->
 
-<div class="section-title">Connections Distribution</div>
+<div class="section-title">连接分布图表</div>
 <div class="section">
 <table border=0 width="100%"><tr><td>
 	<table style="width:250px">
@@ -326,7 +326,7 @@ if (nvram.web_svg != '0') {
 </table>
 </div>
 
-<div class="section-title">Bandwidth Distribution (Outbound)</div>
+<div class="section-title">带宽分布(出站)</div>
 <div class="section">
 <table border=0 width="100%"><tr><td>
 	<table style="width:250px">
@@ -353,7 +353,7 @@ if (nvram.web_svg != '0') {
 </table>
 </div>
 
-<div class="section-title">Bandwidth Distribution (Inbound)</div>
+<div class="section-title">带宽分布(出站)</div>
 <div class="section">
 <table border=0 width="100%"><tr><td>
 	<table style="width:250px">
@@ -382,7 +382,7 @@ if (nvram.web_svg != '0') {
 
 <script type='text/javascript'>
 if (nvram.qos_enable != '1') {
-	W('<div class="note-disabled"><b>QoS disabled.</b> &nbsp; <a href="qos-settings.asp">Enable &raquo;</a></div>');
+	W('<div class="note-disabled"><b>QoS 已停用.</b> &nbsp; <a href="qos-settings.asp">启用 &raquo;</a></div>');
 }
 </script>
 

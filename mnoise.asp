@@ -10,7 +10,7 @@
 <head>
 <meta http-equiv='content-type' content='text/html;charset=utf-8'>
 <meta name='robots' content='noindex,nofollow'>
-<title>[<% ident(); %>] Measuring Noise...</title>
+<title>[<% ident(); %>] 测量噪声...</title>
 <script language='javascript'>
 function tick()
 {

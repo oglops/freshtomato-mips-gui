@@ -10,7 +10,7 @@
 <head>
 <meta http-equiv='content-type' content='text/html;charset=utf-8'>
 <meta name='robots' content='noindex,nofollow'>
-<title>[<% ident(); %>] Shutting down...</title>
+<title>[<% ident(); %>] 关机...</title>
 <script type='text/javascript'>
 var n = 16;
 function tick()
