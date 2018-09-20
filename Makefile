@@ -33,6 +33,7 @@ install:
 			-e "s,\x0d,," \
 			-e "s,^\s\+,," \
 			-e "/^$$/d" \
+			-e "/^<!--$$/,/^-->$$/d" \
 			-e "/^<!--$$/,/^-->$$/! { s,^\s\+, , }" $$F > $(INSTALLDIR)/www/$$F; \
 	done
 
@@ -62,14 +63,6 @@ else
 	for F in $(wildcard *.asp *.js *.jsx); do \
 		sed -i $$F -e "/DUALWAN-BEGIN/,/DUALWAN-END/d"; \
 	done
-endif
-
-ifeq ($(TCONFIG_MIPSR2),y)
-	sed -i $(INSTALLDIR)/www/tomato.js -e "/MIPSR1-BEGIN/,/MIPSR1-END/d"
-	rm -f $(INSTALLDIR)/www/advanced-vlan-r1.asp
-else
-	sed -i $(INSTALLDIR)/www/tomato.js -e "/MIPSR2-BEGIN/,/MIPSR2-END/d"
-	rm -f $(INSTALLDIR)/www/advanced-vlan.asp
 endif
 
 # Only include the CIFS pages if CIFS is configured in.
@@ -159,9 +152,11 @@ ifneq ($(TCONFIG_IPV6),y)
 endif
 
 # Only include the Transmission binary path select if Transmission binaries is configured in.
+# Also only then (when libcurl is included), let to choose curl as a connection checker.
 ifneq ($(TCONFIG_BBT),y)
 	sed -i $(INSTALLDIR)/www/nas-bittorrent.asp -e "/BBT-BEGIN/,/BBT-END/d"
 	sed -i $(INSTALLDIR)/www/about.asp -e "/BBT-BEGIN/,/BBT-END/d"
+	sed -i $(INSTALLDIR)/www/basic-network.asp -e "/BBT-BEGIN/,/BBT-END/d"
 endif
 
 # Only include the Transmission pages if Transmission is configured in.
@@ -296,14 +291,22 @@ else
 	sed -i $(INSTALLDIR)/www/about.asp -e "/DNSCRYPT-BEGIN/,/DNSCRYPT-END/d"
 endif
 
+# Only include the stubby option if is compiled in
+ifneq ($(TCONFIG_STUBBY),y)
+	sed -i $(INSTALLDIR)/www/basic-network.asp -e "/STUBBY-BEGIN/,/STUBBY-END/d"
+endif
+
+# Only include the https option if it is compiled in
+ifneq ($(TCONFIG_HTTPS),y)
+	sed -i $(INSTALLDIR)/www/admin-access.asp -e "/HTTPS-BEGIN/,/HTTPS-END/d"
+endif
+
 # clean up
 	cd $(INSTALLDIR)/www && \
 	for F in $(wildcard *.asp *.js *.jsx *.html); do \
 		[ -f $(INSTALLDIR)/www/$$F ] && sed -i $$F \
 		-e "/LINUX26-BEGIN/d"	-e "/LINUX26-END/d" \
 		-e "/LINUX24-BEGIN/d"	-e "/LINUX24-END/d" \
-		-e "/MIPSR2-BEGIN/d"	-e "/MIPSR2-END/d" \
-		-e "/MIPSR1-BEGIN/d"	-e "/MIPSR1-END/d" \
 		-e "/USB-BEGIN/d"	-e "/USB-END/d" \
 		-e "/UPS-BEGIN/d"	-e "/UPS-END/d" \
 		-e "/NTFS-BEGIN/d"	-e "/NTFS-END/d" \
@@ -329,11 +332,13 @@ endif
 		-e "/SDHC-BEGIN/d"	-e "/SDHC-END/d"\
 		-e "/HFS-BEGIN/d"	-e "/HFS-END/d"\
 		-e "/DNSCRYPT-BEGIN/d"	-e "/DNSCRYPT-END/d"\
+		-e "/STUBBY-BEGIN/d"	-e "/STUBBY-END/d"\
 		-e "/DNSSEC-BEGIN/d"	-e "/DNSSEC-END/d"\
 		-e "/TOR-BEGIN/d"	-e "/TOR-END/d"\
 		-e "/TINC-BEGIN/d"	-e "/TINC-END/d"\
 		-e "/MULTIWAN-BEGIN/d"	-e "/MULTIWAN-END/d"\
 		-e "/DUALWAN-BEGIN/d"	-e "/DUALWAN-END/d"\
+		-e "/HTTPS-BEGIN/d"	-e "/HTTPS-END/d"\
 		|| true; \
 	done
 
@@ -345,7 +350,7 @@ endif
 
 	chmod 0644 $(INSTALLDIR)/www/*
 
-# remove C-style comments from java files. All "control" comments have been processed by now.
-	for F in $(wildcard *.js *.jsx); do \
+# remove C-style comments from java, asp and css files. All "control" comments have been processed by now.
+	for F in $(wildcard *.js *.jsx *.asp *.css); do \
 		[ -f $(INSTALLDIR)/www/$$F ] && $(TOP)/www/remcoms2.sh $(INSTALLDIR)/www/$$F c; \
 	done

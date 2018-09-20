@@ -2236,10 +2236,11 @@ function tabHigh(id)
 // -----------------------------------------------------------------------------
 
 var cookie = {
-	// The value 2147483647000 is ((2^31)-1)*1000, which is the number of
-	// milliseconds (minus 1 second) which correlates with the year 2038 counter
-	// rollover. This effectively makes the cookie never expire.
-
+/*
+	The value 2147483647000 is ((2^31)-1)*1000, which is the number of
+	milliseconds (minus 1 second) which correlates with the year 2038 counter
+	rollover. This effectively makes the cookie never expire.
+*/
 	set: function(key, value, days) {
 		document.cookie = 'tomato_' + encodeURIComponent(key) + '=' + encodeURIComponent(value) + '; expires=' +
 		new Date(2147483647000).toUTCString() + '; path=/';
@@ -2463,12 +2464,7 @@ function navi()
 /* TOR-BEGIN */
 			['TOR Project',			'tor.asp'],
 /* TOR-END */
-/* MIPSR2-BEGIN */
 			['VLAN',			'vlan.asp'],
-/* MIPSR2-END */
-/* MIPSR1-BEGIN */
-			['VLAN',			'vlan-r1.asp'],
-/* MIPSR1-END */
 			['LAN Access',			'access.asp'],
 			['Virtual Wireless',		'wlanvifs.asp'],
 			['Wireless',			'wireless.asp'] ] ],

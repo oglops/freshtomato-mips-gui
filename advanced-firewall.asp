@@ -61,22 +61,22 @@ function verifyFields(focused, quiet)
 	var mcast_lan2 = E('_f_multicast_lan2').checked;
 	var mcast_lan3 = E('_f_multicast_lan3').checked;
 	var mcast_custom_enable = 0;
-	<!-- disable multicast_custom textarea if lanX is checked / selected -->
+	/* disable multicast_custom textarea if lanX is checked / selected */
 	E('_multicast_custom').disabled = ((!enable_mcast) ||  (mcast_lan) || (mcast_lan1) || (mcast_lan2) || (mcast_lan3));
-	<!-- check if more than 50 charactars are in the textarea (no plausibility test) -->
+	/* check if more than 50 charactars are in the textarea (no plausibility test) */
 	if (!E('_multicast_custom').disabled && v_length('_multicast_custom', 1, 50, 2048)) {
 		mcast_custom_enable = 1;
 	} else {
 		mcast_custom_enable = 0;
 	}
-	<!-- IGMP proxy enable checked but no lanX checked and no custom config -->
+	/* IGMP proxy enable checked but no lanX checked and no custom config */
 	if ((enable_mcast) && (!mcast_lan) && (!mcast_lan1) && (!mcast_lan2) && (!mcast_lan3) && (!mcast_custom_enable)) {
 		ferror.set('_f_multicast', 'IGMP proxy must be enabled in least one LAN bridge OR you have to use custom configuration', quiet);
 		return 0;
-	<!-- IGMP proxy enable checked but custom config / textarea length not OK -->
+	/* IGMP proxy enable checked but custom config / textarea length not OK */
 	} else if ((enable_mcast) && (mcast_custom_enable) && !v_length('_multicast_custom', quiet, 0, 2048)) {
 		return 0;
-	<!-- clear -->
+	/* clear */
 	} else {
 		ferror.clear('_f_multicast');
 	}
@@ -84,7 +84,7 @@ function verifyFields(focused, quiet)
 	E('_f_udpxy_stats').disabled = !E('_f_udpxy_enable').checked;
 	E('_f_udpxy_clients').disabled = !E('_f_udpxy_enable').checked;
 	E('_f_udpxy_port').disabled = !E('_f_udpxy_enable').checked;
-	
+
 	return 1;
 }
 
@@ -201,7 +201,7 @@ createFieldTable('', [
 <div class='section-title'>IGMP proxy notes</div>
 <div class='section'>
 <ul>
-	<li><b>LAN / LAN1 / LAN2 / LAN3</b> - Add interface br0 / br1 / br2 / br3 to igmp.conf (Ex.: phyint br0 downstream ratelimit 0 threshold 0).</li>
+	<li><b>LAN / LAN1 / LAN2 / LAN3</b> - Add interface br0 / br1 / br2 / br3 to igmp.conf (Ex.: phyint br0 downstream ratelimit 0 threshold 1).</li>
 	<li><b>Custom configuration</b> - Use custom config for IGMP proxy instead of tomato default config. You must define one (or more) upstream interface(s) and one or more downstream interfaces. Refer to the <a href="https://github.com/pali/igmpproxy/blob/master/igmpproxy.conf">IGMP proxy example configuration</a> and <a href="https://github.com/pali/igmpproxy/commit/b55e0125c79fc9dbc95c6d6ab1121570f0c6f80f">IGMP proxy commit b55e0125c79fc9d</a> for details.</li>
 	<li><b>Other hints</b> - For error messages please check the <a href="status-log.asp">log file</a>.</li>
 </ul>

@@ -1,6 +1,7 @@
 function selectedBand(uidx)
 {
 	if (bands[uidx].length > 1) {
+		var u = wl_fface(uidx);
 		var e = E('_f_wl'+u+'_nband');
 		return (e.value + '' == '' ? eval('nvram["wl'+u+'_nband"]') : e.value);
 	} else if (bands[uidx].length > 0) {
@@ -275,7 +276,7 @@ function v_wep(e, quiet)
 	var s = e.value;
 
 	if (((s.length == 5) || (s.length == 13)) && (s.length == (e.maxLength >> 1))) {
-		// no checking
+		/* no checking */
 	} else {
 		s = s.toUpperCase().replace(/[^0-9A-F]/g, '');
 		if (s.length != e.maxLength) {
@@ -289,7 +290,7 @@ function v_wep(e, quiet)
 	return 1;
 }
 
-// compatible w/ Linksys' and Netgear's (key 1) method for 128-bits
+/* compatible w/ Linksys' and Netgear's (key 1) method for 128-bits */
 function generate_wep(u)
 {
 	function _wepgen(pass, i)

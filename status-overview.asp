@@ -239,10 +239,10 @@ function ethstates()
 function anon_update()
 {
 	update = anonupdate.update;
-	if (update == "no") { return 0; }
+	if (update == "no" || update == "") { return 0; }
 
 	var code = '<div class="section-title"><center>!! Attention !!</center></div>';
-	code += '<div class="fields"><center>Tomato by Shibby ' + update + ' is now available. <a target="_blank" href="http://tomato.groov.pl/">Click here to read more</a>.</center></div>';
+	code += '<div class="fields" style="text-align:center">Newer version of FreshTomato ' + update + ' is now available. <a target="_blank" href="http://freshtomato.org/">Click here to download<\/a>.<\/div>';
 	code += '<br></div>';
 	E("nversion").innerHTML = code;
 }
@@ -319,7 +319,7 @@ function earlyInit()
 	}
 	for (uidx = 0; uidx < wl_ifaces.length; ++uidx) {
 		if (wl_sunit(uidx)<0)
-			elem.display('b_wl'+uidx+'_enable', 'b_wl'+uidx+'_disable', show_radio[uidx]);
+			elem.display('b_wl'+wl_fface(uidx)+'_enable', 'b_wl'+wl_fface(uidx)+'_disable', show_radio[uidx]);
 	}
 
 	ethstates();
@@ -339,7 +339,7 @@ function init()
 		}
 	if (((c = cookie.get('status_overview_lan_vis')) != null) && (c != '1')) toggleVisibility("lan");
 	for (var uidx = 0; uidx < wl_ifaces.length; ++uidx) {
-		u = wl_unit(uidx);
+		u = wl_fface(uidx);
 		if (((c = cookie.get('status_overview_wl_'+u+'_vis')) != null) && (c != '1')) toggleVisibility("wl_"+u);
 	}
 	ref.initPage(3000, 3);
