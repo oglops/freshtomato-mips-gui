@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2008 Jonathan Zarate
@@ -13,15 +13,15 @@
 -->
 <html>
 <head>
-<meta http-equiv='content-type' content='text/html;charset=utf-8'>
-<meta name='robots' content='noindex,nofollow'>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<meta name="robots" content="noindex,nofollow">
 <title>[<% ident(); %>] IP带宽限制</title>
-<link rel='stylesheet' type='text/css' href='tomato.css'>
+<link rel="stylesheet" type="text/css" href="tomato.css">
 <% css(); %>
-<script type='text/javascript' src='tomato.js'></script>
+<script type="text/javascript" src="tomato.js"></script>
 
 <!-- / / / -->
-<style type='text/css'>
+<style type="text/css">
 #qosg-grid {
 	width: 100%;
 }
@@ -39,9 +39,9 @@
 }
 </style>
 
-<script type='text/javascript' src='debug.js'></script>
+<script type="text/javascript" src="debug.js"></script>
 
-<script type='text/javascript'>
+<script type="text/javascript">
 // <% nvram("new_qoslimit_enable,wan_qos_ibw,wan_qos_obw,new_qoslimit_rules,lan_ipaddr,lan_netmask,qosl_enable,qosl_dlr,qosl_dlc,qosl_ulr,qosl_ulc,qosl_udp,qosl_tcp,limit_br0_prio,limit_br1_enable,limit_br1_dlc,limit_br1_dlr,limit_br1_ulc,limit_br1_ulr,limit_br1_prio,limit_br2_enable,limit_br2_dlc,limit_br2_dlr,limit_br2_ulc,limit_br2_ulr,limit_br2_prio,limit_br3_enable,limit_br3_dlc,limit_br3_dlr,limit_br3_ulc,limit_br3_ulr,limit_br3_prio"); %>
 
 var class_prio = [['0','最高'],['1','高'],['2','普通'],['3','低'],['4','最低']];
@@ -109,8 +109,7 @@ qosg.resetNewEditor = function() {
 	
 	}
 
-qosg.exist = function(f, v)
-{
+qosg.exist = function(f, v) {
 	var data = this.getAllData();
 	for (var i = 0; i < data.length; ++i) {
 		if (data[i][f] == v) return true;
@@ -118,34 +117,29 @@ qosg.exist = function(f, v)
 	return false;
 }
 
-qosg.existID = function(id)
-{
+qosg.existID = function(id) {
 	return this.exist(0, id);
 }
 
-qosg.existIP = function(ip)
-{
+qosg.existIP = function(ip) {
 	if (ip == "0.0.0.0") return true;
 	return this.exist(1, ip);
 }
 
-qosg.checkRate = function(rate)
-{
+qosg.checkRate = function(rate) {
 	var s = parseInt(rate, 10);
 	if (isNaN(s) || s <= 0 || s >= 100000000) return true;
 	return false;
 }
 
-qosg.checkRateCeil = function(rate, ceil)
-{
+qosg.checkRateCeil = function(rate, ceil) {
 	var r = parseInt(rate, 10);
 	var c = parseInt(ceil, 10);
 	if (r > c) return true;
 	return false;
 }
 
-qosg.verifyFields = function(row, quiet)
-{
+qosg.verifyFields = function(row, quiet) {
 	var ok = 1;
 	var f = fields.getAll(row);
 	var s;
@@ -198,8 +192,7 @@ qosg.verifyFields = function(row, quiet)
 	return ok;
 }
 
-function verifyFields(focused, quiet)
-{
+function verifyFields(focused, quiet) {
 	var a = !E('_f_new_qoslimit_enable').checked;
 	var b = !E('_f_qosl_enable').checked;
 	var b1 = !E('_f_limit_br1_enable').checked;
@@ -248,8 +241,7 @@ function verifyFields(focused, quiet)
 	return 1;
 }
 
-function save()
-{
+function save() {
 	if (qosg.isEditing()) return;
 
 	var data = qosg.getAllData();
@@ -261,7 +253,7 @@ function save()
 		qoslimitrules += '>' + data[i].join('<');
 	}
 
-	var fom = E('_fom');
+	var fom = E('t_fom');
 	fom.new_qoslimit_enable.value = E('_f_new_qoslimit_enable').checked ? 1 : 0;
 	fom.qosl_enable.value = E('_f_qosl_enable').checked ? 1 : 0;
 	fom.limit_br1_enable.value = E('_f_limit_br1_enable').checked ? 1 : 0;
@@ -271,67 +263,66 @@ function save()
 	form.submit(fom, 1);
 }
 
-function init()
-{
+function init() {
 	qosg.recolor();
 }
 </script>
 </head>
-<body onload='init()'>
-<form id='_fom' method='post' action='tomato.cgi'>
-<table id='container' cellspacing=0>
-<tr><td colspan=2 id='header'>
-	<div class='title'>Tomato</div>
-	<div class='version'>Version <% version(); %></div>
+<body onload="init()">
+<form id="t_fom" method="post" action="tomato.cgi">
+<table id="container" cellspacing="0">
+<tr><td colspan="2" id="header">
+	<div class="title">Tomato</div>
+	<div class="version">Version <% version(); %></div>
 </td></tr>
-<tr id='body'><td id='navi'><script type='text/javascript'>navi()</script></td>
-<td id='content'>
-<div id='ident'><% ident(); %></div>
+<tr id="body"><td id="navi"><script type="text/javascript">navi()</script></td>
+<td id="content">
+<div id="ident"><% ident(); %></div>
 
 <!-- / / / -->
 
-<input type='hidden' name='_nextpage' value='bwlimit.asp'>
-<input type='hidden' name='_nextwait' value='10'>
-<input type='hidden' name='_service' value='qoslimit-restart'>
+<input type="hidden" name="_nextpage" value="bwlimit.asp">
+<input type="hidden" name="_nextwait" value="10">
+<input type="hidden" name="_service" value="qoslimit-restart">
 
-<input type='hidden' name='new_qoslimit_enable'>
-<input type='hidden' name='new_qoslimit_rules'>
-<input type='hidden' name='qosl_enable'>
-<input type='hidden' name='limit_br1_enable'>
-<input type='hidden' name='limit_br2_enable'>
-<input type='hidden' name='limit_br3_enable'>
+<input type="hidden" name="new_qoslimit_enable">
+<input type="hidden" name="new_qoslimit_rules">
+<input type="hidden" name="qosl_enable">
+<input type="hidden" name="limit_br1_enable">
+<input type="hidden" name="limit_br2_enable">
+<input type="hidden" name="limit_br3_enable">
 
 
-<div id='bwlimit'>
+<div id="bwlimit">
 
-	<div class='section-title'>LAN (br0)带宽限制</div>
-	<div class='section'>
-		<script type='text/javascript'>
+	<div class="section-title">LAN (br0)带宽限制</div>
+	<div class="section">
+		<script type="text/javascript">
 			createFieldTable('', [
 			{ title: '启用限制', name: 'f_new_qoslimit_enable', type: 'checkbox', value: nvram.new_qoslimit_enable != '0' },
 			{ title: '最大下载带宽 <br /><small>(与QoS使用的相同)<\/small>', indent: 2, name: 'wan_qos_ibw', type: 'text', maxlen: 8, size: 8, suffix: ' <small>kbit/s<\/small>', value: nvram.wan_qos_ibw },
 			{ title: '最大上传带宽 <br /><small>(与QoS使用的相同)<\/small>', indent: 2, name: 'wan_qos_obw', type: 'text', maxlen: 8, size: 8, suffix: ' <small>kbit/s<\/small>', value: nvram.wan_qos_obw }
 			]);
 		</script>
-		<br />
-		<table class='tomato-grid' id='qosg-grid'></table>
+		<br/>
+		<div class="tomato-grid" id="qosg-grid"></div>
 		<div>
 			<ul>
 				<li><b>IP 地址 / IP 范围:</b>
-				<li>例如: 192.168.1.5 指定一个 IP.
-				<li>例如: 192.168.1.4-7 指定 IP 192.168.1.4 到 192.168.1.7
-				<li>例如: 4-7 指定一个 IP 范围 .4 to .7
-				<li><b>IP 范围内的设备共享带宽</b>
-				<li><b>MAC 地址</b> 例如: 00:2E:3C:6A:22:D8
-			</ul>
+				</li><li>例如: 192.168.1.5 指定一个 IP.
+				</li><li>例如: 192.168.1.4-7 指定 IP 192.168.1.4 到 192.168.1.7
+				</li><li>例如: 4-7 指定 IP 范围 .4 to .7
+				</li><li><b>IP 范围内的设备共享带宽</b>
+				</li><li><b>MAC 地址</b> 例如: 00:2E:3C:6A:22:D8
+			</li></ul>
 		</div>
 	</div>
 
-	<br />
+	<br/>
 
-	<div class='section-title'>默认类别 - LAN (br0)中未列出的 MAC / IP</div>
-	<div class='section'>
-		<script type='text/javascript'>
+	<div class="section-title">默认类别 - LAN (br0)中未列出的 MAC / IP</div>
+	<div class="section">
+		<script type="text/javascript">
 			createFieldTable('', [
 				{ title: '启用', name: 'f_qosl_enable', type: 'checkbox', value: nvram.qosl_enable == '1'},
 				{ title: '下载带宽', indent: 2, name: 'qosl_dlr', type: 'text', maxlen: 8, size: 8, suffix: ' <small>kbit/s<\/small>', value: nvram.qosl_dlr },
@@ -366,14 +357,14 @@ function init()
 		<div>
 			<ul>
 				<li><b>默认类别</b> - 不在列表中的 ip / MAC 将使用默认的 速度/限制 设置
-				<li><b>br0中所有未列出的主机将共享带宽</b>
-			</ul>
+				</li><li><b>br0中所有未列出的主机将共享带宽</b>
+			</li></ul>
 		</div>
 	</div>
 
-	<div class='section-title'>默认类别 - LAN1 (br1)</div>
-	<div class='section'>
-		<script type='text/javascript'>
+	<div class="section-title">默认类别 LAN1 (br1)</div>
+	<div class="section">
+		<script type="text/javascript">
 			createFieldTable('', [
 				{ title: '启用', name: 'f_limit_br1_enable', type: 'checkbox', value: nvram.limit_br1_enable == '1'},
 				{ title: '下载带宽', indent: 2, name: 'limit_br1_dlr', type: 'text', maxlen: 8, size: 8, suffix: ' <small>kbit/s<\/small>', value: nvram.limit_br1_dlr },
@@ -387,13 +378,13 @@ function init()
 		<div>
 			<ul>
 				<li><b>br1中的所有主机共享带宽.</b>
-			</ul>
+			</li></ul>
 		</div>
 	</div>
 
-	<div class='section-title'>默认类别 - LAN2 (br2)</div>
-	<div class='section'>
-		<script type='text/javascript'>
+	<div class="section-title">默认类别 LAN2 (br2)</div>
+	<div class="section">
+		<script type="text/javascript">
 			createFieldTable('', [
 				{ title: '启用', name: 'f_limit_br2_enable', type: 'checkbox', value: nvram.limit_br2_enable == '1'},
 				{ title: '下载带宽', indent: 2, name: 'limit_br2_dlr', type: 'text', maxlen: 8, size: 8, suffix: ' <small>kbit/s<\/small>', value: nvram.limit_br2_dlr },
@@ -407,13 +398,13 @@ function init()
 		<div>
 			<ul>
 				<li><b>br2中的所有主机共享带宽.</b>
-			</ul>
+			</li></ul>
 		</div>
 	</div>
 
-	<div class='section-title'>默认类别 - LAN3 (br3)</div>
-	<div class='section'>
-		<script type='text/javascript'>
+	<div class="section-title">默认类别 LAN3 (br3)</div>
+	<div class="section">
+		<script type="text/javascript">
 			createFieldTable('', [
 				{ title: '启用', name: 'f_limit_br3_enable', type: 'checkbox', value: nvram.limit_br3_enable == '1'},
 				{ title: '下载带宽', indent: 2, name: 'limit_br3_dlr', type: 'text', maxlen: 8, size: 8, suffix: ' <small>kbit/s<\/small>', value: nvram.limit_br3_dlr },
@@ -427,7 +418,7 @@ function init()
 		<div>
 			<ul>
 				<li><b>br3中的所有主机共享带宽.</b>
-			</ul>
+			</li></ul>
 		</div>
 	</div>
 </div>
@@ -435,13 +426,13 @@ function init()
 <!-- / / / -->
 
 </td></tr>
-<tr><td id='footer' colspan=2>
-	<span id='footer-msg'></span>
-	<input type='button' value='保存设置' id='save-button' onclick='save()'>
-	<input type='button' value='取消设置' id='cancel-button' onclick='reloadPage();'>
+<tr><td id="footer" colspan="2">
+	<span id="footer-msg"></span>
+	<input type="button" value="保存设置" id="save-button" onclick="save()">
+	<input type="button" value="取消设置" id="cancel-button" onclick="reloadPage();">
 </td></tr>
 </table>
 </form>
-<script type='text/javascript'>qosg.setup(); verifyFields(null, 1);</script>
+<script type="text/javascript">qosg.setup(); verifyFields(null, 1);</script>
 </body>
 </html>

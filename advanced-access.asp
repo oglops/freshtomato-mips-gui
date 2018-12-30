@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2007 Jonathan Zarate
@@ -9,37 +9,37 @@
 -->
 <html>
 <head>
-<meta http-equiv='content-type' content='text/html;charset=utf-8'>
-<meta name='robots' content='noindex,nofollow'>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<meta name="robots" content="noindex,nofollow">
 <title>[<% ident(); %>] 高级设置: 局域网访问</title>
-<link rel='stylesheet' type='text/css' href='tomato.css'>
+<link rel="stylesheet" type="text/css" href="tomato.css">
 <% css(); %>
-<script type='text/javascript' src='tomato.js'></script>
-<style type='text/css'>
+<script type="text/javascript" src="tomato.js"></script>
+<style type="text/css">
 #la-grid .co1 {
-  text-align: center;
-  width: 30px;
+	text-align: center;
+	width: 30px;
 }
 #la-grid .co3,
 #la-grid .co5 {
-  text-align: center;
-  width: 120px;
+	text-align: center;
+	width: 120px;
 }
 #la-grid .co6 {
-  text-align: center;
-  width: 250px;
+	text-align: center;
+	width: 250px;
 }
 #la-grid .co2,
 #la-grid .co4 {
-  text-align: center;
+	text-align: center;
 }
 
 #la-grid .centered {
-  text-align: center;
+	text-align: center;
 }
 </style>
-<script type='text/javascript' src='wireless.jsx?_http_id=<% nv(http_id); %>'></script>
-<script type='text/javascript'>
+<script type="text/javascript" src="wireless.jsx?_http_id=<% nv(http_id); %>"></script>
+<script type="text/javascript">
 <% nvram ("lan_ifname,lan1_ifname,lan2_ifname,lan3_ifname,lan_access");%> 
 
 var MAX_BRIDGE_ID = 3;
@@ -47,10 +47,10 @@ var MAX_BRIDGE_ID = 3;
 var la = new TomatoGrid();
 la.setup = function() {
 	this.init('la-grid', 'sort', 50, [
-	{ type: 'checkbox', prefix: '<div class="centered">', suffix: '</div>' },
-	{ type: 'select', options: [[0, 'LAN (br0)'],[1, 'LAN1 (br1)'],[2, 'LAN2 (br2)'],[3, 'LAN3 (br3)']], prefix: '<div class="centered">', suffix: '</div>' },
+	{ type: 'checkbox', prefix: '<div class="centered">', suffix: '<\/div>' },
+	{ type: 'select', options: [[0, 'LAN (br0)'],[1, 'LAN1 (br1)'],[2, 'LAN2 (br2)'],[3, 'LAN3 (br3)']], prefix: '<div class="centered">', suffix: '<\/div>' },
 	{ type: 'text', maxlen: 32 },
-	{ type: 'select', options: [[0, 'LAN (br0)'],[1, 'LAN1 (br1)'],[2, 'LAN2 (br2)'],[3, 'LAN3 (br3)']], prefix: '<div class="centered">', suffix: '</div>' },
+	{ type: 'select', options: [[0, 'LAN (br0)'],[1, 'LAN1 (br1)'],[2, 'LAN2 (br2)'],[3, 'LAN3 (br3)']], prefix: '<div class="centered">', suffix: '<\/div>' },
 	{ type: 'text', maxlen: 32 },
 	{ type: 'text', maxlen: 32 }]);
 	this.headerSet(['打开', '源', '源地址', '目标', '目标地址', '描述']);
@@ -182,12 +182,11 @@ la.fieldValuesToData = function(row) {
 			f[5].value ];
 }
 
-function save()
-{
+function save() {
 	if (la.isEditing()) return;
 	la.resetNewEditor();
 
-	var fom = E('_fom');
+	var fom = E('t_fom');
 	var ladata = la.getAllData();
 
 	var s = '';
@@ -219,42 +218,41 @@ function toggleVisibility(whichone) {
 
 </script>
 </head>
-<body onload='init()'>
-<form id='_fom' method='post' action='tomato.cgi'>
-<table id='container' cellspacing=0>
-<tr><td colspan=2 id='header'>
-  <div class='title'>Tomato</div>
-  <div class='version'>Version <% version(); %></div>
+<body onload="init()">
+<form id="t_fom" method="post" action="tomato.cgi">
+<table id="container" cellspacing="0">
+<tr><td colspan="2" id="header">
+	<div class="title">Tomato</div>
+	<div class="version">Version <% version(); %></div>
 </td></tr>
-<tr id='body'><td id='navi'><script type='text/javascript'>navi()</script></td>
-<td id='content'>
-<div id='ident'><% ident(); %></div>
-<input type='hidden' name='_nextpage' value='advanced-access.asp'>
-<input type='hidden' name='_nextwait' value='10'>
-<input type='hidden' name='_service' value='firewall-restart'>
-<input type='hidden' name='lan_access'>
+<tr id="body"><td id="navi"><script type="text/javascript">navi()</script></td>
+<td id="content">
+<div id="ident"><% ident(); %></div>
+<input type="hidden" name="_nextpage" value="advanced-access.asp">
+<input type="hidden" name="_nextwait" value="10">
+<input type="hidden" name="_service" value="firewall-restart">
+<input type="hidden" name="lan_access">
 
-<div class='section-title'>局域网访问</div>
-<div class='section'>
-  <table class='tomato-grid' cellspacing=1 id='la-grid'></table>
-</div>
+<div class="section-title">局域网访问</div>
+<div class="section">
+	<div class="tomato-grid" id="la-grid"></div>
 </div>
 
-<div class='section-title'>说明 <small><i><a href='javascript:toggleVisibility("notes");'><span id='sesdiv_notes_showhide'>(点击此处显示)</span></a></i></small></div>
-<div class='section' id='sesdiv_notes' style='display:none'>
+<div class="section-title">说明 <small><i><a href='javascript:toggleVisibility("notes");'><span id="sesdiv_notes_showhide">(点击此处显示)</span></a></i></small></div>
+<div class="section" id="sesdiv_notes" style="display:none">
 <ul>
-<li><b>源</b> - 源局域网网桥.</li>
-<li><b>源地址</b> <i>(可选)</i> - 允许的源地址，例如: "1.2.3.4", "1.2.3.4 - 2.3.4.5", "1.2.3.0/24".</li>
-<li><b>目标</b> - 目标局域网网桥.</li>
-<li><b>目标地址</b> <i>(可选)</i> - 局域网内的目标地址.</li>
+	<li><b>源<</b> - 源局域网网桥.</li>
+	<li><b>源地址</b> <i>(可选)</i> - 允许的源地址，例如: "1.2.3.4", "1.2.3.4 - 2.3.4.5", "1.2.3.0/24".</li>
+	<li><b>目标</b> - 目标局域网网桥.</li>
+	<li><b>目标地址</b> <i>(可选)</i> - 局域网内的目标地址.</li>
 </ul>
 </div>
 
 </td></tr>
-<tr><td id='footer' colspan=2>
- <span id='footer-msg'></span>
- <input type='button' value='保存设置' id='save-button' onclick='save()'>
- <input type='button' value='取消设置' id='cancel-button' onclick='javascript:reloadPage();'>
+<tr><td id="footer" colspan="2">
+	<span id="footer-msg"></span>
+	<input type="button" value="保存设置" id="save-button" onclick="save()">
+	<input type="button" value="取消设置" id="cancel-button" onclick="reloadPage();">
 </td></tr>
 </table>
 </form>

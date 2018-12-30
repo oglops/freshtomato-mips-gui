@@ -121,7 +121,7 @@ var elem = {
 
 	setInnerHTML: function(e, html) {
 		 e = E(e);
-		 if (e.innerHTML != html) e.innerHTML = html;	// reduce flickering
+		 if (e.innerHTML != html) e.innerHTML = html;	/* reduce flickering */
 	}
 };
 
@@ -176,8 +176,7 @@ var fields = {
 			for (i = e.length - 1; i >= 0; --i) {
 				e[i].disabled = d;
 			}
-		}
-		else {
+		} else {
 			var a = this.getAll(E(e));
 			for (var i = a.length - 1; i >= 0; --i) {
 				a[i].disabled = d;
@@ -295,8 +294,7 @@ var form = {
 			e.name = '_http_id';
 			e.value = nvram.http_id;
 			fom.appendChild(e);
-		}
-		else {
+		} else {
 			fom._http_id.value = nvram.http_id;
 		}
 	},
@@ -422,8 +420,7 @@ function v_macip(e, quiet, bok, lan_ipaddr, lan_netmask)
 		if (isMAC0(a)) {
 			if (bok) {
 				e.value = '';
-			}
-			else {
+			} else {
 				ferror.set(e, '无效的 MAC 或 IP 地址');
 				return false;
 			}
@@ -522,8 +519,7 @@ function v_dns(e, quiet)
 	if ((e = E(e)) == null) return 0;
 	if (e.value == '') {
 		e.value = '0.0.0.0';
-	}
-	else {
+	} else {
 		var s = e.value.split(':');
 		if (s.length == 1) {
 			s.push(53);
@@ -545,8 +541,7 @@ function v_dns(e, quiet)
 	
 		if (s[1] == 53) {
 			e.value = s[0];
-		}
-		else {
+		} else {
 			e.value = s.join(':');
 		}
 	}
@@ -580,7 +575,7 @@ function _v_iptip(e, ip, quiet)
 
 	oip = ip;
 
-	// x.x.x.x - y.y.y.y
+	/* x.x.x.x - y.y.y.y */
 	if (ip.match(/^(.*)-(.*)$/)) {
 		a = fixIP(RegExp.$1);
 		b = fixIP(RegExp.$2);
@@ -596,8 +591,8 @@ function _v_iptip(e, ip, quiet)
 
 	ma = '';
 
-	// x.x.x.x/nn
-	// x.x.x.x/y.y.y.y
+	/* x.x.x.x/nn */
+	/* x.x.x.x/y.y.y.y */
 	if (ip.match(/^(.*)\/(.*)$/)) {
 		ip = RegExp.$1;
 		b = RegExp.$2;
@@ -609,8 +604,7 @@ function _v_iptip(e, ip, quiet)
 				ferror.set(e, oip + ' - 无效的子网掩码', quiet);
 				return null;
 			}
-		}
-		else {
+		} else {
 			if ((ma < 0) || (ma > 32)) {
 				ferror.set(e, oip + ' - 无效的子网掩码', quiet);
 				return null;
@@ -639,8 +633,7 @@ function v_iptip(e, quiet, multi)
 			ferror.set(e, 'IP 地址输入过多', quiet);
 			return 0;
 		}
-	}
-	else {
+	} else {
 		if (v.length > 1) {
 			ferror.set(e, '无效的 IP 地址', quiet);
 			return 0;
@@ -658,7 +651,7 @@ function _v_subnet(e, ip, quiet)
 	var ma, oip;
 	oip = ip;
 
-	// x.x.x.x/nn
+	/* x.x.x.x/nn */
 	if (ip.match(/^(.*)\/(.*)$/)) {
 		ip = RegExp.$1;
 		ma = RegExp.$2;
@@ -667,8 +660,7 @@ function _v_subnet(e, ip, quiet)
 			ferror.set(e, oip + ' - 无效的子网', quiet);
 			return null;
 		}
-	}
-	else {
+	} else {
 		ferror.set(e, oip + ' - 无效的子网', quiet);
 		return null;
 	}
@@ -756,7 +748,7 @@ function CompressIPv6Address(ip)
 	ip = ExpandIPv6Address(ip);
 	if (!ip) return null;
 	
-	// if (ip.match(/(?:^00)|(?:^fe[8-9a-b])|(?:^ff)/)) return null; // not valid routable unicast address
+	// if (ip.match(/(?:^00)|(?:^fe[8-9a-b])|(?:^ff)/)) return null; /* not valid routable unicast address */
 
 	ip = ip.replace(/(^|:)0{1,3}/g, '$1');
 	ip = ip.replace(/(:0)+$/, '::');
@@ -803,7 +795,7 @@ function _v_ipv6_addr(e, ip, ipt, quiet)
 
 	oip = ip;
 
-	// ip range
+	/* ip range */
 	if ((ipt) && ip.match(/^(.*)-(.*)$/)) {
 		a = RegExp.$1;
 		b = RegExp.$2;
@@ -819,7 +811,7 @@ function _v_ipv6_addr(e, ip, ipt, quiet)
 		return a + '-' + b;
 	}
 
-	// mask matches
+	/* mask matches */
 	if ((ipt) && ip.match(/^([A-Fa-f0-9:]+)\/([A-Fa-f0-9:]+)$/)) {
 		a = RegExp.$1;
 		b = RegExp.$2;
@@ -976,8 +968,8 @@ function v_netmask(e, quiet)
 	else if (e.value.match(/^\s*\/\s*(\d+)\s*$/)) {
 		b = RegExp.$1 * 1;
 		if ((b >= 1) && (b <= 32)) {
-			if (b == 32) n = 0xFFFFFFFF;	// js quirk
-				else n = (0xFFFFFFFF >>> b) ^ 0xFFFFFFFF;
+			if (b == 32) n = 0xFFFFFFFF;	/* js quirk */
+			else n = (0xFFFFFFFF >>> b) ^ 0xFFFFFFFF;
 			e.value = (n >>> 24) + '.' + ((n >>> 16) & 0xFF) + '.' + ((n >>> 8) & 0xFF) + '.' + (n & 0xFF);
 			ferror.clear(e);
 			return 1;
@@ -997,8 +989,7 @@ function fixMAC(mac)
 	}
 	else if (mac.length == 12) {
 		mac = mac.match(/../g);
-	}
-	else {
+	} else {
 		mac = mac.split(/[:\-]/);
 		if (mac.length != 6) return null;
 	}
@@ -1074,8 +1065,7 @@ function _v_iptaddr(e, quiet, multi, ipv4, ipv6)
 			ferror.set(e, '地址过多', quiet);
 			return 0;
 		}
-	}
-	else {
+	} else {
 		if (v.length > 1) {
 			ferror.set(e, '无效的域名或IP地址', quiet);
 			return 0;
@@ -1129,8 +1119,7 @@ function _v_hostname(e, h, quiet, required, multi, delim, cidr)
 			ferror.set(e, '主机名过多.', quiet);
 			return null;
 		}
-	}
-	else {
+	} else {
 		if (v.length > 1) {
 			ferror.set(e, '无效的主机名.', quiet);
 			return null;
@@ -1271,8 +1260,16 @@ TomatoGrid.prototype = {
 		if (tb) {
 			this.tb = E(tb);
 			this.tb.gridObj = this;
-		}
-		else {
+
+			var att_c = this.tb.getAttribute("class");
+			var att_s = this.tb.getAttribute("style");
+			var table = document.createElement("table");
+			if (att_c) table.setAttribute("class", att_c);
+			if (att_s) table.setAttribute("style", att_s);
+			this.tb.appendChild(table);
+			this.tb = E(table);
+			this.tb.gridObj = this;
+		} else {
 			this.tb = null;
 		}
 		if (!options) options = '';
@@ -1301,8 +1298,7 @@ TomatoGrid.prototype = {
 				td.className = 'co' + (i + 1);
 				if (escCells) td.appendChild(document.createTextNode(c));
 					else td.innerHTML = c;
-			}
-			else {
+			} else {
 				tr.appendChild(c);
 			}
 		}
@@ -1325,7 +1321,7 @@ TomatoGrid.prototype = {
 		e.className = 'header';
 
 		for (i = 0; i < e.cells.length; ++i) {
-			e.cells[i].cellN = i;	// cellIndex broken in Safari
+			e.cells[i].cellN = i;	/* cellIndex broken in Safari */
 			e.cells[i].onclick = function() { return TGO(this).headerClick(this); };
 		}
 		return e;
@@ -1542,7 +1538,7 @@ TomatoGrid.prototype = {
 		c = er.cells[cell.cellIndex || 0];
 		e = c.getElementsByTagName('input');
 		if ((e) && (e.length > 0)) {
-			try {	// IE quirk
+			try {	/* IE quirk */
 				e[0].focus();
 			}
 			catch (ex) {
@@ -1577,7 +1573,8 @@ TomatoGrid.prototype = {
 
 				if (f.prefix) s += f.prefix;
 				var attrib = ' class="fi' + (vi + 1) + '" ' + (f.attrib || '');
-				var id = (this.tb ? ('_' + this.tb + '_' + (vi + 1)) : null);
+				/* var id = (this.tb ? ('_' + this.tb + '_' + (vi + 1)) : null); */
+				var id = null;
 				if (id) attrib += ' id="' + id + '"';
 				switch (f.type) {
 				case 'password':
@@ -1592,7 +1589,7 @@ TomatoGrid.prototype = {
 					}
 					attrib += ' autocomplete="off"';
 					if (f.peekaboo && id) attrib += ' onfocus=\'peekaboo("' + id + '",1)\'';
-					// drop
+					/* drop */
 				case 'text':
 					s += '<input type="' + f.type + '" maxlength=' + f.maxlen + common + attrib;
 					if (which == 'edit') s += ' value="' + escapeHTML('' + values[vi]) + '">';
@@ -1607,8 +1604,7 @@ TomatoGrid.prototype = {
 						a = f.options[k];
 						if (which == 'edit') {
 							s += '<option value="' + a[0] + '"' + ((a[0] == values[vi]) ? ' selected="selected">' : '>') + a[1] + '</option>';
-						}
-						else {
+						} else {
 							s += '<option value="' + a[0] + '">' + a[1] + '</option>';
 						}
 					}
@@ -1634,7 +1630,7 @@ TomatoGrid.prototype = {
 			if(this.editorFields[i].type != 'textarea'){
 				var c = row.insertCell(i);
 				c.innerHTML = s;
-				if (this.editorFields[i].vtop) c.vAlign = 'top';
+				if (this.editorFields[i].vtop) c.style = 'vertical-align:top';
 			}
 		}
 
@@ -1654,8 +1650,7 @@ TomatoGrid.prototype = {
 				'<input type=button value="删除" onclick="TGO(this).onDelete()"> &nbsp; ' +
 				'<input type=button value="确认" onclick="TGO(this).onOK()"> ' +
 				'<input type=button value="取消" onclick="TGO(this).onCancel()">';
-		}
-		else {
+		} else {
 			c.innerHTML =
 				'<input type=button value="添加" onclick="TGO(this).onAdd()">';
 		}
@@ -1816,8 +1811,7 @@ TomatoGrid.prototype = {
 		}
 		if (column == this.sortColumn) {
 			this.sortAscending = !this.sortAscending;
-		}
-		else {
+		} else {
 			this.sortAscending = true;
 			this.sortColumn = column;
 		}
@@ -1966,13 +1960,12 @@ XmlHttp.prototype = {
 
 	onReadyStateChange: function() {
 		try {
-			if (typeof(E) == 'undefined') return;	// oddly late? testing for bug...
+			if (typeof(E) == 'undefined') return;	/* oddly late? testing for bug... */
 
 			if (this.xob.readyState == 4) {
 				if (this.xob.status == 200) {
 					this.onCompleted(this.xob.responseText, this.xob.responseXML);
-				}
-				else {
+				} else {
 					this.onError('' + (this.xob.status || 'unknown'));
 				}
 			}
@@ -2078,8 +2071,7 @@ TomatoRefresh.prototype = {
 			if ((p.refreshTime > 0) && (!p.once)) {
 				p.updateUI('wait');
 				p.timer.start(Math.round(p.refreshTime));
-			}
-			else {
+			} else {
 				p.stop();
 			}
 
@@ -2134,9 +2126,10 @@ TomatoRefresh.prototype = {
 	updateUI: function(mode) {
 		var e, b;
 
-		if (typeof(E) == 'undefined') return;	// for a bizzare bug...
+		if (typeof(E) == 'undefined') return;	/* for a bizzare bug... */
 
 		b = (mode != 'stop') && (this.refreshTime > 0);
+
 		if ((e = E('refresh-button')) != null) {
 			e.value = b ? '停止' : '刷新';
 			((mode == 'start') && (!b) ? e.setAttribute("disabled", "disabled") : e.removeAttribute("disabled"));
@@ -2303,7 +2296,7 @@ function escapeHTML(s)
 
 function escapeCGI(s)
 {
-	return escape(s).replace(/\+/g, '%2B');	// escape() doesn't handle +
+	return escape(s).replace(/\+/g, '%2B');	/* escape() doesn't handle + */
 }
 
 function escapeD(s)
@@ -2406,7 +2399,7 @@ function myName()
 	var name, i;
 
 	name = document.location.pathname;
-	name = name.replace(/\\/g, '/');	// IE local testing
+	name = name.replace(/\\/g, '/');	/* IE local testing */
 	if ((i = name.lastIndexOf('/')) != -1) name = name.substring(i + 1, name.length);
 	if (name == '') name = 'status-overview.asp';
 	return name;
@@ -2440,7 +2433,9 @@ function navi()
 			['追踪路由',			'trace.asp'],
 			['系统命令',		'shell.asp'],
 			['无线勘测',		'survey.asp'],
-			['网络唤醒',				'wol.asp'] ] ],
+/* IPERF-BEGIN */
+			['IPerf',			'iperf.asp'],
+/* IPERF-END */
 		null,
 		['基本设置', 			'basic', 0, [
 			['网络设置',			'network.asp'],
@@ -2593,12 +2588,10 @@ REMOVE-END */
 		}
 		if (m.length == 2) {
 			buf.push('<a href="' + m[1] + '" class="indent1' + (((base == '') && (name == m[1])) ? ' active' : '') + '">' + m[0] + '</a>');
-		}
-		else {
+		} else {
 			if (base == m[1]) {
 				b = name;
-			}
-			else {
+			} else {
 				a = cookie.get('menu_' + m[1]);
 				b = m[3][0][1];
 				for (j = 0; j < m[3].length; ++j) {
@@ -2663,8 +2656,7 @@ function createFieldTable(flags, desc)
 		if (v.text) {
 			if (v.title) {
 				buf.push('<td class="title indent' + (v.indent || 1) + '">' + v.title + '</td><td class="content">' + v.text + '</td></tr>');
-			}
-			else {
+			} else {
 				buf.push('<td colspan="2">' + v.text + '</td></tr>');
 			}
 			continue;
@@ -2711,7 +2703,7 @@ function createFieldTable(flags, desc)
 					common += ' autocomplete="off"';
 					if (f.peekaboo) common += ' onfocus=\'peekaboo("' + id + '",1)\'';
 				}
-				// drop
+				/* drop */
 			case 'text':
 				buf2.push('<input type="' + f.type + '"' + name + ' value="' + escapeHTML(UT(f.value)) + '" maxlength=' + f.maxlen + (f.size ? (' size=' + f.size) : '') + common + '>');
 				break;
@@ -2728,7 +2720,7 @@ function createFieldTable(flags, desc)
 				buf2.push('</select>');
 				break;
 			case 'textarea':
-				buf2.push('<textarea' + name + common + (f.wrap ? (' wrap=' + f.wrap) : '') + '>' + escapeHTML(UT(f.value)) + '</textarea>');
+				buf2.push('<textarea' + name + common + (f.wrap ? (' style="white-space:' + f.wrap + ';overflow-wrap:normal;overflow-x:scroll"') : '') + '>' + escapeHTML(UT(f.value)) + '</textarea>');
 				break;
 			default:
 				if (f.custom) buf2.push(f.custom);
@@ -2739,8 +2731,10 @@ function createFieldTable(flags, desc)
 		buf2.push('</td>');
 
 		buf.push('<td class="title indent' + (v.indent ? v.indent : 1) + '">');
-		if (id1 != '') buf.push('<label for="' + id + '">' + v.title + '</label></td>');
-			else buf.push(+ v.title + '</td>');
+		if (id1 != '')
+			buf.push('<label' + ((id && id != '_undefined' ) ? ' for="' + id + '"' : '') + '>' + (v.title ? v.title : '&nbsp;') + '</label></td>');
+		else
+			buf.push(+ v.title + '</td>');
 
 		buf.push(buf2.join(''));
 		buf.push('</tr>');
@@ -2771,13 +2765,12 @@ function peekaboo(id, show)
 		if (show) {
 			o.onblur = function(ev) { setTimeout('peekaboo("' + this.id + '", 0)', 0) };
 			setTimeout('try { E("' + id + '").focus() } catch (ex) { }', 0)
-		}
-		else {
+		} else {
 			o.onfocus = function(ev) { peekaboo(this.id, 1); };
 		}
 	}
 	catch (ex) {
-//		alert(ex);
+/*		alert(ex); */
 	}
 
 /* REMOVE-BEGIN
@@ -2825,5 +2818,67 @@ function console(s)
 }
 
 
+// -----------------------------------------------------------------------------
 
+/* REMOVE-BEGIN
+//  events handler
+REMOVE-END */
 
+if (typeof document.getElementsByClassName!="function") {	/* IE */
+	document.getElementsByClassName = function(cl) {
+		var retnode = new Array(), patt = new RegExp("(^|\\\\s)"+cl+"(\\\\s|$)"), els = this.getElementsByTagName("*");
+		for (i = 0, j = 0; i < els.length; i++) {
+			if (patt.test(els[i].className)) {
+				retnode[j] = els[i];
+				j++;
+			}
+		}
+		return retnode;
+	};
+}
+function addEvent(obj, type, fn) {
+	if (obj.addEventListener) {
+		obj.addEventListener(type, fn, false);
+		EventCache.add(obj, type, fn);
+	}
+	else if (obj.attachEvent) {
+		obj["e"+type+fn] = fn;
+		obj[type+fn] = function() { obj["e"+type+fn]( window.event ); }
+		obj.attachEvent("on"+type, obj[type+fn]);
+		EventCache.add(obj, type, fn);
+	} else {
+		obj["on"+type] = obj["e"+type+fn];
+	}
+}
+var EventCache = function() {
+	var listEvents = [];
+	return {
+		listEvents : listEvents,
+		add : function(node, sEventName, fHandler) {
+			listEvents.push(arguments);
+		},
+		flush : function(){
+			var i, item;
+			for(i = listEvents.length - 1; i >= 0; i = i - 1) {
+				item = listEvents[i];
+				if(item[0].removeEventListener){
+					item[0].removeEventListener(item[1], item[2], false);
+				};
+				if(item[1].substring(0, 2) != "on") {
+					item[1] = "on" + item[1];
+				};
+				if(item[0].detachEvent) {
+					item[0].detachEvent(item[1], item[2]);
+				};
+				item[0][item[1]] = null;
+			};
+		}
+	};
+}();
+addEvent(window, "unload", EventCache.flush);
+function cancelDefaultAction(e) {
+	var evt = e ? e : window.event;
+	if (evt.preventDefault) evt.preventDefault();
+	evt.returnValue = false;
+	return false;
+}

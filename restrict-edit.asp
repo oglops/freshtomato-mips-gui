@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -9,17 +9,17 @@
 -->
 <html>
 <head>
-<meta http-equiv='content-type' content='text/html;charset=utf-8'>
-<meta name='robots' content='noindex,nofollow'>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<meta name="robots" content="noindex,nofollow">
 <title>[<% ident(); %>] 访问限制: 编辑策略</title>
-<link rel='stylesheet' type='text/css' href='tomato.css'>
-<link rel='stylesheet' type='text/css' href='color.css'>
-<script type='text/javascript' src='tomato.js'></script>
-<script type='text/javascript' src='protocols.js'></script>
+<link rel="stylesheet" type="text/css" href="tomato.css">
+<% css(); %>
+<script type="text/javascript" src="tomato.js"></script>
+<script type="text/javascript" src="protocols.js"></script>
 
 <!-- / / / -->
 
-<style type='text/css'>
+<style type="text/css">
 #res-comp-grid {
 	width: 60%;
 }
@@ -59,9 +59,9 @@ textarea {
 }
 </style>
 
-<script type='text/javascript' src='debug.js'></script>
+<script type="text/javascript" src="debug.js"></script>
 
-<script type='text/javascript'>
+<script type="text/javascript">
 //	<% nvram(''); %>	// http_id
 
 // {enable}|{begin_mins}|{end_mins}|{dow}|{comp[<comp]}|{rules<rules[...]>}|{http[ ...]}|{http_file}|{desc}
@@ -249,15 +249,15 @@ bpg.setup = function() {
 	}
 
 	this.init('res-bp-grid', 'sort', 140, [ { multi: [
-		{ type: 'select', prefix: '<div class="box1">', suffix: '</div>', options: protos },
-		{ type: 'select', prefix: '<div class="box2">', suffix: '</div>',
+		{ type: 'select', prefix: '<div class="box1">', suffix: '<\/div>', options: protos },
+		{ type: 'select', prefix: '<div class="box2">', suffix: '<\/div>',
 			options: [['a','任何端口'],['d','目的端口'],['s','源端口'],['x','源或目的端口']] },
-		{ type: 'text', prefix: '<div class="box3">', suffix: '</div>', maxlen: 32 },
-		{ type: 'select', prefix: '<div class="box4">', suffix: '</div>', options: ipp2p },
-		{ type: 'select', prefix: '<div class="box5">', suffix: '</div>', options: layer7 },
-		{ type: 'select', prefix: '<div class="box6">', suffix: '</div>',
+		{ type: 'text', prefix: '<div class="box3">', suffix: '<\/div>', maxlen: 32 },
+		{ type: 'select', prefix: '<div class="box4">', suffix: '<\/div>', options: ipp2p },
+		{ type: 'select', prefix: '<div class="box5">', suffix: '<\/div>', options: layer7 },
+		{ type: 'select', prefix: '<div class="box6">', suffix: '<\/div>',
 			options: [[0,'全部地址'],[1,'目标 IP'],[2,'源 IP']] },
-		{ type: 'text', prefix: '<div class="box7">', suffix: '</div>', maxlen: 64 }
+		{ type: 'text', prefix: '<div class="box7">', suffix: '<\/div>', maxlen: 64 }
 		] } ] );
 	this.headerSet(['策略']);
 	this.showNewEditor();
@@ -285,8 +285,7 @@ bpg.setup = function() {
 
 //
 
-function verifyFields(focused, quiet)
-{
+function verifyFields(focused, quiet) {
 	var b, e;
 
 	tgHideIcons();
@@ -313,25 +312,22 @@ function verifyFields(focused, quiet)
 	return 1;
 }
 
-function cancelRule()
-{
+function cancelRule() {
 	document.location = 'restrict.asp';
 }
 
-function removeRule()
-{
+function removeRule() {
 	if (!confirm('确认删除此策略吗?')) return;
 
 	E('delete-button').disabled = 1;
 
-	e = E('_rrule');
+	e = E('t_rrule');
 	e.name = 'rrule' + rruleN;
 	e.value = '';
-	form.submit('_fom');
+	form.submit('t_fom');
 }
 
-function saveRule()
-{
+function saveRule() {
 	if (!verifyFields(null, false)) return;
 	if ((cg.isEditing()) || (bpg.isEditing())) return;
 
@@ -412,22 +408,20 @@ function saveRule()
 		return;
 	}
 
-	e = E('_rrule');
+	e = E('t_rrule');
 	e.name = 'rrule' + rruleN;
 	e.value = data;
 
 	E('delete-button').disabled = 1;
-	form.submit('_fom');
+	form.submit('t_fom');
 }
 
-function init()
-{
+function init() {
 	cg.recolor();
 	bpg.recolor();
 }
 
-function earlyInit()
-{
+function earlyInit() {
 	var count;
 
 	cg.setup();
@@ -438,27 +432,27 @@ function earlyInit()
 }
 </script>
 </head>
-<body onload='init()'>
-<form name='_fom' id='_fom' method='post' action='tomato.cgi'>
-<table id='container' cellspacing=0>
-<tr><td colspan=2 id='header'>
-	<div class='title'>Tomato</div>
-	<div class='version'>Version <% version(); %></div>
+<body onload="init()">
+<form id="t_fom" method="post" action="tomato.cgi">
+<table id="container" cellspacing="0">
+<tr><td colspan="2" id="header">
+	<div class="title">Tomato</div>
+	<div class="version">Version <% version(); %></div>
 </td></tr>
-<tr id='body'><td id='navi'><script type='text/javascript'>navi()</script></td>
-<td id='content'>
-<div id='ident'><% ident(); %></div>
+<tr id="body"><td id="navi"><script type="text/javascript">navi()</script></td>
+<td id="content">
+<div id="ident"><% ident(); %></div>
 
 <!-- / / / -->
 
-<input type='hidden' name='_nextpage' value='restrict.asp'>
-<input type='hidden' name='_service' value='restrict-restart'>
-<input type='hidden' name='rruleNN' id='_rrule' value=''>
+<input type="hidden" name="_nextpage" value="restrict.asp">
+<input type="hidden" name="_service" value="restrict-restart">
+<input type="hidden" name="rruleNN" id="t_rrule" value="">
 
-<div class='section-title'>编辑访问限制</div>
-<div class='section'>
-<script type='text/javascript'>
-W('<div style="float:right"><small>'+ 'ID: ' + rruleN.pad(2) + '</small>&nbsp;</div><br>');
+<div class="section-title">访问限制</div>
+<div class="section">
+<script type="text/javascript">
+W('<div style="float:right"><small>'+ 'ID: ' + rruleN.pad(2) + '<\/small>&nbsp;<\/div><br />');
 tm = [];
 for (i = 0; i < 1440; i += 15) tm.push([i, timeString(i)]);
 
@@ -482,9 +476,9 @@ createFieldTable('', [
 	{ title: '连接类型', name: 'f_type', id: 'rt_norm', type: 'radio', suffix: ' 一般访问限制', value: (rule[5] != '~') },
 	{ title: '', name: 'f_type', id: 'rt_wl', type: 'radio', suffix: ' 关闭无线', value: (rule[5] == '~') },
 	{ title: '应用于', name: 'f_comp_all', type: 'select', options: [[0,'所有计算机/设备'],[1,'下列计算机/设备...'],[2,'除下列计算机/设备之外...']], value: 0 },
-	{ title: '&nbsp;', text: '<table class="tomato-grid" cellspacing=1 id="res-comp-grid"></table>' },
+	{ title: '&nbsp;', text: '<div class="tomato-grid" id="res-comp-grid"><\/div>' },
 	{ title: '阻止资源', name: 'f_block_all', type: 'checkbox', suffix: ' 阻止所有的互联网访问', value: 0 },
-	{ title: '阻止端口 /<br>应用', indent: 2, text: '<table class="tomato-grid" cellspacing=1 id="res-bp-grid"></table>' },
+	{ title: '阻止端口 /<br />应用', indent: 2, text: '<div class="tomato-grid" id="res-bp-grid"><\/div>' },
 	{ title: '阻止HTTP请求', indent: 2, name: 'f_block_http', type: 'textarea', value: rule[7] },
 	{ title: '阻止HTTP请求的文件', indent: 2, multi: [
 		{ name: 'f_activex', type: 'checkbox', suffix: ' ActiveX (ocx, cab) &nbsp;&nbsp;', value: (rule[8] & 1) },
@@ -497,16 +491,15 @@ createFieldTable('', [
 <!-- / / / -->
 
 </td></tr>
-<tr><td id='footer' colspan=2>
-	<span id='footer-msg'></span>
-	<input type='button' value='删除...' id='delete-button' onclick='removeRule()'>
+<tr><td id="footer" colspan="2">
+	<span id="footer-msg"></span>
+	<input type="button" value="删除..." id="delete-button" onclick="removeRule()">
 	&nbsp;
-	<input type='button' value='保存设置' id='save-button' onclick='saveRule()'>
-	<input type='button' value='取消设置' id='cancel-button' onclick='cancelRule()'>
+	<input type="button" value="保存设置" id="save-button" onclick="saveRule()">
+	<input type="button" value="取消设置" id="cancel-button" onclick="cancelRule()">
 </td></tr>
 </table>
-<br><br>
 </form>
-<script type='text/javascript'>earlyInit();</script>
+<script type="text/javascript">earlyInit();</script>
 </body>
 </html>

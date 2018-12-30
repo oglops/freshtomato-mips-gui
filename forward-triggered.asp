@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -9,15 +9,15 @@
 -->
 <html>
 <head>
-<meta http-equiv='content-type' content='text/html;charset=utf-8'>
-<meta name='robots' content='noindex,nofollow'>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<meta name="robots" content="noindex,nofollow">
 <title>[<% ident(); %>] 端口转发：端口触发</title>
-<link rel='stylesheet' type='text/css' href='tomato.css'>
-<link rel='stylesheet' type='text/css' href='color.css'>
-<script type='text/javascript' src='tomato.js'></script>
+<link rel="stylesheet" type="text/css" href="tomato.css">
+<% css(); %>
+<script type="text/javascript" src="tomato.js"></script>
 
 <!-- / / / -->
-<style type='text/css'>
+<style type="text/css">
 #tg-grid .co1 {
 	width: 5%;
 	text-align: center;
@@ -36,9 +36,9 @@
 }
 </style>
 
-<script type='text/javascript' src='debug.js'></script>
+<script type="text/javascript" src="debug.js"></script>
 
-<script type='text/javascript'>
+<script type="text/javascript">
 
 //	<% nvram("trigforward"); %>
 
@@ -116,8 +116,7 @@ tg.setup = function() {
 }
 
 
-function save()
-{
+function save() {
 	if (tg.isEditing()) return;
 
 	var data = tg.getAllData();
@@ -127,58 +126,58 @@ function save()
 		data[i][3] = data[i][3].replace(/-/g, ':');
 		s += data[i].join('<') + '>';
 	}
-	var fom = E('_fom');
+	var fom = E('t_fom');
 	fom.trigforward.value = s;
 	form.submit(fom, 1);
 }
 
-function init()
-{
+function init() {
 	tg.recolor();
 	tg.resetNewEditor();
 }
 </script>
 </head>
-<body onload='init()'>
-<form id='_fom' method='post' action='tomato.cgi'>
-<table id='container' cellspacing=0>
-<tr><td colspan=2 id='header'>
-	<div class='title'>Tomato</div>
-	<div class='version'>Version <% version(); %></div>
+<body onload="init()">
+<form id="t_fom" method="post" action="tomato.cgi">
+<table id="container" cellspacing="0">
+<tr><td colspan="2" id="header">
+	<div class="title">Tomato</div>
+	<div class="version">Version <% version(); %></div>
 </td></tr>
-<tr id='body'><td id='navi'><script type='text/javascript'>navi()</script></td>
-<td id='content'>
-<div id='ident'><% ident(); %></div>
+<tr id="body"><td id="navi"><script type="text/javascript">navi()</script></td>
+<td id="content">
+<div id="ident"><% ident(); %></div>
 
 <!-- / / / -->
 
-<input type='hidden' name='_nextpage' value='forward.asp'>
-<input type='hidden' name='_service' value='firewall-restart'>
+<input type="hidden" name="_nextpage" value="forward.asp">
+<input type="hidden" name="_service" value="firewall-restart">
 
-<input type='hidden' name='trigforward'>
+<input type="hidden" name="trigforward">
 
-<div class='section-title'>触发式端口转发</div>
-<div class='section'>
-	<table class='tomato-grid' cellspacing=1 id='tg-grid'></table>
-	<script type='text/javascript'>tg.setup();</script>
+<div class="section-title">触发式端口转发</div>
+<div class="section">
+	<div class="tomato-grid" id="tg-grid"></div>
+	<script type="text/javascript">tg.setup();</script>
 </div>
 
-<div>
-<ul>
-<li>使用 "-" 指定端口范围 (200-300).
-<li>触发端口是第一个 LAN 到 WAN 的"触发器".
-<li>被转发的端口是 WAN 到 LAN 的端口，它们是否开启取决于"触发器"的激活状态.
-<li>这些端口将会在停止使用的几分钟后自动关闭.
-</ul>
+<div class="section-title">Notes</div>
+<div class="section">
+    <ul>
+		<li>使用 "-" 指定端口范围 (200-300).</li>
+		<li>触发端口是第一个 LAN 到 WAN 的"触发器".</li>
+		<li>被转发的端口是 WAN 到 LAN 的端口，它们是否开启取决于"触发器"的激活状态.</li>
+		<li>这些端口将会在停止使用的几分钟后自动关闭.</li>
+    </ul>
 </div>
 
 <!-- / / / -->
 
 </td></tr>
-<tr><td id='footer' colspan=2>
-	<span id='footer-msg'></span>
-	<input type='button' value='保存设置' id='save-button' onclick='save()'>
-	<input type='button' value='取消设置' id='cancel-button' onclick='reloadPage();'>
+<tr><td id="footer" colspan="2">
+	<span id="footer-msg"></span>
+	<input type="button" value="保存设置" id="save-button" onclick="save()">
+	<input type="button" value="取消设置" id="cancel-button" onclick="reloadPage();">
 </td></tr>
 </table>
 </form>

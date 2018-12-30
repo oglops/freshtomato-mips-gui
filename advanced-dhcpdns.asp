@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -9,32 +9,31 @@
 -->
 <html>
 <head>
-<meta http-equiv='content-type' content='text/html;charset=utf-8'>
-<meta name='robots' content='noindex,nofollow'>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<meta name="robots" content="noindex,nofollow">
 <title>[<% ident(); %>] 高级设置: DHCP/DNS设置</title>
-<link rel='stylesheet' type='text/css' href='tomato.css'>
+<link rel="stylesheet" type="text/css" href="tomato.css">
 <% css(); %>
-<script type='text/javascript' src='tomato.js'></script>
+<script type="text/javascript" src="tomato.js"></script>
 
 <!-- / / / -->
 
-<style type='text/css'>
+<style type="text/css">
 textarea {
 	width: 98%;
 	height: 15em;
 }
 </style>
 
-<script type='text/javascript' src='debug.js'></script>
+<script type="text/javascript" src="debug.js"></script>
 
-<script type='text/javascript'>
+<script type="text/javascript">
 
 //	<% nvram("dnsmasq_q,ipv6_radvd,ipv6_dhcpd,dhcpd_dmdns,dns_addget,dhcpd_gwmode,dns_intcpt,dhcpd_slt,dhcpc_minpkt,dnsmasq_custom,dnsmasq_norw,dhcpd_lmax,dhcpc_custom,dns_norebind,dhcpd_static_only,dnsmasq_debug"); %>
 
 if ((isNaN(nvram.dhcpd_lmax)) || ((nvram.dhcpd_lmax *= 1) < 1)) nvram.dhcpd_lmax = 255;
 
-function verifyFields(focused, quiet)
-{
+function verifyFields(focused, quiet) {
 	var b = (E('_f_dhcpd_sltsel').value == 1);
 	elem.display('_dhcpd_sltman', b);
 	if ((b) && (!v_range('_f_dhcpd_slt', quiet, 1, 43200))) return 0;
@@ -44,17 +43,15 @@ function verifyFields(focused, quiet)
 	return 1;
 }
 
-function nval(a, b)
-{
+function nval(a, b) {
 	return (a == null || (a + '').trim() == '') ? b : a;
 }
 
-function save()
-{
+function save() {
 	if (!verifyFields(null, false)) return;
 
 	var a;
-	var fom = E('_fom');
+	var fom = E('t_fom');
 
 	fom.dhcpd_dmdns.value = E('_f_dhcpd_dmdns').checked ? 1 : 0;
 	a = E('_f_dhcpd_sltsel').value;
@@ -117,42 +114,45 @@ function init() {
 	if (((c = cookie.get('adv_dhcpdns_notes_vis')) != null) && (c == '1')) {
 		toggleVisibility("notes");
 	}
+	var elements = document.getElementsByClassName("new_window");
+	for (var i = 0; i < elements.length; i++) if (elements[i].nodeName.toLowerCase()==="a")
+		addEvent(elements[i], "click", function(e) { cancelDefaultAction(e); window.open(this,"_blank"); } );
 }
 </script>
 
 </head>
-<body onload='init()'>
-<form id='_fom' method='post' action='tomato.cgi'>
-<table id='container' cellspacing=0>
-<tr><td colspan=2 id='header'>
-	<div class='title'>Tomato</div>
-	<div class='version'>Version <% version(); %></div>
+<body onload="init()">
+<form id="t_fom" method="post" action="tomato.cgi">
+<table id="container" cellspacing="0">
+<tr><td colspan="2" id="header">
+	<div class="title">Tomato</div>
+	<div class="version">Version <% version(); %></div>
 </td></tr>
-<tr id='body'><td id='navi'><script type='text/javascript'>navi()</script></td>
-<td id='content'>
-<div id='ident'><% ident(); %></div>
+<tr id="body"><td id="navi"><script type="text/javascript">navi()</script></td>
+<td id="content">
+<div id="ident"><% ident(); %></div>
 
 <!-- / / / -->
 
-<input type='hidden' name='_nextpage' value='advanced-dhcpdns.asp'>
-<input type='hidden' name='_service' value=''>
+<input type="hidden" name="_nextpage" value="advanced-dhcpdns.asp">
+<input type="hidden" name="_service" value="">
 
-<input type='hidden' name='dhcpd_dmdns'>
-<input type='hidden' name='dhcpd_slt'>
-<input type='hidden' name='dns_addget'>
-<input type='hidden' name='dns_norebind'>
-<input type='hidden' name='dhcpd_gwmode'>
-<input type='hidden' name='dns_intcpt'>
-<input type='hidden' name='dhcpc_minpkt'>
-<input type='hidden' name='dhcpd_static_only'>
-<input type='hidden' name='dnsmasq_debug'>
-<input type='hidden' name='ipv6_radvd'>
-<input type='hidden' name='ipv6_dhcpd'>
-<input type='hidden' name='dnsmasq_q'>
+<input type="hidden" name="dhcpd_dmdns">
+<input type="hidden" name="dhcpd_slt">
+<input type="hidden" name="dns_addget">
+<input type="hidden" name="dns_norebind">
+<input type="hidden" name="dhcpd_gwmode">
+<input type="hidden" name="dns_intcpt">
+<input type="hidden" name="dhcpc_minpkt">
+<input type="hidden" name="dhcpd_static_only">
+<input type="hidden" name="dnsmasq_debug">
+<input type="hidden" name="ipv6_radvd">
+<input type="hidden" name="ipv6_dhcpd">
+<input type="hidden" name="dnsmasq_q">
 
-<div class='section-title'>DHCP / DNS 服务(LAN)</div>
-<div class='section'>
-<script type='text/javascript'>
+<div class="section-title">DHCP / DNS 服务 (LAN)</div>
+<div class="section">
+<script type="text/javascript">
 createFieldTable('', [
 	{ title: '启用内置 DNS 服务', name: 'f_dhcpd_dmdns', type: 'checkbox', value: nvram.dhcpd_dmdns == '1' },
 	{ title: '调试模式', indent: 2, name: 'f_dnsmasq_debug', type: 'checkbox', value: nvram.dnsmasq_debug == '1' },
@@ -165,22 +165,22 @@ createFieldTable('', [
 	{ title: '静态租约时间', multi: [
 		{ name: 'f_dhcpd_sltsel', type: 'select', options: [[0,'正常的租约时间'],[-1,'"不限制"'],[1,'自定义']],
 			value: (nvram.dhcpd_slt < 1) ? nvram.dhcpd_slt : 1 },
-		{ name: 'f_dhcpd_slt', type: 'text', maxlen: 5, size: 8, prefix: '<span id="_dhcpd_sltman"> ', suffix: ' <i>(minutes)</i></span>',
+		{ name: 'f_dhcpd_slt', type: 'text', maxlen: 5, size: 8, prefix: '<span id="_dhcpd_sltman"> ', suffix: ' <i>(minutes)<\/i><\/span>',
 			value: (nvram.dhcpd_slt >= 1) ? nvram.dhcpd_slt : 3600 } ] },
 	{ title: '局域网 IPv6 无状态地址<br>自动配置 (SLAAC)', name: 'f_ipv6_radvd', type: 'checkbox', value: nvram.ipv6_radvd == '1' },
 	{ title: '局域网 IPv6 动态主机配置 (DHCP)', name: 'f_ipv6_dhcpd', type: 'checkbox', value: nvram.ipv6_dhcpd == '1' },
 	{ title: '禁止 dhcpv4 日志', name: 'f_dnsmasq_q4', type: 'checkbox', value: (nvram.dnsmasq_q & 1) },
 	{ title: '禁止 dhcpv6 日志', name: 'f_dnsmasq_q6', type: 'checkbox', value: (nvram.dnsmasq_q & 2) },
 	{ title: '禁止 RA 日志', name: 'f_dnsmasq_qr', type: 'checkbox', value: (nvram.dnsmasq_q & 4) },
-	{ title: '<a href="http://www.thekelleys.org.uk/" target="_new">Dnsmasq</a><br>自定义配置', name: 'dnsmasq_custom', type: 'textarea', value: nvram.dnsmasq_custom }
+	{ title: '<a href="http://www.thekelleys.org.uk/" class="new_window">Dnsmasq<\/a><br />自定义配置', name: 'dnsmasq_custom', type: 'textarea', value: nvram.dnsmasq_custom }
 ]);
 </script>
 
 <!-- / / / -->
 
-<div class='section-title'>DHCP 客户端(WAN)</div>
-<div class='section'>
-<script type='text/javascript'>
+<div class="section-title">DHCP 客户端 (WAN)</div>
+<div class="section">
+<script type="text/javascript">
 createFieldTable('', [
 	{ title: 'DHCP 客户端选项', name: 'dhcpc_custom', type: 'text', maxlen: 80, size: 34, value: nvram.dhcpc_custom },
 	{ title: '压缩数据包', name: 'f_dhcpc_minpkt', type: 'checkbox', value: nvram.dhcpc_minpkt == '1' }
@@ -190,10 +190,10 @@ createFieldTable('', [
 
 <!-- / / / -->
 
-<div class='section-title'>说明 <small><i><a href='javascript:toggleVisibility("notes");'><span id='sesdivnotesshowhide'>(点击此处显示)</span></a></i></small></div>
-<div class='section' id='sesdivnotes' style='display:none'>
+<div class="section-title">说明 <small><i><a href='javascript:toggleVisibility("notes");'><span id="sesdivnotesshowhide">(点击此处显示)</span></a></i></small></div>
+<div class="section" id="sesdivnotes" style="display:none">
 
-<i>DHCP / DNS Server (LAN):</i><br>
+<i>DHCP / DNS Server (LAN):</i><br/>
 <ul>
 <li><b>启用内置 DNS 服务器</b> - 允许 Dnsmasq 为你的 LAN 提供 DNS 服务.</li>
 <li><b>使用 WAN 口获取的 DNS</b> - 从 WAN 口获取 DNS 添加到静态 DNS 服务器列表. (详见 <a href='basic-network.asp'>基础网络设置</a> 配置.</li>
@@ -206,30 +206,30 @@ createFieldTable('', [
 <li><b>自定义设置</b> - 添加自定义设置到 Dnsmasq 的配置文件.</li>
 </ul>
 
-<i>DHCP Client (WAN):</i><br>
+<i>DHCP Client (WAN):</i><br/>
 <ul>
 <li><b>DHCP 客户端选项</b> - 扩展 DHCP 客户端选项.</li>
 <li><b>压缩数据包</b> - 根据需要设置.</li>
 </ul>
 
-<i>其它说明:</i><br>
+<i>其它说明:</i><br/>
 <ul>
 <li>如果存在 /etc/dnsmasq.custom，其中的内容将自动添加到 Dnsmasq 的配置文件末尾.</li>
 </ul>
 
 </div>
+</div>
 
 <!-- / / / -->
 
 </td></tr>
-<tr><td id='footer' colspan=2>
-	<span id='footer-msg'></span>
-	<input type='button' value='保存设置' id='save-button' onclick='save()'>
-	<input type='button' value='取消设置' id='cancel-button' onclick='javascript:reloadPage();'>
+<tr><td id="footer" colspan="2">
+	<span id="footer-msg"></span>
+	<input type="button" value="保存设置" id="save-button" onclick="save()">
+	<input type="button" value="取消设置" id="cancel-button" onclick="reloadPage();">
 </td></tr>
 </table>
 </form>
-<script type='text/javascript'>verifyFields(null, true);</script>
+<script type="text/javascript">verifyFields(null, true);</script>
 </body>
 </html>
-

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -9,24 +9,23 @@
 -->
 <html>
 <head>
-<meta http-equiv='content-type' content='text/html;charset=utf-8'>
-<meta name='robots' content='noindex,nofollow'>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<meta name="robots" content="noindex,nofollow">
 <title>[<% ident(); %>] 高级设置:  MAC地址设置</title>
-<link rel='stylesheet' type='text/css' href='tomato.css'>
+<link rel="stylesheet" type="text/css" href="tomato.css">
 <% css(); %>
-<script type='text/javascript' src='tomato.js'></script>
+<script type="text/javascript" src="tomato.js"></script>
 
 <!-- / / / -->
 
-<script type='text/javascript' src='debug.js'></script>
+<script type="text/javascript" src="debug.js"></script>
 
-<script type='text/javascript' src='wireless.jsx?_http_id=<% nv(http_id); %>'></script>
-<script type='text/javascript'>
+<script type="text/javascript" src="wireless.jsx?_http_id=<% nv(http_id); %>"></script>
+<script type="text/javascript">
 
 //	<% nvram("et0macaddr,wan_mac,wan2_mac,wan3_mac,wan4_mac,mwan_num,wl_macaddr,wl_hwaddr"); %>
 
-function et0plus(plus)
-{
+function et0plus(plus) {
 	var mac = nvram.et0macaddr.split(':');
 	if (mac.length != 6) return '';
 	while (plus-- > 0) {
@@ -39,8 +38,7 @@ function et0plus(plus)
 	return mac.join(':');
 }
 
-function defmac(which)
-{
+function defmac(which) {
 	if (which == 'wan')  return et0plus(1);
 	if (which == 'wan2') return et0plus(17);
 /* MULTIWAN-BEGIN */
@@ -62,14 +60,12 @@ function defmac(which)
 	}
 }
 
-function bdefault(which)
-{
+function bdefault(which) {
 	E('_f_' + which + '_hwaddr').value = defmac(which);
 	verifyFields(null, true);
 }
 
-function brand(which)
-{
+function brand(which) {
 	var mac;
 	var i;
 
@@ -80,14 +76,12 @@ function brand(which)
 	verifyFields(null, true);
 }
 
-function bclone(which)
-{
+function bclone(which) {
 	E('_f_' + which + '_hwaddr').value = '<% compmac(); %>';
 	verifyFields(null, true);
 }
 
-function findPrevMAC(mac, maxidx)
-{
+function findPrevMAC(mac, maxidx) {
 	for (var uidx = 1; uidx <= nvram.mwan_num; ++uidx){
 		var u = (uidx>1) ? uidx : '';
 		if (E('_f_wan'+u+'_hwaddr').value == mac) return 1;
@@ -100,8 +94,7 @@ function findPrevMAC(mac, maxidx)
 	return 0;
 }
 
-function verifyFields(focused, quiet)
-{
+function verifyFields(focused, quiet) {
 	var uidx, u, a;
 
 	for (uidx = 1; uidx <= nvram.mwan_num; ++uidx){
@@ -123,14 +116,13 @@ function verifyFields(focused, quiet)
 	return 1;
 }
 
-function save()
-{
+function save() {
 	var u, uidx, v;
 
 	if (!verifyFields(null, false)) return;
 	if (!confirm("警告: 改变 MAC 地址有可能需要把联机到这台路由器的设备、计算机或调制解调器重新开机. 是否继续执行?")) return;
 
-	var fom = E('_fom');
+	var fom = E('t_fom');
 	for (uidx = 1; uidx <= nvram.mwan_num; ++uidx){
 		u = (uidx>1) ? uidx : '';
 		v = E('_f_wan'+u+'_hwaddr').value;
@@ -150,39 +142,39 @@ function save()
 </head>
 
 <body>
-<form id='_fom' method='post' action='tomato.cgi'>
-<table id='container' cellspacing=0>
-<tr><td colspan=2 id='header'>
-	<div class='title'>Tomato</div>
-	<div class='version'>Version <% version(); %></div>
+<form id="t_fom" method="post" action="tomato.cgi">
+<table id="container" cellspacing="0">
+<tr><td colspan="2" id="header">
+	<div class="title">Tomato</div>
+	<div class="version">Version <% version(); %></div>
 </td></tr>
-<tr id='body'><td id='navi'><script type='text/javascript'>navi()</script></td>
-<td id='content'>
-<div id='ident'><% ident(); %></div>
+<tr id="body"><td id="navi"><script type="text/javascript">navi()</script></td>
+<td id="content">
+<div id="ident"><% ident(); %></div>
 
 <!-- / / / -->
 
-<input type='hidden' name='_nextpage' value='advanced-mac.asp'>
-<input type='hidden' name='_nextwait' value='10'>
-<input type='hidden' name='_service' value='*'>
+<input type="hidden" name="_nextpage" value="advanced-mac.asp">
+<input type="hidden" name="_nextwait" value="10">
+<input type="hidden" name="_service" value="*">
 
-<input type='hidden' name='wan_mac'>
-<input type='hidden' name='wan2_mac'>
+<input type="hidden" name="wan_mac">
+<input type="hidden" name="wan2_mac">
 /* MULTIWAN-BEGIN */
-<input type='hidden' name='wan3_mac'>
-<input type='hidden' name='wan4_mac'>
+<input type="hidden" name="wan3_mac">
+<input type="hidden" name="wan4_mac">
 /*MULTIWAN-END */
 
-<script type='text/javascript'>
+<script type="text/javascript">
 for (var uidx = 0; uidx < wl_ifaces.length; ++uidx) {
 	var u = wl_fface(uidx);
 	W('<input type=\'hidden\' id=\'_wl'+u+'_hwaddr\' name=\'wl'+u+'_hwaddr\'>');
 }
 </script>
 
-<div class='section-title'>MAC 地址</div>
-<div class='section'>
-<script type='text/javascript'>
+<div class="section-title">MAC 地址</div>
+<div class="section">
+<script type="text/javascript">
 
 var f = [];
 for (var uidx = 1; uidx <= nvram.mwan_num; ++uidx){
@@ -206,10 +198,10 @@ for (var uidx = 0; uidx < wl_ifaces.length; ++uidx) {
 createFieldTable('', f);
 
 </script>
-<br>
-<table border=0 cellpadding=1>
-	<tr><td>路由器 LAN 的 MAC 地址:</td><td><b><script type='text/javascript'>W(('<% nv('et0macaddr'); %>').toUpperCase());</script></b></td></tr>
-	<tr><td>电脑的 MAC 地址:</td><td><b><script type='text/javascript'>W(('<% compmac(); %>').toUpperCase());</script></b></td></tr>
+<br/>
+<table style="border:0;padding:1px">
+	<tr><td>路由器 LAN 的 MAC 地址:</td><td><b><script type="text/javascript">W(('<% nv('et0macaddr'); %>').toUpperCase());</script></b></td></tr>
+	<tr><td>电脑的 MAC 地址:</td><td><b><script type="text/javascript">W(('<% compmac(); %>').toUpperCase());</script></b></td></tr>
 </table>
 </div>
 
@@ -218,13 +210,13 @@ createFieldTable('', f);
 <!-- / / / -->
 
 </td></tr>
-<tr><td id='footer' colspan=2>
-	<span id='footer-msg'></span>
-	<input type='button' value='保存设置' id='save-button' onclick='save()'>
-	<input type='button' value='取消设置' id='cancel-button' onclick='reloadPage();'>
+<tr><td id="footer" colspan="2">
+	<span id="footer-msg"></span>
+	<input type="button" value="保存设置" id="save-button" onclick="save()">
+	<input type="button" value="取消设置" id="cancel-button" onclick="reloadPage();">
 </td></tr>
 </table>
 </form>
-<script type='text/javascript'>verifyFields(null, 1);</script>
+<script type="text/javascript">verifyFields(null, 1);</script>
 </body>
 </html>

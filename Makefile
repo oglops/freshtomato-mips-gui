@@ -11,7 +11,7 @@ install:
 
 	cp *.gif *.png *.ico *.html *.php robots.txt $(INSTALLDIR)/www
 
-# squish some of the files by trimming whitespace...
+# Squish some of the files by trimming whitespace...
 
 	for F in $(wildcard *.js *.jsx); do \
 		sed '/^\/\*\s*$$/,/\*\//! { s/^\s\+//; s/\s\+$$//; /^\/\/ --\+\s*/d; /^$$/d }' < $$F > $(INSTALLDIR)/www/$$F; \
@@ -21,13 +21,13 @@ install:
 		sed '/^\/\*\s*$$/,/\*\//! { s/\s\+/ /g; s/^\s\+//; s/\s\+$$//; /^$$/d }' < $$F > $(INSTALLDIR)/www/$$F; \
 	done
 
-# remove "debug.js" references, convert color.css, remove comments
+# Remove "debug.js" references, convert color.css, remove comments
 # in between REMOVE-BEGIN and REMOVE-END, and compress whitespace
 
 	for F in $(wildcard *.asp *.svg); do \
 		sed	-e "/REMOVE-BEGIN/,/REMOVE-END/d" \
 			-e "s,<script[^>]\+debug\.js[^>]\+></script>,," \
-			-e "s,<link[^>]\+href='color\.css'>,<% css(); %>," \
+			-e "s,<link[^>]\+href=\"color\.css\">,<% css(); %>," \
 			-e "s,color\.css,<% nv('web_css'); %>\.css," \
 			-e "s,<!-- / / / -->,," \
 			-e "s,\x0d,," \
@@ -51,13 +51,13 @@ else
 	done
 endif
 
-#only include  MultiWAN options if MULTIWAN is configured in.
+# Only include  MultiWAN options if MULTIWAN is configured in.
 ifneq ($(TCONFIG_MULTIWAN),y)
 	cd $(INSTALLDIR)/www && \
 	for F in $(wildcard *.asp *.js *.jsx); do \
 		sed -i $$F -e "/MULTIWAN-BEGIN/,/MULTIWAN-END/d"; \
 	done
-# or remove dualwan options
+# Or remove dualwan options
 else
 	cd $(INSTALLDIR)/www && \
 	for F in $(wildcard *.asp *.js *.jsx); do \
@@ -202,24 +202,32 @@ endif
 
 	cd $(INSTALLDIR)/www && \
 	for F in $(wildcard *.asp); do \
-		sed -e "s,<div class='title'>Tomato</div>,<div class='title'>FreshTomato</div>," $$F > $$F.tmp; \
+		sed -e "s,<div class=\"title\">Tomato</div>,<div class=\"title\">FreshTomato</div>," $$F > $$F.tmp; \
 		mv $$F.tmp $$F; \
 	done
 
 ifeq ($(TOMATO_EXPERIMENTAL),1)
 	cd $(INSTALLDIR)/www && \
 	for F in $(wildcard *.asp); do \
-		sed -e "s,<div class='title'>FreshTomato</div>,<div class='title'>FreshTomato <small><i>(beta)</i></small></div>," $$F > $$F.tmp; \
+		sed -e "s,<div class=\"title\">FreshTomato</div>,<div class=\"title\">FreshTomato <small><i>(beta)</i></small></div>," $$F > $$F.tmp; \
 		mv $$F.tmp $$F; \
 	done
 endif
 
 	cd $(INSTALLDIR)/www && \
 	for F in $(wildcard *.asp); do \
-		sed -e "s,<div class='version'>Version <% version(); %></div>,<div class='version'>Version <% version(); %> by FreshTomato team</div>," $$F > $$F.tmp; \
+		sed -e "s,<div class=\"version\">Version <% version(); %></div>,<div class=\"version\">Version <% version(); %> by FreshTomato team</div>," $$F > $$F.tmp; \
 		mv $$F.tmp $$F; \
 	done
 
+# Remove from html obsolete stuff
+	cd $(INSTALLDIR)/www && \
+	for F in $(wildcard *.asp); do \
+		sed     -e "s,<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">,<!DOCTYPE html>," \
+			-e "s,<form action=\"\">,<form>," \
+			-e "s,<table id=\"container\" cellspacing=\"0\">,<table id=\"container\">," $$F > $$F.tmp; \
+		mv $$F.tmp $$F; \
+	done
 
 # Only include the vpn pages if OpenVPN is compiled in
 # Remove AES ciphers from the GUI if openssl doesn't have an AES directory
@@ -296,12 +304,25 @@ ifneq ($(TCONFIG_STUBBY),y)
 	sed -i $(INSTALLDIR)/www/basic-network.asp -e "/STUBBY-BEGIN/,/STUBBY-END/d"
 endif
 
+# Only include the Iperf page if it is compiled in
+ifneq ($(TCONFIG_IPERF),y)
+	rm -f $(INSTALLDIR)/www/tools-iperf.asp
+	sed -i $(INSTALLDIR)/www/tomato.js -e "/IPERF-BEGIN/,/IPERF-END/d"
+endif
+
 # Only include the https option if it is compiled in
 ifneq ($(TCONFIG_HTTPS),y)
 	sed -i $(INSTALLDIR)/www/admin-access.asp -e "/HTTPS-BEGIN/,/HTTPS-END/d"
 endif
 
-# clean up
+# Only include the TLS keys generator option if it is compiled in
+ifeq ($(TCONFIG_OPENVPN),y)
+ifneq ($(TCONFIG_KEYGEN),y)
+	sed -i $(INSTALLDIR)/www/vpn-server.asp -e "/KEYGEN-BEGIN/,/KEYGEN-END/d"
+endif
+endif
+
+# Clean-up compiler directives
 	cd $(INSTALLDIR)/www && \
 	for F in $(wildcard *.asp *.js *.jsx *.html); do \
 		[ -f $(INSTALLDIR)/www/$$F ] && sed -i $$F \
@@ -339,10 +360,29 @@ endif
 		-e "/MULTIWAN-BEGIN/d"	-e "/MULTIWAN-END/d"\
 		-e "/DUALWAN-BEGIN/d"	-e "/DUALWAN-END/d"\
 		-e "/HTTPS-BEGIN/d"	-e "/HTTPS-END/d"\
+		-e "/KEYGEN-BEGIN/d"	-e "/KEYGEN-END/d"\
 		|| true; \
 	done
 
-# make sure old and debugging crap is gone
+# Use HTML compressor to compress HTML as much as possible
+	cd $(INSTALLDIR)/www && \
+	for F in $(wildcard *.asp ); do \
+		[ -f $(INSTALLDIR)/www/$$F ] && $(TOP)/www/tools/bin/html-minifier $$F --minify-css -o $$F || true; \
+	done
+
+# Compress JAVASCRIPT files
+	cd $(INSTALLDIR)/www && \
+	for F in $(wildcard *.js ); do \
+		[ -f $(INSTALLDIR)/www/$$F ] && $(TOP)/www/tools/bin/uglifyjs $$F -c -o $$F || true; \
+	done
+
+# Compress CSS files
+	cd $(INSTALLDIR)/www && \
+	for F in $(wildcard *.css ); do \
+		[ -f $(INSTALLDIR)/www/$$F ] && $(TOP)/www/tools/bin/uglifycss $$F --output $$F || true; \
+	done
+
+# Make sure old and debugging crap is gone
 	@rm -f $(INSTALLDIR)/www/debug.js
 	@rm -f $(INSTALLDIR)/www/*-x.*
 	@rm -f $(INSTALLDIR)/www/*-old.*
@@ -350,7 +390,7 @@ endif
 
 	chmod 0644 $(INSTALLDIR)/www/*
 
-# remove C-style comments from java, asp and css files. All "control" comments have been processed by now.
+# Remove C-style comments from java, asp and css files. All "control" comments have been processed by now.
 	for F in $(wildcard *.js *.jsx *.asp *.css); do \
 		[ -f $(INSTALLDIR)/www/$$F ] && $(TOP)/www/remcoms2.sh $(INSTALLDIR)/www/$$F c; \
 	done

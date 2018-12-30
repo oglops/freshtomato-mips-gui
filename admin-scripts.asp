@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -9,15 +9,15 @@
 -->
 <html>
 <head>
-<meta http-equiv='content-type' content='text/html;charset=utf-8'>
-<meta name='robots' content='noindex,nofollow'>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<meta name="robots" content="noindex,nofollow">
 <title>[<% ident(); %>] 系统管理: 脚本管理</title>
-<link rel='stylesheet' type='text/css' href='tomato.css'>
-<link rel='stylesheet' type='text/css' href='color.css'>
-<script type='text/javascript' src='tomato.js'></script>
+<link rel="stylesheet" type="text/css" href="tomato.css">
+<% css(); %>
+<script type="text/javascript" src="tomato.js"></script>
 
 <!-- / / / -->
-<style type='text/css'>
+<style type="text/css">
 .as-script {
 	font: 12px monospace;
 	width: 99%;
@@ -28,16 +28,15 @@
 }
 </style>
 
-<script type='text/javascript' src='debug.js'></script>
+<script type="text/javascript" src="debug.js"></script>
 
-<script type='text/javascript'>
+<script type="text/javascript">
 
 //	<% nvram("script_init,script_shut,script_fire,script_wanup"); %>
 
 tabs = [['as-init', '初始化'],['as-shut', '关机时'],['as-fire','防火墙'],['as-wanup', '当 WAN 联机']];
 
-function tabSelect(name)
-{
+function tabSelect(name) {
 	tabHigh(name);
 	for (var i = 0; i < tabs.length; ++i) {
 		var on = (name == tabs[i][0]);
@@ -48,21 +47,21 @@ function tabSelect(name)
 	cookie.set('scripts_tab', name)
 }
 
-function wordWrap()
-{
+function wordWrap() {
 	for (var i = 0; i < tabs.length; ++i) {
 		var e = E(tabs[i][0] + '-text');
-		var s = e.value;
+		var v = e.value;
+		var s = e.style.display;
 		var c = e.cloneNode(false);
 		wrap = E('as-wordwrap').checked;
-		c.setAttribute('wrap', wrap ? 'virtual' : 'off');
+		s = s ? s : "block";
+		c.setAttribute('style', wrap ? 'display:' + s + ';white-space:pre-wrap' : 'display:' + s + ';white-space:pre;overflow-wrap:normal;overflow-x:scroll');
 		e.parentNode.replaceChild(c, e);
-		c.value = s;
+		c.value = v;
 	}
 }
 
-function save()
-{
+function save() {
 	var i, t, n, x;
 
 	for (i = 0; i < tabs.length; ++i) {
@@ -75,11 +74,10 @@ function save()
 			return;
 		}
 	}
-	form.submit('_fom', 1);
+	form.submit('t_fom', 1);
 }
 
-function earlyInit()
-{
+function earlyInit() {
 	for (var i = 0; i < tabs.length; ++i) {
 		var t = tabs[i][0];
 		E(t + '-text').value = nvram['script_' + t.replace('as-', '')];
@@ -90,44 +88,42 @@ function earlyInit()
 
 </head>
 <body>
-<form id='_fom' method='post' action='tomato.cgi'>
-<table id='container' cellspacing=0>
-<tr><td colspan=2 id='header'>
-	<div class='title'>Tomato</div>
-	<div class='version'>Version <% version(); %></div>
+<form id="t_fom" method="post" action="tomato.cgi">
+<table id="container" cellspacing="0">
+<tr><td colspan="2" id="header">
+	<div class="title">Tomato</div>
+	<div class="version">Version <% version(); %></div>
 </td></tr>
-<tr id='body'><td id='navi'><script type='text/javascript'>navi()</script></td>
-<td id='content'>
-<div id='ident'><% ident(); %></div>
+<tr id="body"><td id="navi"><script type="text/javascript">navi()</script></td>
+<td id="content">
+<div id="ident"><% ident(); %></div>
 
 <!-- / / / -->
 
-<input type='hidden' name='_nextpage' value='admin-scripts.asp'>
+<input type="hidden" name="_nextpage" value="admin-scripts.asp">
 
-<script type='text/javascript'>
+<script type="text/javascript">
 tabCreate.apply(this, tabs);
 
 wrap = cookie.get('scripts_wrap') || 0;
-y = Math.floor(docu.getViewSize().height * 0.65);
-s = 'height:' + ((y > 300) ? y : 300) + 'px;display:none';
+s = 'display:none;' + (wrap ? 'white-space:pre-wrap' : 'white-space:pre;overflow-wrap:normal;overflow-x:scroll');
 for (i = 0; i < tabs.length; ++i) {
 	t = tabs[i][0];
-	W('<textarea class="as-script" name="script_' + t.replace('as-', '') + '" id="' + t + '-text" wrap=' + (wrap ? 'virtual' : 'off') + ' style="' + s + '"></textarea>');
+	W('<textarea class="as-script" name="script_' + t.replace('as-', '') + '" id="' + t + '-text" style="' + s + '"><\/textarea>');
 }
-W('<br><input type="checkbox" id="as-wordwrap" onclick="wordWrap()" onchange="wordWrap()" ' +
-  (wrap ? 'checked' : '') + '> 自动换行');
+W('<br /><input type="checkbox" id="as-wordwrap" onclick="wordWrap()" onchange="wordWrap()" ' + (wrap ? 'checked' : '') + '> 自动换行');
 </script>
 
 <!-- / / / -->
 
 </td></tr>
-<tr><td id='footer' colspan=2>
-	<span id='footer-msg'></span>
-	<input type='button' value='保存设置' id='save-button' onclick='save()'>
-	<input type='button' value='取消设置' id='cancel-button' onclick='reloadPage();'>
+<tr><td id="footer" colspan="2">
+	<span id="footer-msg"></span>
+	<input type="button" value="保存设置" id="save-button" onclick="save()">
+	<input type="button" value="取消设置" id="cancel-button" onclick="reloadPage();">
 </td></tr>
 </table>
 </form>
-<script type='text/javascript'>earlyInit();</script>
+<script type="text/javascript">earlyInit();</script>
 </body>
 </html>

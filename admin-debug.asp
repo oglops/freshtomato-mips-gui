@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -9,35 +9,32 @@
 -->
 <html>
 <head>
-<meta http-equiv='content-type' content='text/html;charset=utf-8'>
-<meta name='robots' content='noindex,nofollow'>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<meta name="robots" content="noindex,nofollow">
 <title>[<% ident(); %>] 系统管理: 调试模式</title>
-<link rel='stylesheet' type='text/css' href='tomato.css'>
-<link rel='stylesheet' type='text/css' href='color.css'>
-<script type='text/javascript' src='tomato.js'></script>
+<link rel="stylesheet" type="text/css" href="tomato.css">
+<% css(); %>
+<script type="text/javascript" src="tomato.js"></script>
 
 <!-- / / / -->
 
-<script type='text/javascript' src='debug.js'></script>
+<script type="text/javascript" src="debug.js"></script>
 
-<script type='text/javascript'>
+<script type="text/javascript">
 
 //	<% nvram("debug_nocommit,debug_cprintf,debug_cprintf_file,console_loglevel,t_cafree,t_hidelr,debug_ddns,debug_norestart"); %>
 
-function nvramCommit()
-{
-	fields.disableAll('_fom', 1);
+function nvramCommit() {
+	fields.disableAll('t_fom', 1);
 	form.submitHidden('nvcommit.cgi', { '_nextpage': myName() });
 }
 
-function verifyFields(focused, quiet)
-{
+function verifyFields(focused, quiet) {
 	return 1;
 }
 
-function save()
-{
-	var fom = E('_fom');
+function save() {
+	var fom = E('t_fom');
 	fom.debug_nocommit.value = fom.f_debug_nocommit.checked ? 1 : 0;
 	fom.debug_cprintf.value = fom.f_debug_cprintf.checked ? 1 : 0;
 	fom.debug_cprintf_file.value = fom.f_debug_cprintf_file.checked ? 1 : 0;
@@ -60,31 +57,31 @@ function save()
 
 </head>
 <body>
-<form id='_fom' method='post' action='tomato.cgi'>
-<table id='container' cellspacing=0>
-<tr><td colspan=2 id='header'>
-	<div class='title'>Tomato</div>
-	<div class='version'>Version <% version(); %></div>
+<form id="t_fom" method="post" action="tomato.cgi">
+<table id="container" cellspacing="0">
+<tr><td colspan="2" id="header">
+	<div class="title">Tomato</div>
+	<div class="version">Version <% version(); %></div>
 </td></tr>
-<tr id='body'><td id='navi'><script type='text/javascript'>navi()</script></td>
-<td id='content'>
-<div id='ident'><% ident(); %></div>
+<tr id="body"><td id="navi"><script type="text/javascript">navi()</script></td>
+<td id="content">
+<div id="ident"><% ident(); %></div>
 
 <!-- / / / -->
 
-<input type='hidden' name='_nextpage' value='admin-misc.asp'>
+<input type="hidden" name="_nextpage" value="admin-misc.asp">
 
-<input type='hidden' name='debug_nocommit'>
-<input type='hidden' name='debug_cprintf'>
-<input type='hidden' name='debug_cprintf_file'>
-<input type='hidden' name='debug_ddns'>
-<input type='hidden' name='debug_norestart'>
-<input type='hidden' name='t_cafree'>
-<input type='hidden' name='t_hidelr'>
+<input type="hidden" name="debug_nocommit">
+<input type="hidden" name="debug_cprintf">
+<input type="hidden" name="debug_cprintf_file">
+<input type="hidden" name="debug_ddns">
+<input type="hidden" name="debug_norestart">
+<input type="hidden" name="t_cafree">
+<input type="hidden" name="t_hidelr">
 
-<div class='section-title'>调试模式设置</div>
-<div class='section'>
-<script type='text/javascript'>
+<div class="section-title">调试模式设置</div>
+<div class="section">
+<script type="text/javascript">
 a = [];
 for (i = 1; i <= 8; ++i) a.push([i, i]);
 createFieldTable('', [
@@ -96,48 +93,47 @@ createFieldTable('', [
 	{ title: '在路由器连接中<br>不显示 LAN', name: 'f_hidelr', type: 'checkbox', value: nvram.t_hidelr == '1' },
 	{ title: '控制台日志级别', name: 'console_loglevel', type: 'select', options: a, value: fixInt(nvram.console_loglevel, 1, 8, 1) },
 	{ title: '如果以下进程退出<br>不重新启动', multi: [
-		{ name: 'f_nr_crond', type: 'checkbox', suffix: ' crond<br>', value: (nvram.debug_norestart.indexOf('crond') != -1) },
-		{ name: 'f_nr_dnsmasq', type: 'checkbox', suffix: ' dnsmasq<br>', value: (nvram.debug_norestart.indexOf('dnsmasq') != -1) },
+		{ name: 'f_nr_crond', type: 'checkbox', suffix: ' crond<br />', value: (nvram.debug_norestart.indexOf('crond') != -1) },
+		{ name: 'f_nr_dnsmasq', type: 'checkbox', suffix: ' dnsmasq<br />', value: (nvram.debug_norestart.indexOf('dnsmasq') != -1) },
 /* LINUX26-BEGIN */
-		{ name: 'f_nr_hotplug2', type: 'checkbox', suffix: ' hotplug2<br>', value: (nvram.debug_norestart.indexOf('hotplug2') != -1) },
+		{ name: 'f_nr_hotplug2', type: 'checkbox', suffix: ' hotplug2<br />', value: (nvram.debug_norestart.indexOf('hotplug2') != -1) },
 /* LINUX26-END */
-		{ name: 'f_nr_igmprt', type: 'checkbox', suffix: ' igmprt<br>', value: (nvram.debug_norestart.indexOf('igmprt') != -1) }
+		{ name: 'f_nr_igmprt', type: 'checkbox', suffix: ' igmprt<br />', value: (nvram.debug_norestart.indexOf('igmprt') != -1) }
 	] }
 ]);
 </script>
-<br><br>
+<br/><br/>
 
-&raquo; <a href='clearcookies.asp?_http_id=<% nv(http_id); %>'>清除 Cookies</a><br>
-&raquo; <a href='javascript:nvramCommit()'>保存更改至 NVRAM</a><br>
-&raquo; <a href='javascript:reboot()'>重新启动</a><br>
-&raquo; <a href='javascript:shutdown()'>关闭系统</a><br>
-<br><br>
+&raquo; <a href="clearcookies.asp?_http_id=<% nv(http_id); %>">清除 Cookies</a><br/>
+&raquo; <a href="javascript:nvramCommit()">保存更改至 NVRAM</a><br/>
+&raquo; <a href="javascript:reboot()">重新启动</a><br/>
+&raquo; <a href="javascript:shutdown()">关闭系统</a><br/>
+<br/><br/>
 
-&raquo; <a href='/cfe/cfe.bin?_http_id=<% nv(http_id); %>'>下载 CFE</a><br>
-&raquo; <a href='/ipt/iptables.txt?_http_id=<% nv(http_id); %>'>下载 IPv4 防火墙配置</a><br>
+&raquo; <a href="/cfe/cfe.bin?_http_id=<% nv(http_id); %>">下载 CFE</a><br/>
+&raquo; <a href="/ipt/iptables.txt?_http_id=<% nv(http_id); %>">下载 IPv4 防火墙配置</a><br/>
 <!-- IPV6-BEGIN -->
-&raquo; <a href='/ip6t/ip6tables.txt?_http_id=<% nv(http_id); %>'>下载 IPv6 防火墙配置</a><br>
+&raquo; <a href="/ip6t/ip6tables.txt?_http_id=<% nv(http_id); %>">下载 IPv6 防火墙配置</a><br/>
 <!-- IPV6-END -->
-&raquo; <a href='/logs/syslog.txt?_http_id=<% nv(http_id); %>'>下载日志文件</a><br>
-&raquo; <a href='/nvram/nvram.txt?_http_id=<% nv(http_id); %>'>下载 NVRAM 配置</a><br>
-<br>
+&raquo; <a href="/logs/syslog.txt?_http_id=<% nv(http_id); %>">下载日志文件</a><br/>
+&raquo; <a href="/nvram/nvram.txt?_http_id=<% nv(http_id); %>">下载 NVRAM 配置</a><br/>
+<br/>
 
-<div style='width:80%'>
+<div style="width:80%">
 <b>警告</b>: NVRAM 镜像文本文件可能包含如下信息:如 无线加密
 密钥,路由器的用户名/密码, ISP 和 DDNS 信息. 请在共享给别人之前
 检查并编辑这些文件.
-<br>
+<br/>
 </div>
 </div>
 
 <!-- / / / -->
 
 </td></tr>
-
-<tr><td id='footer' colspan=2>
-<span id='footer-msg'></span>
-	<input type='button' value='保存设置' id='save-button' onclick='save()'>
-	<input type='button' value='取消设置' id='cancel-button' onclick='reloadPage();'>
+<tr><td id="footer" colspan="2">
+	<span id="footer-msg"></span>
+	<input type="button" value="保存设置" id="save-button" onclick="save()">
+	<input type="button" value="取消设置" id="cancel-button" onclick="reloadPage();">
 	</td></tr>
 </table>
 </form>

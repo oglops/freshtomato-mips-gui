@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -9,18 +9,18 @@
 -->
 <html>
 <head>
-<meta http-equiv='content-type' content='text/html;charset=utf-8'>
-<meta name='robots' content='noindex,nofollow'>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<meta name="robots" content="noindex,nofollow">
 <title>[<% ident(); %>] 高级设置: 连接追踪/包过滤</title>
-<link rel='stylesheet' type='text/css' href='tomato.css'>
-<link rel='stylesheet' type='text/css' href='color.css'>
-<script type='text/javascript' src='tomato.js'></script>
+<link rel="stylesheet" type="text/css" href="tomato.css">
+<% css(); %>
+<script type="text/javascript" src="tomato.js"></script>
 
 <!-- / / / -->
 
-<script type='text/javascript' src='debug.js'></script>
+<script type="text/javascript" src="debug.js"></script>
 
-<script type='text/javascript'>
+<script type="text/javascript">
 
 //	<% nvram("ct_tcp_timeout,ct_udp_timeout,ct_timeout,ct_max,ct_hashsize,nf_l7in,nf_ttl,nf_sip,nf_rtsp,nf_pptp,nf_h323,nf_ftp"); %>
 
@@ -28,8 +28,7 @@ var checker = null;
 var timer = new TomatoTimer(check);
 var running = 0;
 
-function check()
-{
+function check() {
 	timer.stop();
 	if ((checker) || (!running)) return;
 
@@ -45,7 +44,7 @@ function check()
 			conntrack = [];
 		}
 		for (i = 1; i < 13; ++i) {
-			E('count' + i).innerHTML = '&nbsp; <small>('+ ((conntrack[i] || 0) * 1) + ' 个连接处于该状态)</small>';
+			E('count' + i).innerHTML = '&nbsp; <small>('+ ((conntrack[i] || 0) * 1) + ' 个连接处于该状态)<\/small>';
 		}
 		E('count0').innerHTML = '(' + ((conntrack[0] || 0) * 1) + ' 个连接目前使用中)';
 		checker = null;
@@ -59,8 +58,7 @@ function check()
 	checker.post('update.cgi', 'exec=ctcount&arg0=0');
 }
 
-function clicked()
-{
+function clicked() {
 	running ^= 1;
 	E('spin').style.visibility = running ? 'visible' : 'hidden';
 	if (running) check();
@@ -69,8 +67,7 @@ function clicked()
 
 var expireText;
 
-function expireTimer()
-{
+function expireTimer() {
 	var e = E('expire');
 
 	if (!expireText) expireText = e.value;
@@ -85,8 +82,7 @@ function expireTimer()
 	}
 }
 
-function expireClicked()
-{
+function expireClicked() {
 	expireTime = 18;
 	E('expire').disabled = true;
 	(new XmlHttp()).post('expct.cgi', '');
@@ -94,8 +90,7 @@ function expireClicked()
 }
 
 
-function verifyFields(focused, quiet)
-{
+function verifyFields(focused, quiet) {
 	var i, v;
 
 	for (i = 1; i < 9; ++i) {
@@ -121,8 +116,7 @@ function verifyFields(focused, quiet)
 	return 1;
 }
 
-function save()
-{
+function save() {
 	var i, tcp, udp, ct, fom;
 
 	if (!verifyFields(null, false)) return;
@@ -144,7 +138,7 @@ function save()
 		ct.push(E('_f_ct_' + i).value);
 	}
 
-	fom = E('_fom');
+	fom = E('t_fom');
 	fom.ct_tcp_timeout.value = tcp.join(' ');
 	fom.ct_udp_timeout.value = udp.join(' ');
 	fom.ct_timeout.value = ct.join(' ');
@@ -169,101 +163,101 @@ function save()
 
 </head>
 <body>
-<form id='_fom' method='post' action='tomato.cgi'>
-<table id='container' cellspacing=0>
-<tr><td colspan=2 id='header'>
-	<div class='title'>Tomato</div>
-	<div class='version'>Version <% version(); %></div>
+<form id="t_fom" method="post" action="tomato.cgi">
+<table id="container" cellspacing="0">
+<tr><td colspan="2" id="header">
+	<div class="title">Tomato</div>
+	<div class="version">Version <% version(); %></div>
 </td></tr>
-<tr id='body'><td id='navi'><script type='text/javascript'>navi()</script></td>
-<td id='content'>
-<div id='ident'><% ident(); %></div>
+<tr id="body"><td id="navi"><script type="text/javascript">navi()</script></td>
+<td id="content">
+<div id="ident"><% ident(); %></div>
 
 <!-- / / / -->
 
-<input type='hidden' name='_nextpage' value='advanced-ctnf.asp'>
-<input type='hidden' name='_service' value='ctnf-restart'>
+<input type="hidden" name="_nextpage" value="advanced-ctnf.asp">
+<input type="hidden" name="_service" value="ctnf-restart">
 
-<input type='hidden' name='ct_tcp_timeout' value=''>
-<input type='hidden' name='ct_udp_timeout' value=''>
-<input type='hidden' name='ct_timeout' value=''>
-<input type='hidden' name='nf_l7in' value=''>
-<input type='hidden' name='nf_ttl'>
-<input type='hidden' name='nf_rtsp'>
-<input type='hidden' name='nf_pptp'>
-<input type='hidden' name='nf_h323'>
-<input type='hidden' name='nf_ftp'>
+<input type="hidden" name="ct_tcp_timeout" value="">
+<input type="hidden" name="ct_udp_timeout" value="">
+<input type="hidden" name="ct_timeout" value="">
+<input type="hidden" name="nf_l7in" value="">
+<input type="hidden" name="nf_ttl">
+<input type="hidden" name="nf_rtsp">
+<input type="hidden" name="nf_pptp">
+<input type="hidden" name="nf_h323">
+<input type="hidden" name="nf_ftp">
 /* LINUX26-BEGIN */
-<input type='hidden' name='nf_sip'>
+<input type="hidden" name="nf_sip">
 /* LINUX26-END */
 
-<div class='section-title'>连接数</div>
-<div class='section'>
-<script type='text/javascript'>
+<div class="section-title">连接数</div>
+<div class="section">
+<script type="text/javascript">
 createFieldTable('', [
 	{ title: '最大连接数', name: 'ct_max', type: 'text', maxlen: 6, size: 8,
-		suffix: '&nbsp; <a href="javascript:clicked()" id="count0">[ 查看当前连接数... ]</a> <img src="spin.gif" style="vertical-align:bottom;padding-left:10px;visibility:hidden" id="spin" onclick="clicked()">',
+		suffix: '&nbsp; <a href="javascript:clicked()" id="count0">[ 查看当前连接数... ]<\/a> <img src="spin.gif" alt="" style="vertical-align:bottom;padding-left:10px;visibility:hidden" id="spin" onclick="clicked()">',
 		value: fixInt(nvram.ct_max || 4096, 128, 300000, 4096) }
 /* LINUX26-BEGIN */
 	,{ title: '哈希表大小', name: 'ct_hashsize', type: 'text', maxlen: 6, size: 8, value: nvram.ct_hashsize || 1023 }
 /* LINUX26-END */
 ]);
 </script>
-<br>
-<input type='button' value='断开空闲连接' onclick='expireClicked()' id='expire'>
-<br><br>
+<br/>
+<input type="button" value="断开空闲连接" onclick="expireClicked()" id="expire">
+<br/><br/>
 </div>
 
 
-<div class='section-title'>TCP 超时设置 (单位：秒)</div>
-<div class='section'>
-<script type='text/javascript'>
+<div class="section-title">TCP 超时设置 (单位：秒)</div>
+<div class="section">
+<script type="text/javascript">
 if ((v = nvram.ct_tcp_timeout.match(/^(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)$/)) == null) {
 	v = [0,0,1200,120,60,120,120,10,60,30,0];
 }
 titles = ['-', '无', '已建立连接超时', 'SYN发送超时', 'SYN接收超时', 'FIN等待超时', '时间等待超时', '关闭连接超时', '关闭等待超时', '最后响应超时', '侦听连接超时'];
-f = [{ title: ' ', text: '<small>(秒)</small>' }];
+f = [{ title: ' ', text: '<small>(秒)<\/small>' }];
 for (i = 1; i < 11; ++i) {
 	f.push({ title: titles[i], name: ('f_tcp_' + (i - 1)),
 		type: 'text', maxlen: 6, size: 8, value: v[i],
 		hidden: (i == 1 || i == 10) ? 1 : 0,
-		suffix: '<span id="count' + i + '"></span>' });
+		suffix: '<span id="count' + i + '"><\/span>' });
 }
 createFieldTable('', f);
 </script>
 </div>
 
-<div class='section-title'>UDP超时设置 (单位：秒)</div>
-<div class='section'>
-<script type='text/javascript'>
+<div class="section-title">UDP 超时设置 (单位：秒)</div>
+<div class="section">
+<script type="text/javascript">
 if ((v = nvram.ct_udp_timeout.match(/^(\d+)\s+(\d+)$/)) == null) {
 	v = [0,30,180];
 }
 createFieldTable('', [
-	{ title: ' ', text: '<small>(秒)</small>' },
-	{ title: '未答复超时', name: 'f_udp_0', type: 'text', maxlen: 6, size: 8, value: v[1], suffix: '<span id="count11"></span>' },
-	{ title: '未确认超时', name: 'f_udp_1', type: 'text', maxlen: 6, size: 8, value: v[2], suffix: '<span id="count12"></span>' }
+	{ title: ' ', text: '<small>(秒)<\/small>' },
+	{ title: '未答复超时', name: 'f_udp_0', type: 'text', maxlen: 6, size: 8, value: v[1], suffix: '<span id="count11"><\/span>' },
+	{ title: '未确认超时', name: 'f_udp_1', type: 'text', maxlen: 6, size: 8, value: v[2], suffix: '<span id="count12"><\/span>' }
 ]);
 </script>
 </div>
 
-<div class='section-title'>其它超时设置 (单位：秒)</div>
-<div class='section'>
-<script type='text/javascript'>
+<div class="section-title">其它超时设置 (单位：秒)</div>
+<div class="section">
+<script type="text/javascript">
 if ((v = nvram.ct_timeout.match(/^(\d+)\s+(\d+)$/)) == null) {
 	v = [0,600,30];
 }
 createFieldTable('', [
-	{ title: ' ', text: '<small>(秒)</small>' },
+	{ title: ' ', text: '<small>(秒)<\/small>' },
 	{ title: '通用超时', name: 'f_ct_0', type: 'text', maxlen: 6, size: 8, value: v[1] },
 	{ title: 'ICMP 超时', name: 'f_ct_1', type: 'text', maxlen: 6, size: 8, value: v[2] }
 ]);
 </script>
 </div>
 
-<div class='section-title'>追踪/NAT 增强模块</div>
-<div class='section'>
-<script type='text/javascript'>
+<div class="section-title">追踪/NAT 增强模块</div>
+<div class="section">
+<script type="text/javascript">
 createFieldTable('', [
 	{ title: 'FTP', name: 'f_ftp', type: 'checkbox', value: nvram.nf_ftp != '0' },
 	{ title: 'GRE / PPTP', name: 'f_pptp', type: 'checkbox', value: nvram.nf_pptp != '0' },
@@ -276,9 +270,9 @@ createFieldTable('', [
 </script>
 </div>
 
-<div class='section-title'>其它设置</div>
-<div class='section'>
-<script type='text/javascript'>
+<div class="section-title">其它设置</div>
+<div class="section">
+<script type="text/javascript">
 v = [];
 for (i = -5; i <= 5; ++i) {
 	v.push([i + '', i ? ((i > 0) ? '+' : '') + i : 'None']);
@@ -298,13 +292,13 @@ createFieldTable('', [
 <!-- / / / -->
 
 </td></tr>
-<tr><td id='footer' colspan=2>
-	<span id='footer-msg'></span>
-	<input type='button' value='保存设置' id='save-button' onclick='save()'>
-	<input type='button' value='取消设置' id='cancel-button' onclick='reloadPage();'>
+<tr><td id="footer" colspan="2">
+	<span id="footer-msg"></span>
+	<input type="button" value="保存设置" id="save-button" onclick="save()">
+	<input type="button" value="取消设置" id="cancel-button" onclick="reloadPage();">
 </td></tr>
 </table>
 </form>
-<script type='text/javascript'>verifyFields(null, 1);</script>
+<script type="text/javascript">verifyFields(null, 1);</script>
 </body>
 </html>

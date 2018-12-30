@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.0//EN'>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <!--
 	Tomato GUI
 	Copyright (C) 2006-2010 Jonathan Zarate
@@ -9,15 +9,15 @@
 -->
 <html>
 <head>
-<meta http-equiv='content-type' content='text/html;charset=utf-8'>
-<meta name='robots' content='noindex,nofollow'>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<meta name="robots" content="noindex,nofollow">
 <title>[<% ident(); %>] 端口转发: IPv6 转发</title>
-<link rel='stylesheet' type='text/css' href='tomato.css'>
-<link rel='stylesheet' type='text/css' href='color.css'>
-<script type='text/javascript' src='tomato.js'></script>
+<link rel="stylesheet" type="text/css" href="tomato.css">
+<% css(); %>
+<script type="text/javascript" src="tomato.js"></script>
 
 <!-- / / / -->
-<style type='text/css'>
+<style type="text/css">
 #fo-grid6 .co1 {
 	width: 25px;
 	text-align: center;
@@ -40,9 +40,9 @@
 
 </style>
 
-<script type='text/javascript' src='debug.js'></script>
+<script type="text/javascript" src="debug.js"></script>
 
-<script type='text/javascript'>
+<script type="text/javascript">
 
 //	<% nvram("ipv6_portforward"); %>
 
@@ -69,7 +69,7 @@ fog.sortCompare = function(a, b) {
 }
 
 fog.dataToView = function(data) {
-	return [(data[0] != '0') ? '是' : '', ['TCP', 'UDP', 'Both'][data[1] - 1], (data[2].match(/(.+)-(.+)/)) ? (RegExp.$1 + ' -<br>' + RegExp.$2) : data[2], data[3], data[4], data[5]];
+	return [(data[0] != '0') ? '是' : '', ['TCP', 'UDP', 'Both'][data[1] - 1], (data[2].match(/(.+)-(.+)/)) ? (RegExp.$1 + ' -<br />' + RegExp.$2) : data[2], data[3], data[4], data[5]];
 }
 
 fog.fieldValuesToData = function(row) {
@@ -130,15 +130,13 @@ fog.setup = function() {
 	fog.showNewEditor();
 }
 
-function srcSort(a, b)
-{
+function srcSort(a, b) {
 	if (a[2].length) return -1;
 	if (b[2].length) return 1;
 	return 0;
 }
 
-function save()
-{
+function save() {
 	if (fog.isEditing()) return;
 
 	var data = fog.getAllData().sort(srcSort);
@@ -147,61 +145,61 @@ function save()
 		data[i][4] = data[i][4].replace(/-/g, ':');
 		s += data[i].join('<') + '>';
 	}
-	var fom = E('_fom');
+	var fom = E('t_fom');
 	fom.ipv6_portforward.value = s;
 	form.submit(fom, 0, 'tomato.cgi');
 }
 
-function init()
-{
+function init() {
 	fog.recolor();
 	fog.resetNewEditor();
 }
 </script>
 </head>
-<body onload='init()'>
-<form id='_fom' method='post' action='javascript:{}'>
-<table id='container' cellspacing=0>
-<tr><td colspan=2 id='header'>
-	<div class='title'>Tomato</div>
-	<div class='version'>Version <% version(); %></div>
+<body onload="init()">
+<form id="t_fom" method="post" action="javascript:{}">
+<table id="container" cellspacing="0">
+<tr><td colspan="2" id="header">
+	<div class="title">Tomato</div>
+	<div class="version">Version <% version(); %></div>
 </td></tr>
-<tr id='body'><td id='navi'><script type='text/javascript'>navi()</script></td>
-<td id='content'>
-<div id='ident'><% ident(); %></div>
+<tr id="body"><td id="navi"><script type="text/javascript">navi()</script></td>
+<td id="content">
+<div id="ident"><% ident(); %></div>
 
 <!-- / / / -->
 
-<input type='hidden' name='_nextpage' value='forward-basic-ipv6.asp'>
-<input type='hidden' name='_service' value='firewall-restart'>
+<input type="hidden" name="_nextpage" value="forward-basic-ipv6.asp">
+<input type="hidden" name="_service" value="firewall-restart">
 
-<input type='hidden' name='ipv6_portforward'>
+<input type="hidden" name="ipv6_portforward">
 
-<div class='section-title'>IPv6 端口转发</div>
-<div class='section'>
-	<table class='tomato-grid' cellspacing=1 id='fo-grid6'></table>
-	<script type='text/javascript'>fog.setup();</script>
+<div class="section-title">IPv6 端口转发</div>
+<div class="section">
+	<div class="tomato-grid" id="fo-grid6"></div>
+	<script type="text/javascript">fog.setup();</script>
 </div>
 
-<div>
-开放对局域网内机器的端口访问, 但是 <b>不</b> 重新映射端口.
-<ul>
-<li><b>源地址</b> <i>(可选)</i> - 仅转发来自于该地址的连接. 例: "2001:4860:800b::/48", "me.example.com".
-<li><b>目标地址</b> <i>(可选)</i> - 局域网络内的IP地址.
-<li><b>目标端口</b> - 转发需要打开的端口，例: "2345", "200,300", "200-300,400".
-</ul>
+<div class="section-title">Notes</div>
+<i>开放对局域网内机器的端口访问, 但是 <b>不</b> 重新映射端口:</i><br/>
+<div class="section">
+	<ul>
+		<li><b>源地址</b> <i>(可选)</i> - 仅转发来自于该地址的连接. 例: "2001:4860:800b::/48", "me.example.com".</li>
+		<li><b>目标地址</b> <i>(可选)</i> - 局域网络内的IP地址.</li>
+		<li><b>目标端口</b> - 转发需要打开的端口，例: "2345", "200,300", "200-300,400".</li>
+	</ul>
 </div>
 
-<br>
-<script type='text/javascript'>show_notice1('<% notice("ip6tables"); %>');</script>
+<br/>
+<script type="text/javascript">show_notice1('<% notice("ip6tables"); %>');</script>
 
 <!-- / / / -->
 
 </td></tr>
-<tr><td id='footer' colspan=2>
-	<span id='footer-msg'></span>
-	<input type='button' value='保存设置' id='save-button' onclick='save()'>
-	<input type='button' value='取消设置' id='cancel-button' onclick='reloadPage();'>
+<tr><td id="footer" colspan="2">
+	<span id="footer-msg"></span>
+	<input type="button" value="保存设置" id="save-button" onclick="save()">
+	<input type="button" value="取消设置" id="cancel-button" onclick="reloadPage();">
 </td></tr>
 </table>
 </form>
